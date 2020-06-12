@@ -467,11 +467,13 @@ class PieChart2State extends State {
                             pieTouchData:
                                 PieTouchData(touchCallback: (pieTouchResponse) {
                               setState(() {
-                                if (pieTouchResponse.touchInput
-                                        is FlLongPressEnd ||
-                                    pieTouchResponse.touchInput is FlPanEnd) {
-                                  touchedIndex = -1;
-                                } else {
+                                // if (
+                                //   pieTouchResponse.touchInput
+                                //         is FlLongPressEnd ||
+                                //     pieTouchResponse.touchInput is FlPanEnd
+                                //     ) {
+                                //   touchedIndex = -1;
+                                // } else {
                                   touchedIndex =
                                       pieTouchResponse.touchedSectionIndex;
                                   if (touchedIndex == 0) {
@@ -499,13 +501,13 @@ class PieChart2State extends State {
                                       ),
                                     );
                                   }
-                                }
+                                //}
                               });
                             }),
                             borderData: FlBorderData(
                               show: false,
                             ),
-                            startDegreeOffset: 255,
+                            // startDegreeOffset: 255,
                             sectionsSpace: 0,
                             centerSpaceRadius: 40,
                             sections: showingSections(
@@ -681,8 +683,10 @@ class PieChart2State extends State {
       double totalStudents}) {
     return List.generate(3, (i) {
       final isTouched = i == touchedIndex;
-      final double fontSize = isTouched ? 20 : 16;
-      final double radius = isTouched ? 60 : 50;
+      //final double fontSize = isTouched ? 20 : 16;
+      final double fontSize = 16;
+      // final double radius = isTouched ? 60 : 50;
+      final double radius = 50;
       switch (i) {
         case 0:
           return PieChartSectionData(
