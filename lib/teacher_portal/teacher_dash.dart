@@ -285,7 +285,7 @@ class _TeacherDashState extends State<TeacherDash> {
                               await setTeacherNewSelectedClassID(
                                 newEventSelected,
                               );
-                              setState(() {});
+                              // setState(() {});
                             },
                             hint: Text(
                               teacherSelectedClassNameDisplay,
@@ -451,7 +451,7 @@ class PieChart2State extends State {
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.hasError) {
-                    return Text('Iffor: ${snapshot.error}');
+                    return Text('Error: ${snapshot.error}');
                   }
 
                   switch (snapshot.connectionState) {
