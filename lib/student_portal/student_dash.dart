@@ -581,9 +581,9 @@ class _StudentDashState extends State<StudentDash> {
                                     oldMood: studentMood,
                                     studentUid: studentUid,
                                   );
-                                  setState(() {
-                                    studentMood = 'green';
-                                  });
+                                  // setState(() {
+                                  //   studentMood = 'green';
+                                  // });
                                 },
                               ),
                               Indicator(
