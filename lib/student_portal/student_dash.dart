@@ -486,52 +486,52 @@ class _StudentDashState extends State<StudentDash> {
                     // dynamic
 
                     StreamBuilder(
-                        stream: Firestore.instance
-                            .collection('classes')
-                            .document(studentSelectedClassId)
-                            .collection('students')
-                            .document(studentUid)
-                            .snapshots(),
-                        builder: (context, snapshot) {
-                          if (!snapshot.hasData) {
-                            return new Text("No status selected");
-                          }
-                          var document = snapshot.data;
-                          return Align(
-                            alignment: Alignment.center,
-                            child: Container(
-                              height: 80,
-                              width: 80,
-                              child: Center(
-                                child: document['mood'] == "green"
-                                    ? Image.asset(
-                                        'assets/images/happy face.png',
-                                        width: 55,
-                                        height: 55,
-                                      )
-                                    : document['mood'] == 'red'
-                                        ? Image.asset(
-                                            'assets/images/sad face.png',
-                                            width: 55,
-                                            height: 55,
-                                          )
-                                        : document['mood'] == 'yellow'
-                                            ? Image.asset(
-                                                'assets/images/thinking face.png',
-                                                width: 55,
-                                                height: 55,
-                                              )
-                                            : Text(
-                                                '',
-                                                style:
-                                                    kHeadingTextStyle.copyWith(
-                                                        color: Colors.grey,
-                                                        fontSize: 18),
-                                              ),
-                              ),
+                      stream: Firestore.instance
+                          .collection('classes')
+                          .document(studentSelectedClassId)
+                          .collection('students')
+                          .document(studentUid)
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return new Text("No status selected");
+                        }
+                        var document = snapshot.data;
+                        return Align(
+                          alignment: Alignment.center,
+                          child: Container(
+                            height: 80,
+                            width: 80,
+                            child: Center(
+                              child: document['mood'] == "green"
+                                  ? Image.asset(
+                                      'assets/images/happy face.png',
+                                      width: 55,
+                                      height: 55,
+                                    )
+                                  : document['mood'] == 'red'
+                                      ? Image.asset(
+                                          'assets/images/sad face.png',
+                                          width: 55,
+                                          height: 55,
+                                        )
+                                      : document['mood'] == 'yellow'
+                                          ? Image.asset(
+                                              'assets/images/thinking face.png',
+                                              width: 55,
+                                              height: 55,
+                                            )
+                                          : Text(
+                                              '',
+                                              style: kHeadingTextStyle.copyWith(
+                                                  color: Colors.grey,
+                                                  fontSize: 18),
+                                            ),
                             ),
-                          );
-                        }),
+                          ),
+                        );
+                      },
+                    ),
                   ],
                 ),
 
