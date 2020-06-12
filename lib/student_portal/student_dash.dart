@@ -613,7 +613,6 @@ class _StudentDashState extends State<StudentDash> {
                                   _fire.updateStudentMood(
                                     classId: studentSelectedClassId,
                                     newMood: 'yellow',
-                                    oldMood: studentMood,
                                     studentUid: studentUid,
                                   );
                                   // setState(() {
@@ -649,7 +648,6 @@ class _StudentDashState extends State<StudentDash> {
                                   _fire.updateStudentMood(
                                     classId: studentSelectedClassId,
                                     newMood: 'red',
-                                    oldMood: studentMood,
                                     studentUid: studentUid,
                                   );
                                   // setState(() {
