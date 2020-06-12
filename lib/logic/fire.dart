@@ -62,7 +62,6 @@ class Fire {
     String studentUid,
     String classId,
     String newMood,
-    String oldMood,
   }) {
     _firestore
         .collection('students')
@@ -89,19 +88,6 @@ class Fire {
         ),
       },
     );
-
-    // final DocumentReference postRef =
-    //     Firestore.instance.collection('classes').document(classId);
-
-    // _firestore.runTransaction((Transaction tx) async {
-    //   DocumentSnapshot postSnapshot = await tx.get(postRef);
-    //   if (postSnapshot.exists) {
-    //     await tx.update(postRef, <String, dynamic>{
-    //       newMood + ' students': postSnapshot.data[newMood + ' students'] + 1,
-    //       oldMood + ' students': postSnapshot.data[oldMood + ' students'] - 1,
-    //     });
-    //   }
-    // });
   }
 
   void setStudentSelectedClass({
