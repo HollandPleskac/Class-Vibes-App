@@ -496,6 +496,10 @@ class _StudentDashState extends State<StudentDash> {
                         if (!snapshot.hasData) {
                           return new Text("No status selected");
                         }
+                        //TODO : input the waiting connection state cause otherwise the selected mood is weird!!!!!!
+                        // if (snapshot.connectionState ==ConnectionState.waiting) {
+                        //   return CircularProgressIndicator();
+                        // }
                         var document = snapshot.data;
                         return Align(
                           alignment: Alignment.center,
