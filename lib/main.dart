@@ -1,0 +1,29 @@
+import 'package:flutter/material.dart';
+
+import './splash.dart';
+import './student_portal/student_dash.dart';
+import './teacher_portal/teacher_dash.dart';
+import './teacher_subscreens/classview_teacher.dart';
+
+import './auth_screens/login_screen.dart';
+import './auth_screens/signup_as_student_screen.dart';
+import './auth_screens/signup_as_teacher_screen.dart';
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: LoginScreen(),
+      routes: ({
+        ClassViewTeacher.routeName: (context) => ClassViewTeacher(),
+      }),
+    );
+  }
+}

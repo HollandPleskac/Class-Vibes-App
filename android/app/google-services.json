@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "938057332518",
+    "firebase_url": "https://cyberdojo-a2a3e.firebaseio.com",
+    "project_id": "cyberdojo-a2a3e",
+    "storage_bucket": "cyberdojo-a2a3e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:938057332518:android:efa139da72c4bc568533e7",
+        "android_client_info": {
+          "package_name": "com.teamXeonHollandPleskac.cyber_dojo_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "938057332518-bobk61co8rm7ge0lbf56df6405pev01m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_c5uQJqL5WQWcofa3_kPmCPpbTg2dPiQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "938057332518-bobk61co8rm7ge0lbf56df6405pev01m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
