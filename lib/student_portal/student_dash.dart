@@ -305,11 +305,6 @@ class _StudentDashState extends State<StudentDash> {
                               await setStudentNewSelectedClassID(
                                 newEventSelected,
                               );
-                              await getStudentStatus(
-                                      studentUid, studentSelectedClassId)
-                                  .then((_) {
-                                setState(() {});
-                              });
                             },
                             hint: Text(
                               studentSelectedClassNameDisplay,
@@ -592,9 +587,6 @@ class _StudentDashState extends State<StudentDash> {
                                     newMood: 'green',
                                     studentUid: studentUid,
                                   );
-                                  // setState(() {
-                                  //   studentMood = 'green';
-                                  // });
                                 },
                               ),
                               Indicator(
@@ -627,9 +619,6 @@ class _StudentDashState extends State<StudentDash> {
                                     newMood: 'yellow',
                                     studentUid: studentUid,
                                   );
-                                  // setState(() {
-                                  //   studentMood = 'yellow';
-                                  // });
                                 },
                               ),
                               Indicator(
@@ -662,9 +651,6 @@ class _StudentDashState extends State<StudentDash> {
                                     newMood: 'red',
                                     studentUid: studentUid,
                                   );
-                                  // setState(() {
-                                  //   studentMood = 'red';
-                                  // });
                                 },
                               ),
                               Indicator(
