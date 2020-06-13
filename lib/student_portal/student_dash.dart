@@ -272,9 +272,9 @@ class _StudentDashState extends State<StudentDash> {
                         ),
                         Spacer(),
                         Container(
-                              margin: const EdgeInsets.only(top: 2),
-                              child: const Icon(Icons.arrow_drop_down),
-                            ),
+                          margin: const EdgeInsets.only(top: 2),
+                          child: const Icon(Icons.arrow_drop_down),
+                        ),
                       ],
                     );
                   else {
@@ -426,39 +426,38 @@ class _StudentDashState extends State<StudentDash> {
                         SizedBox(
                           height: 2,
                         ),
-                       
-                       StreamBuilder(
-                                stream: Firestore.instance
-                                    .collection('classes')
-                                    .document(studentSelectedClassId)
-                                    .snapshots(),
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasError) {
-                                    return Text(
-                                      "Error : ${snapshot.error}",
-                                      style: TextStyle(
-                                        color: kTextLightColor,
-                                        fontSize: 15,
+                        StreamBuilder(
+                            stream: Firestore.instance
+                                .collection('classes')
+                                .document(studentSelectedClassId)
+                                .snapshots(),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasError) {
+                                return Text(
+                                  "Error : ${snapshot.error}",
+                                  style: TextStyle(
+                                    color: kTextLightColor,
+                                    fontSize: 15,
+                                  ),
+                                );
+                              } else {
+                                switch (snapshot.connectionState) {
+                                  case ConnectionState.waiting:
+                                    return Text('');
+                                  default:
+                                    return Padding(
+                                      padding: EdgeInsets.only(left: 2),
+                                      child: Text(
+                                        snapshot.data['teacher'],
+                                        style: TextStyle(
+                                          color: kTextLightColor,
+                                          fontSize: 15,
+                                        ),
                                       ),
                                     );
-                                  } else {
-                                    switch (snapshot.connectionState) {
-                                      case ConnectionState.waiting:
-                                        return Text('');
-                                      default:
-                                        return Padding(
-                                          padding: EdgeInsets.only(left: 2),
-                                          child: Text(
-                                            snapshot.data['teacher'],
-                                            style: TextStyle(
-                                              color: kTextLightColor,
-                                              fontSize: 15,
-                                            ),
-                                          ),
-                                        );
-                                    }
-                                  }
-                                }),
+                                }
+                              }
+                            }),
                       ],
                     ),
                     Spacer(),
@@ -513,7 +512,10 @@ class _StudentDashState extends State<StudentDash> {
                         } else {
                           switch (snapshot.connectionState) {
                             case ConnectionState.waiting:
-                              return Container(height: 80,width: 80,);
+                              return Container(
+                                height: 80,
+                                width: 80,
+                              );
                             default:
                               var document = snapshot.data;
                               return Align(

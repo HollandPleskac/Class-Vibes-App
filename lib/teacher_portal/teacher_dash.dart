@@ -239,7 +239,25 @@ class _TeacherDashState extends State<TeacherDash> {
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData)
-                    return Text('');
+                    return Row(
+                      children: [
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Icon(
+                          Icons.school,
+                          color: kPrimaryColor,
+                        ),
+                        SizedBox(
+                          width: 30,
+                        ),
+                        Spacer(),
+                        Container(
+                          margin: const EdgeInsets.only(top: 2),
+                          child: const Icon(Icons.arrow_drop_down),
+                        ),
+                      ],
+                    );
                   else {
                     List<DropdownMenuItem> dropdownEvents = [];
                     for (int i = 0; i < snapshot.data.documents.length; i++) {
@@ -474,33 +492,33 @@ class PieChart2State extends State {
                                 //     ) {
                                 //   touchedIndex = -1;
                                 // } else {
-                                  touchedIndex =
-                                      pieTouchResponse.touchedSectionIndex;
-                                  if (touchedIndex == 0) {
-                                    print('touched students doing great');
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => StudentGreen(),
-                                      ),
-                                    );
-                                  } else if (touchedIndex == 1) {
-                                    print('touched help students');
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => StudentYellow(),
-                                      ),
-                                    );
-                                  } else if (touchedIndex == 2) {
-                                    print('touched frustrated students');
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => StudentRed(),
-                                      ),
-                                    );
-                                  }
+                                touchedIndex =
+                                    pieTouchResponse.touchedSectionIndex;
+                                if (touchedIndex == 0) {
+                                  print('touched students doing great');
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => StudentGreen(),
+                                    ),
+                                  );
+                                } else if (touchedIndex == 1) {
+                                  print('touched help students');
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => StudentYellow(),
+                                    ),
+                                  );
+                                } else if (touchedIndex == 2) {
+                                  print('touched frustrated students');
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => StudentRed(),
+                                    ),
+                                  );
+                                }
                                 //}
                               });
                             }),
