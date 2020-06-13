@@ -109,7 +109,7 @@ class _StudentDashState extends State<StudentDash> {
     );
   }
 
-  void updateStudentSelectedClassDataInApp(newClassId, newClassName) {
+  updateStudentSelectedClassDataInApp(newClassId, newClassName) {
     setState(() {
       studentSelectedClassId = newClassId;
 
@@ -257,72 +257,88 @@ class _StudentDashState extends State<StudentDash> {
                     .collection('classes')
                     .snapshots(),
                 builder: (context, snapshot) {
-                  if (snapshot.hasError)
-                    return Text('error : ${snapshot.error}');
+                  if (!snapshot.hasData)
+                    return Row(
+                      children: [
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Icon(
+                          Icons.school,
+                          color: kPrimaryColor,
+                        ),
+                        SizedBox(
+                          width: 30,
+                        ),
+                        Spacer(),
+                        Container(
+                              margin: const EdgeInsets.only(top: 2),
+                              child: const Icon(Icons.arrow_drop_down),
+                            ),
+                      ],
+                    );
                   else {
-                    switch (snapshot.connectionState) {
-                      case ConnectionState.waiting:
-                        return CircularProgressIndicator();
-                      default:
-                        List<DropdownMenuItem> dropdownEvents = [];
-                        for (int i = 0;
-                            i < snapshot.data.documents.length;
-                            i++) {
-                          DocumentSnapshot documentSnapshot =
-                              snapshot.data.documents[i];
-                          dropdownEvents.add(
-                            DropdownMenuItem(
-                              child: Text(
-                                documentSnapshot['class name'],
-                                style: kSubTextStyle.copyWith(
-                                  color: kPrimaryColor,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              value: "${documentSnapshot['class name']}",
-                            ),
-                          );
-                        }
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Icon(
-                              Icons.school,
+                    // switch (snapshot.connectionState) {
+                    //   // case ConnectionState.waiting:
+                    //   //   return Text('');
+                    //   default:
+                    List<DropdownMenuItem> dropdownEvents = [];
+                    for (int i = 0; i < snapshot.data.documents.length; i++) {
+                      DocumentSnapshot documentSnapshot =
+                          snapshot.data.documents[i];
+                      dropdownEvents.add(
+                        DropdownMenuItem(
+                          child: Text(
+                            documentSnapshot['class name'],
+                            style: kSubTextStyle.copyWith(
                               color: kPrimaryColor,
+                              fontWeight: FontWeight.w500,
                             ),
-                            SizedBox(
-                              width: 30,
+                          ),
+                          value: "${documentSnapshot['class name']}",
+                        ),
+                      );
+                    }
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Icon(
+                          Icons.school,
+                          color: kPrimaryColor,
+                        ),
+                        SizedBox(
+                          width: 30,
+                        ),
+                        Expanded(
+                          child: DropdownButton(
+                            isExpanded: true,
+                            underline: SizedBox(),
+                            icon: Container(
+                              margin: const EdgeInsets.only(top: 2),
+                              child: const Icon(Icons.arrow_drop_down),
                             ),
-                            Expanded(
-                              child: DropdownButton(
-                                isExpanded: true,
-                                underline: SizedBox(),
-                                icon: Container(
-                                  margin: const EdgeInsets.only(top: 2),
-                                  child: const Icon(Icons.arrow_drop_down),
-                                ),
-                                value: studentSelectedClassName,
-                                items: dropdownEvents,
-                                onChanged: (newEventSelected) async {
-                                  print('testing');
-                                  await setStudentNewSelectedClassID(
-                                    newEventSelected,
-                                  );
-                                },
-                                hint: Text(
-                                  studentSelectedClassNameDisplay,
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                  ),
-                                ),
+                            value: studentSelectedClassName,
+                            items: dropdownEvents,
+                            onChanged: (newEventSelected) async {
+                              print('testing');
+                              await setStudentNewSelectedClassID(
+                                newEventSelected,
+                              );
+                            },
+                            hint: Text(
+                              studentSelectedClassNameDisplay,
+                              style: TextStyle(
+                                color: Colors.black,
                               ),
                             ),
-                          ],
-                        );
-                    }
+                          ),
+                        ),
+                      ],
+                    );
+                    //
                   }
                 }),
           ),
@@ -410,16 +426,8 @@ class _StudentDashState extends State<StudentDash> {
                         SizedBox(
                           height: 2,
                         ),
-                        studentSelectedClassId == 'no selected class' ||
-                                studentSelectedClassId == ''
-                            ? Text(
-                                "No selected class",
-                                style: TextStyle(
-                                  color: kTextLightColor,
-                                  fontSize: 15,
-                                ),
-                              )
-                            : StreamBuilder(
+                       
+                       StreamBuilder(
                                 stream: Firestore.instance
                                     .collection('classes')
                                     .document(studentSelectedClassId)
@@ -436,7 +444,7 @@ class _StudentDashState extends State<StudentDash> {
                                   } else {
                                     switch (snapshot.connectionState) {
                                       case ConnectionState.waiting:
-                                        return CircularProgressIndicator();
+                                        return Text('');
                                       default:
                                         return Padding(
                                           padding: EdgeInsets.only(left: 2),
@@ -505,7 +513,7 @@ class _StudentDashState extends State<StudentDash> {
                         } else {
                           switch (snapshot.connectionState) {
                             case ConnectionState.waiting:
-                              return CircularProgressIndicator();
+                              return Container(height: 80,width: 80,);
                             default:
                               var document = snapshot.data;
                               return Align(
