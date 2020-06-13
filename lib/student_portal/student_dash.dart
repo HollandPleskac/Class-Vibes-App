@@ -74,22 +74,22 @@ class _StudentDashState extends State<StudentDash> {
     }
   }
 
-  Future getStudentStatus(uid, classId) async {
-    try {
-      String status = await _firestore
-          .collection('classes')
-          .document(classId)
-          .collection('students')
-          .document(uid)
-          .get()
-          .then(
-            (docSnap) => docSnap.data['mood'],
-          );
-      studentMood = status;
-    } catch (e) {
-      studentMood = '';
-    }
-  }
+  // Future getStudentStatus(uid, classId) async {
+  //   try {
+  //     String status = await _firestore
+  //         .collection('classes')
+  //         .document(classId)
+  //         .collection('students')
+  //         .document(uid)
+  //         .get()
+  //         .then(
+  //           (docSnap) => docSnap.data['mood'],
+  //         );
+  //     studentMood = status;
+  //   } catch (e) {
+  //     studentMood = '';
+  //   }
+  // }
 
   Future setStudentNewSelectedClassID(String newSelectedClassName) async {
     String newSelectedClassId = await _firestore
@@ -109,7 +109,7 @@ class _StudentDashState extends State<StudentDash> {
     );
   }
 
-  updateStudentSelectedClassDataInApp(newClassId, newClassName) {
+  updateStudentSelectedClassDataInApp(newClassId, newClassName) async {
     setState(() {
       studentSelectedClassId = newClassId;
 
@@ -128,17 +128,13 @@ class _StudentDashState extends State<StudentDash> {
         getStudentClassNameDisplay(studentUid, studentSelectedClassId).then(
           (_) {
             print('got class name');
-            getStudentStatus(studentUid, studentSelectedClassId).then(
-              (_) {
-                print('get mood for selected class');
-                setState(() {
-                  print('uid ' + studentUid);
-                  print('class id ' + studentSelectedClassId);
-                  print('class name display' + studentSelectedClassNameDisplay);
-                  print('mood/status ' + studentMood);
-                });
-              },
-            );
+
+            setState(() {
+              print('uid ' + studentUid);
+              print('class id ' + studentSelectedClassId);
+              print('class name display' + studentSelectedClassNameDisplay);
+              print('mood/status ' + studentMood);
+            });
           },
         );
       });
@@ -233,7 +229,8 @@ class _StudentDashState extends State<StudentDash> {
           ),
 
           // dropdown with firestore
-          Container(
+          // this logic is to prevent error on signing in
+          studentSelectedClassId == null ? Container() : Container(
             margin: EdgeInsets.symmetric(
               horizontal: MediaQuery.of(context).size.width * 0.045,
             ),
@@ -258,6 +255,8 @@ class _StudentDashState extends State<StudentDash> {
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData)
+
+                    //TODO : this is a bandaid solution - if the snapshot is loading, just make it look like it is not
                     return Row(
                       children: [
                         SizedBox(
@@ -270,6 +269,10 @@ class _StudentDashState extends State<StudentDash> {
                         SizedBox(
                           width: 30,
                         ),
+                        Text(
+                          studentSelectedClassName,
+                          style: TextStyle(color: kPrimaryColor),
+                        ),
                         Spacer(),
                         Container(
                           margin: const EdgeInsets.only(top: 2),
@@ -277,6 +280,7 @@ class _StudentDashState extends State<StudentDash> {
                         ),
                       ],
                     );
+                  // return Text('Loading...');
                   else {
                     // switch (snapshot.connectionState) {
                     //   // case ConnectionState.waiting:
@@ -323,7 +327,6 @@ class _StudentDashState extends State<StudentDash> {
                             value: studentSelectedClassName,
                             items: dropdownEvents,
                             onChanged: (newEventSelected) async {
-                              print('testing');
                               await setStudentNewSelectedClassID(
                                 newEventSelected,
                               );
@@ -342,72 +345,6 @@ class _StudentDashState extends State<StudentDash> {
                   }
                 }),
           ),
-
-          // Example of a dropdown with a list instead of firebase
-          // Container(
-          //   margin: EdgeInsets.symmetric(
-          //     horizontal: MediaQuery.of(context).size.width * 0.045,
-          //   ),
-          //   padding: EdgeInsets.symmetric(
-          //     vertical: MediaQuery.of(context).size.height * 0.02,
-          //     horizontal: MediaQuery.of(context).size.width * 0.045,
-          //   ),
-          //   height: MediaQuery.of(context).size.height * 0.073,
-          //   width: double.infinity,
-          //   decoration: BoxDecoration(
-          //     color: Colors.white,
-          //     borderRadius: BorderRadius.circular(25),
-          //     border: Border.all(
-          //       color: Color(0xFFE5E5E5),
-          //     ),
-          //   ),
-          //   child: Row(
-          //     children: <Widget>[
-          //       SizedBox(
-          //         width: 5,
-          //       ),
-          //       Icon(
-          //         Icons.school,
-          //         color: kPrimaryColor,
-          //       ),
-          //       SizedBox(
-          //         width: 30,
-          //       ),
-          //       Expanded(
-          //         child: DropdownButton<String>(
-          //           isExpanded: true,
-          //           underline: SizedBox(),
-          //           icon: Icon(Icons.arrow_drop_down),
-          //           value: selectedClassDisplay,
-          //           items: studentClasses
-          //               .map<DropdownMenuItem<String>>((String dropDownItem) {
-          //             return DropdownMenuItem<String>(
-          //               value: dropDownItem,
-          //               child: Text(dropDownItem),
-          //             );
-          //           }).toList(),
-          //           hint: Text(
-          //             selectedClassDisplay,
-          //             style: TextStyle(
-          //               color: Colors.black,
-          //             ),
-          //           ),
-          //           onChanged: (String value) {
-          //             setState(() {
-          //               this.selectedClass = value;
-          //               this.selectedClassDisplay = value;
-          //               studentSelectedClassName = value;
-          //               _fire.setStudentSelectedClass(
-          //                 studentUid: studentUid,
-          //                 classId: 'newClassddsId',
-          //               );
-          //             });
-          //           },
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
           SizedBox(height: MediaQuery.of(context).size.height * 0.028),
           Padding(
             padding: EdgeInsets.symmetric(
@@ -432,30 +369,19 @@ class _StudentDashState extends State<StudentDash> {
                                 .document(studentSelectedClassId)
                                 .snapshots(),
                             builder: (context, snapshot) {
-                              if (snapshot.hasError) {
-                                return Text(
-                                  "Error : ${snapshot.error}",
-                                  style: TextStyle(
-                                    color: kTextLightColor,
-                                    fontSize: 15,
+                              if (!snapshot.hasData) {
+                                return Text('');
+                              } else {
+                                return Padding(
+                                  padding: EdgeInsets.only(left: 2),
+                                  child: Text(
+                                    snapshot.data['teacher'],
+                                    style: TextStyle(
+                                      color: kTextLightColor,
+                                      fontSize: 15,
+                                    ),
                                   ),
                                 );
-                              } else {
-                                switch (snapshot.connectionState) {
-                                  case ConnectionState.waiting:
-                                    return Text('');
-                                  default:
-                                    return Padding(
-                                      padding: EdgeInsets.only(left: 2),
-                                      child: Text(
-                                        snapshot.data['teacher'],
-                                        style: TextStyle(
-                                          color: kTextLightColor,
-                                          fontSize: 15,
-                                        ),
-                                      ),
-                                    );
-                                }
                               }
                             }),
                       ],
