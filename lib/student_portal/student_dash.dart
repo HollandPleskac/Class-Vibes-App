@@ -229,8 +229,7 @@ class _StudentDashState extends State<StudentDash> {
           ),
 
           // dropdown with firestore
-          // this logic is to prevent error on signing in
-          studentSelectedClassId == null ? Container() : Container(
+          Container(
             margin: EdgeInsets.symmetric(
               horizontal: MediaQuery.of(context).size.width * 0.045,
             ),
@@ -269,10 +268,7 @@ class _StudentDashState extends State<StudentDash> {
                         SizedBox(
                           width: 30,
                         ),
-                        Text(
-                          studentSelectedClassName,
-                          style: TextStyle(color: kPrimaryColor),
-                        ),
+                        
                         Spacer(),
                         Container(
                           margin: const EdgeInsets.only(top: 2),
