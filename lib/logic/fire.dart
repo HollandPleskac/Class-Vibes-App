@@ -128,3 +128,20 @@ class Fire {
     );
   }
 }
+
+Future<void> inviteStudent({
+  String studentUid,
+  String classId,
+  String teacherName,
+  String className,
+}) {
+  _firestore
+      .collection('students')
+      .document(studentUid)
+      .collection('invitations')
+      .document(classId)
+      .setData({
+    'teacher name': teacherName,
+    'class name': className,
+  });
+}

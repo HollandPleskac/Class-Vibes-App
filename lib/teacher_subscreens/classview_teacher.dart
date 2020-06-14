@@ -3,9 +3,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:polygon_clipper/polygon_clipper.dart';
 
 import '../constant.dart';
+import '../logic/fire.dart';
 import '../teacher_portal/teacher_messages_screen.dart';
 
 final Firestore _firestore = Firestore.instance;
+final _fire = Fire();
 
 class ClassViewTeacher extends StatefulWidget {
   static const routeName = 'class-view-teacher';
@@ -22,6 +24,8 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
     final TextEditingController _pushAnnouncementController =
         TextEditingController();
     final TextEditingController _searchController = TextEditingController();
+    final TextEditingController _inviteStudentController =
+        TextEditingController();
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
@@ -74,9 +78,8 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
               ),
               Padding(
                 padding: const EdgeInsets.only(right: 40.0, top: 20),
-                child: IconButton(
-                  icon: Icon(Icons.add),
-                  onPressed: () {},
+                child: AddStudentIcon(
+                  inviteStudentController: _inviteStudentController,
                 ),
               ),
             ],
@@ -406,6 +409,44 @@ class StudentChat extends StatelessWidget {
           );
         },
       ),
+    );
+  }
+}
+
+class AddStudentIcon extends StatelessWidget {
+  final TextEditingController inviteStudentController;
+  AddStudentIcon({
+    @required this.inviteStudentController,
+  });
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: Icon(Icons.add),
+      onPressed: () {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Invite a Student'),
+              content: Container(
+                child: Column(
+                  children: [
+                    TextField(
+                      controller: inviteStudentController,
+                    ),
+                    FlatButton(
+                      child: Text('Invite'),
+                      onPressed: () async {
+                        await _fire.
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
     );
   }
 }
