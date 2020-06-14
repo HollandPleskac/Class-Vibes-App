@@ -5,6 +5,7 @@ import './student_portal/student_dash.dart';
 import './student_portal/student_profile.dart';
 import './teacher_portal/teacher_classes.dart';
 import './student_portal/student_view_classes.dart';
+import './student_portal/student_invitations.dart';
 
 class AppDrawer {
   Widget studentDrawer(context) {
@@ -47,6 +48,19 @@ class AppDrawer {
               // Update the state of the app.
               // ...
               
+            },
+          ),
+          ListTile(
+            title: Text('Student Invitations'),
+            onTap: () {
+              // Update the state of the app.
+              // ...
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => StudentInvitations(),
+                ),
+              );
             },
           ),
           ListTile(

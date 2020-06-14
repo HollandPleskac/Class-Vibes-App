@@ -151,10 +151,27 @@ class Fire {
           .setData({
         'teacher name': teacherName,
         'class name': className,
+        'class id': classId,
       });
       return 'success';
     } catch (e) {
       return 'fail';
     }
+  }
+
+  Future acceptInvitation({String classId, String studentUid, String studentName}) {
+
+    //add to a student to the class
+    _firestore.collection('classes').document(classId).collection('students').document(studentUid).setData({
+      'date':DateFormat.yMMMMd('en_US').format(
+          DateTime.now(),
+        ),
+      'mood':'green',
+      'student naem':studentName,
+    });
+    
+    //remove invite out of students
+    _firestore.collection('studnets').document(studentUid).collection('invitations').document(classId).delete();
+    
   }
 }
