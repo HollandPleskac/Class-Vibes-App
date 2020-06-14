@@ -18,15 +18,19 @@ class ClassViewTeacher extends StatefulWidget {
 class _ClassViewTeacherState extends State<ClassViewTeacher> {
   @override
   Widget build(BuildContext context) {
+    final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
     final routeArguments = ModalRoute.of(context).settings.arguments as Map;
     final String className = routeArguments['class name'];
     final String classId = routeArguments['class id'];
+    final String teacherName = routeArguments['teacher name'];
     final TextEditingController _pushAnnouncementController =
         TextEditingController();
     final TextEditingController _searchController = TextEditingController();
     final TextEditingController _inviteStudentController =
         TextEditingController();
+
     return Scaffold(
+      key: _scaffoldKey,
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
         title: Text(className),
@@ -80,6 +84,9 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
                 padding: const EdgeInsets.only(right: 40.0, top: 20),
                 child: AddStudentIcon(
                   inviteStudentController: _inviteStudentController,
+                  classId: classId,
+                  className: className,
+                  teacherName: teacherName,
                 ),
               ),
             ],
@@ -413,11 +420,24 @@ class StudentChat extends StatelessWidget {
   }
 }
 
-class AddStudentIcon extends StatelessWidget {
+class AddStudentIcon extends StatefulWidget {
+  final String teacherName;
+  final String classId;
+  final String className;
   final TextEditingController inviteStudentController;
+
   AddStudentIcon({
-    @required this.inviteStudentController,
+    this.teacherName,
+    this.classId,
+    this.className,
+    this.inviteStudentController,
   });
+
+  @override
+  _AddStudentIconState createState() => _AddStudentIconState();
+}
+
+class _AddStudentIconState extends State<AddStudentIcon> {
   @override
   Widget build(BuildContext context) {
     return IconButton(
@@ -426,23 +446,43 @@ class AddStudentIcon extends StatelessWidget {
         showDialog(
           context: context,
           builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text('Invite a Student'),
-              content: Container(
-                child: Column(
-                  children: [
-                    TextField(
-                      controller: inviteStudentController,
-                    ),
-                    FlatButton(
-                      child: Text('Invite'),
-                      onPressed: () async {
-                        await _fire.
-                      },
-                    ),
-                  ],
+            return Column(
+              children: [
+                AlertDialog(
+                  title: Text('Invite a Student'),
+                  content: StatefulBuilder(
+                    builder: (BuildContext context, StateSetter setState) {
+                      return Container(
+                        child: Column(
+                          children: [
+                            TextField(
+                              controller: widget.inviteStudentController,
+                            ),
+                            FlatButton(
+                              child: Text('Invite'),
+                              onPressed: () async {
+                                String isValidEmail = await _fire.inviteStudent(
+                                  teacherName: widget.teacherName,
+                                  classId: widget.classId,
+                                  className: widget.className,
+                                  studentEmail:
+                                      widget.inviteStudentController.text,
+                                );
+                                if (isValidEmail == 'success') {
+                                  Navigator.pop(context);
+                                } else {
+                                  print(
+                                      'there was an error - email is not in database');
+                                }
+                              },
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
                 ),
-              ),
+              ],
             );
           },
         );

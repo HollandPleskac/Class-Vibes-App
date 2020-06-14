@@ -192,6 +192,7 @@ class _TeacherClassesScreenState extends State<TeacherClassesScreen> {
                               color: Colors.teal[200],
                               text: document['class name'],
                               classId: document.documentID,
+                              teacherName: document['student display name'],
                             );
                           }).toList(),
                         ),
@@ -280,12 +281,14 @@ class Course extends StatelessWidget {
   final Color color;
   final String text;
   final String classId;
+  final String teacherName;
 
   const Course({
     Key key,
     this.color,
     this.text,
     this.classId,
+    this.teacherName,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -329,6 +332,7 @@ class Course extends StatelessWidget {
           Navigator.pushNamed(context, ClassViewTeacher.routeName, arguments: {
         'class name': text,
         'class id': classId,
+        'teacher name':teacherName,
       }),
     );
   }

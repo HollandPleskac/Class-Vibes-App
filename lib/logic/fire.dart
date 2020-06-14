@@ -127,21 +127,34 @@ class Fire {
       },
     );
   }
-}
 
-Future<void> inviteStudent({
-  String studentUid,
-  String classId,
-  String teacherName,
-  String className,
-}) {
-  _firestore
-      .collection('students')
-      .document(studentUid)
-      .collection('invitations')
-      .document(classId)
-      .setData({
-    'teacher name': teacherName,
-    'class name': className,
-  });
+  Future<String> inviteStudent({
+    String studentEmail,
+    String classId,
+    String teacherName,
+    String className,
+  }) async {
+    try {
+      String studentUid = await _firestore
+          .collection('students')
+          .where('email', isEqualTo: studentEmail)
+          .getDocuments()
+          .then(
+            (querySnap) => querySnap.documents[0].documentID.toString(),
+          );
+
+      _firestore
+          .collection('students')
+          .document(studentUid)
+          .collection('invitations')
+          .document(classId)
+          .setData({
+        'teacher name': teacherName,
+        'class name': className,
+      });
+      return 'success';
+    } catch (e) {
+      return 'fail';
+    }
+  }
 }
