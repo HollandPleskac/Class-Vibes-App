@@ -109,7 +109,7 @@ class _StudentDashState extends State<StudentDash> {
     );
   }
 
-  updateStudentSelectedClassDataInApp(newClassId, newClassName) async {
+  void updateStudentSelectedClassDataInApp(newClassId, newClassName) async {
     setState(() {
       studentSelectedClassId = newClassId;
 
