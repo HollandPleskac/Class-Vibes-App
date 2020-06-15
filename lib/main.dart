@@ -8,6 +8,7 @@ import './teacher_subscreens/classview_teacher.dart';
 import './auth_screens/login_screen.dart';
 import './auth_screens/signup_as_student_screen.dart';
 import './auth_screens/signup_as_teacher_screen.dart';
+import './student_subscreens/classview_student.dart';
 
 void main() => runApp(MyApp());
 
@@ -23,6 +24,7 @@ class _MyAppState extends State<MyApp> {
       home: LoginScreen(),
       routes: ({
         ClassViewTeacher.routeName: (context) => ClassViewTeacher(),
+        ClassViewStudent.routeName: (context) => ClassViewStudent(),
       }),
     );
   }
