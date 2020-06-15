@@ -59,8 +59,6 @@ class _TeacherClassesScreenState extends State<TeacherClassesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    
-
     return Scaffold(
       key: _scaffoldKey,
       drawer: _appDrawer.teacherDrawer(context),
@@ -159,6 +157,7 @@ class _TeacherClassesScreenState extends State<TeacherClassesScreen> {
                     teacherUid: teacherUid,
                     classNameController: _classNameController,
                     classIdController: _classIdController,
+                    teacherName: teacherName,
                   ),
                 ),
               ),
@@ -348,8 +347,14 @@ class AddClass extends StatelessWidget {
   final String teacherUid;
   final TextEditingController classIdController;
   final TextEditingController classNameController;
+  final String teacherName;
 
-  AddClass({this.teacherUid, this.classIdController, this.classNameController});
+  AddClass({
+    this.teacherUid,
+    this.classIdController,
+    this.classNameController,
+    this.teacherName,
+  });
   @override
   Widget build(BuildContext context) {
     return IconButton(
@@ -367,6 +372,7 @@ class AddClass extends StatelessWidget {
                 teacherUid: teacherUid,
                 classIdController: classIdController,
                 classNameController: classNameController,
+                teacherName: teacherName,
               ),
             ),
           ),
@@ -380,11 +386,13 @@ class AddClassBottomSheet extends StatelessWidget {
   final String teacherUid;
   final TextEditingController classNameController;
   final TextEditingController classIdController;
+  final String teacherName;
 
   AddClassBottomSheet({
     this.teacherUid,
     this.classNameController,
     this.classIdController,
+    this.teacherName,
   });
   @override
   Widget build(BuildContext context) {
@@ -415,6 +423,7 @@ class AddClassBottomSheet extends StatelessWidget {
                 classIdController: classIdController,
                 classNameController: classNameController,
                 teacherUid: teacherUid,
+                teacherName: teacherName,
               ),
             )
           ],
@@ -429,12 +438,14 @@ class AddClassForm extends StatelessWidget {
   final TextEditingController classNameController;
   final TextEditingController classIdController;
   final String teacherUid;
+  final String teacherName;
 
   AddClassForm({
     this.formKey,
     this.classNameController,
     this.classIdController,
     this.teacherUid,
+    this.teacherName,
   });
 
   @override
@@ -480,6 +491,7 @@ class AddClassForm extends StatelessWidget {
                       teacherUid: teacherUid,
                       className: classNameController.text,
                       classId: classIdController.text,
+                      teacherName: teacherName,
                     );
                     Navigator.pop(context);
                   },

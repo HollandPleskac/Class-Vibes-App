@@ -109,10 +109,12 @@ class Fire {
     String teacherUid,
     String className,
     String classId,
+    String teacherName,
   }) {
     var _randomString = randomAlphaNumeric(30);
     _firestore.collection('classes').document(_randomString).setData({
       'class name': className,
+      'teacher':teacherName,
     });
 
     _firestore
