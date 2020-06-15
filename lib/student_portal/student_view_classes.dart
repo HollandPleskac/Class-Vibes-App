@@ -1,3 +1,4 @@
+import 'package:cyber_dojo_app/student_subscreens/classview_student.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,8 +19,9 @@ class _StudentClassesViewState extends State<StudentClassesView> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   String studentUid;
+  String studentName;
 
-  Future getTeacherUid() async {
+  Future getStudentUid() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     String userUid = prefs.getString('uid');
@@ -28,11 +30,23 @@ class _StudentClassesViewState extends State<StudentClassesView> {
     print(studentUid);
   }
 
+  Future getStudentName(uid) async {
+    String nameOfStudent =
+        await _firestore.collection('students').document(uid).get().then(
+              (docSnap) => docSnap.data['user name'],
+            );
+    studentName = nameOfStudent;
+    print(studentName);
+  }
+
   @override
   void initState() {
-    getTeacherUid().then((_) {
+    getStudentUid().then((_) {
       print("got uid");
-      setState(() {});
+      getStudentName(studentUid).then((_) {
+        print("got name");
+        setState(() {});
+      });
     });
 
     super.initState();
@@ -175,16 +189,16 @@ class _StudentClassesViewState extends State<StudentClassesView> {
                               .map((DocumentSnapshot document) {
                             return Course(
                               color: Colors.teal[200],
-                              text: document['class name'],
+                              className: document['class name'],
+                              classId: document.documentID,
+                              studentName: studentName,
                             );
                           }).toList(),
                         ),
                       );
                     }
                     return Center(
-                     
-                        child: Text('No Classes'),
-                      
+                      child: Text('No Classes'),
                     );
                   case ConnectionState.none:
                     return Center(
@@ -271,14 +285,17 @@ class MyClipper extends CustomClipper<Path> {
 
 class Course extends StatelessWidget {
   final Color color;
-  final String text;
-  final Function function;
+
+  final String classId;
+  final String studentName;
+  final String className;
 
   const Course({
     Key key,
     this.color,
-    this.text,
-    this.function,
+    this.classId,
+    this.studentName,
+    this.className,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -306,7 +323,7 @@ class Course extends StatelessWidget {
                         left: 10,
                       ),
                       child: Text(
-                        text,
+                        className,
                         style: kSubTextStyle.copyWith(
                             color: Colors.black, fontSize: 15.5),
                       ),
@@ -318,7 +335,17 @@ class Course extends StatelessWidget {
           ),
         ),
       ),
-      onTap: function,
+      onTap: () {
+        Navigator.pushNamed(
+          context,
+          ClassViewStudent.routeName,
+          arguments: {
+            'class name': className,
+            'class id': classId,
+            'student name': studentName,
+          },
+        );
+      },
     );
   }
 }
