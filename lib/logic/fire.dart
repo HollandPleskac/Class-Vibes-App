@@ -234,4 +234,15 @@ class Fire {
     //   'content': content,
     //     });
   }
+
+  Future setUpStudentMeeting(String title, String content, String date, String studentUid) {
+    _firestore
+        .collection('students')
+        .document(studentUid)
+        .collection('meetings')
+        .document()
+        .setData(
+      {'title': title, 'content': content, 'date': date},
+    );
+  }
 }

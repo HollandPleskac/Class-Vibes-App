@@ -17,7 +17,7 @@ class _StudentYellowState extends State<StudentYellow> {
   String teacherUid = '';
   String teacherSelectedClassId = '';
 
-    Future getTeacherUid() async {
+  Future getTeacherUid() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     String userUid = prefs.getString('uid');
@@ -168,7 +168,15 @@ class YellowStudent extends StatelessWidget {
                         ),
                       ],
                     ),
-                    studentChat(context),
+                    Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          studentMeeting(context),
+                          studentChat(context),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -229,6 +237,27 @@ Widget hexagon(BuildContext context) {
   );
 }
 
+Widget studentMeeting(BuildContext context) {
+  return Padding(
+    padding: const EdgeInsets.only(right: 5),
+    child: IconButton(
+      icon: Icon(
+        Icons.schedule,
+        color: kRedColor,
+        size: 30,
+      ),
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => TeacherMessages(),
+          ),
+        );
+      },
+    ),
+  );
+}
+
 Widget studentChat(BuildContext context) {
   return Padding(
     padding: const EdgeInsets.only(right: 20),
@@ -238,12 +267,14 @@ Widget studentChat(BuildContext context) {
         color: kYellowColor,
         size: 30,
       ),
-      onPressed: () {Navigator.push(
+      onPressed: () {
+        Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => TeacherMessages(),
           ),
-        );},
+        );
+      },
     ),
   );
 }

@@ -197,7 +197,15 @@ class GreenStudent extends StatelessWidget {
                         ),
                       ],
                     ),
-                    studentChat(context),
+                    Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          studentMeeting(context),
+                          studentChat(context),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -254,6 +262,27 @@ Widget hexagon(BuildContext context) {
           size: 25,
         ),
       ),
+    ),
+  );
+}
+
+Widget studentMeeting(BuildContext context) {
+  return Padding(
+    padding: const EdgeInsets.only(right: 5),
+    child: IconButton(
+      icon: Icon(
+        Icons.schedule,
+        color: kRedColor,
+        size: 30,
+      ),
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => TeacherMessages(),
+          ),
+        );
+      },
     ),
   );
 }
