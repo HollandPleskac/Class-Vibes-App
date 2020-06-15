@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../constant.dart';
+import '../app_drawer.dart';
 
+final _appDrawer = AppDrawer();
 final Firestore _firestore = Firestore.instance;
 
 class StudentAnnouncements extends StatefulWidget {
@@ -80,6 +82,7 @@ class _StudentAnnouncementsState extends State<StudentAnnouncements> {
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
       key: _scaffoldKey,
+      drawer: _appDrawer.studentDrawer(context),
       body: Column(
         children: [
           Container(
@@ -146,48 +149,49 @@ class _StudentAnnouncementsState extends State<StudentAnnouncements> {
                 ],
               ),
             ),
-          Container(
-            height: 300,
-            child: StreamBuilder(
-              stream: _firestore
-                  .collection('classes')
-                  .document(studentSelectedClassId)
-                  .collection('announcements')
-                  .snapshots(),
-              builder:
-                  (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                }
-                switch (snapshot.connectionState) {
-                  case ConnectionState.waiting:
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
+            Text('note : add in announcements to this screen later'),
+          // Container(
+          //   height: 300,
+          //   child: StreamBuilder(
+          //     stream: _firestore
+          //         .collection('classes')
+          //         .document(studentSelectedClassId)
+          //         .collection('announcements')
+          //         .snapshots(),
+          //     builder:
+          //         (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          //       if (snapshot.hasError) {
+          //         return Text('Error: ${snapshot.error}');
+          //       }
+          //       switch (snapshot.connectionState) {
+          //         case ConnectionState.waiting:
+          //           return Center(
+          //             child: CircularProgressIndicator(),
+          //           );
 
-                  default:
-                    return snapshot.data == null ||
-                            snapshot.data.documents.isEmpty == true
-                        ? Container(
-                            child: Text('no announcements'),
-                          )
-                        : Center(
-                            child: ListView(
-                              children: snapshot.data.documents
-                                  .map(
-                                    (DocumentSnapshot document) => Announcement(
-                                      content: document['content'],
-                                      title: document['title'],
-                                      date: document['date'],
-                                    ),
-                                  )
-                                  .toList(),
-                            ),
-                          );
-                }
-              },
-            ),
-          ),
+          //         default:
+          //           return snapshot.data == null ||
+          //                   snapshot.data.documents.isEmpty == true
+          //               ? Container(
+          //                   child: Text('no announcements'),
+          //                 )
+          //               : Center(
+          //                   child: ListView(
+          //                     children: snapshot.data.documents
+          //                         .map(
+          //                           (DocumentSnapshot document) => Announcement(
+          //                             content: document['content'],
+          //                             title: document['title'],
+          //                             date: document['date'],
+          //                           ),
+          //                         )
+          //                         .toList(),
+          //                   ),
+          //                 );
+          //       }
+          //     },
+          //   ),
+          // ),
         ],
       ),
     );
