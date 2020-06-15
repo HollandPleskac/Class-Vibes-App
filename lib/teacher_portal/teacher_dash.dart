@@ -536,7 +536,9 @@ class PieChart2State extends State {
                                   //regular way to get the touched index
                                 touchedIndex =
                                     pieTouchResponse.touchedSectionIndex;
-
+///
+///
+///
                                     //fixes error where you cannot click on graph if it is 100% of one value
                                     if ((yellowStudents / totalStudents * 100)
                                             .toStringAsFixed(0) +
@@ -557,6 +559,11 @@ class PieChart2State extends State {
                                   print('100 percent red');
                                   touchedIndex = 2;
                                 }
+
+                                //end of error fixing
+///
+///
+///
                                 print(pieTouchResponse.touchedSection);
                                 if (touchedIndex == 0) {
                                   print('touched students doing great');
