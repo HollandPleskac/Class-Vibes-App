@@ -23,15 +23,14 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
     final String className = routeArguments['class name'];
     final String classId = routeArguments['class id'];
     final String teacherName = routeArguments['teacher name'];
+    final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
     final TextEditingController _pushAnnouncementController =
         TextEditingController();
-    final TextEditingController _searchController = TextEditingController();
     final TextEditingController _inviteStudentController =
         TextEditingController();
 
     return Scaffold(
       key: _scaffoldKey,
-      resizeToAvoidBottomPadding: false,
       appBar: AppBar(
         title: Text(className),
         centerTitle: true,
@@ -49,161 +48,164 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          // PUSH ANNOUNCEMENT
-          Align(
-            alignment: Alignment.center,
-            child: Padding(
-              padding: EdgeInsets.only(
-                top: 20,
-              ),
-              child: Column(
-                children: [
-                  PushAnnouncement(
-                    controller: _pushAnnouncementController,
-                  ),
-                ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            // PUSH ANNOUNCEMENT
+            Align(
+              alignment: Alignment.center,
+              child: Padding(
+                padding: EdgeInsets.only(
+                  top: 20,
+                ),
+                child: Column(
+                  children: [
+                    PushAnnouncement(
+                      controller: _pushAnnouncementController,
+                      formKey: _formKey,
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          //STUDENTS TEXT/ADD STUDENT ROW
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 40.0, top: 20),
-                child: Text(
-                  'Students',
-                  style: kHeadingTextStyle.copyWith(
-                    fontSize: 24,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(right: 40.0, top: 20),
-                child: AddStudentIcon(
-                  inviteStudentController: _inviteStudentController,
-                  classId: classId,
-                  className: className,
-                  teacherName: teacherName,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          //SEARCH BAR
-          Center(
-            child: Container(
-              width: MediaQuery.of(context).size.width * 0.9,
-              height: 52,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(1000),
-                  border: Border.all(color: kPrimaryColor, width: 2)),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(left: 20),
-                    child: TextFormField(
-                      controller: _searchController,
-                      maxLines: 1,
-                      keyboardType: TextInputType.text,
-                      style: kSubTextStyle.copyWith(color: kPrimaryColor),
-                      autofocus: false,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        //hintStyle: kSubTextStyle.copyWith(color: kPrimaryColor),
-                        labelStyle: TextStyle(
-                          color: Colors.white,
-                        ),
-                        hintText: 'search',
-                        icon: Icon(Icons.person),
-                      ),
+            //STUDENTS TEXT/ADD STUDENT ROW
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 40.0, top: 20),
+                  child: Text(
+                    'Students',
+                    style: kHeadingTextStyle.copyWith(
+                      fontSize: 24,
                     ),
                   ),
-                ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 40.0, top: 20),
+                  child: AddStudentIcon(
+                    inviteStudentController: _inviteStudentController,
+                    classId: classId,
+                    className: className,
+                    teacherName: teacherName,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            //SEARCH BAR
+            Center(
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.9,
+                height: 52,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(1000),
+                    border: Border.all(color: kPrimaryColor, width: 2)),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(left: 20),
+                      child: TextFormField(
+                        
+                        maxLines: 1,
+                        keyboardType: TextInputType.text,
+                        style: kSubTextStyle.copyWith(color: kPrimaryColor),
+                        autofocus: false,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          //hintStyle: kSubTextStyle.copyWith(color: kPrimaryColor),
+                          labelStyle: TextStyle(
+                            color: Colors.white,
+                          ),
+                          hintText: 'search',
+                          icon: Icon(Icons.person),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          SizedBox(
-            height: 15,
-          ),
-
-          //STUDENTS ENROLLED
-          Container(
-            height: 380,
-            child: StreamBuilder(
-              stream: _firestore
-                  .collection('classes')
-                  .document(classId)
-                  .collection('students')
-                  .orderBy('mood', descending: true)
-                  .orderBy('date', descending: true)
-                  .snapshots(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                }
-                if (snapshot.data == null) {
-                  return Center(
-                    child: Text('No students'),
-                  );
-                }
-
-                switch (snapshot.connectionState) {
-                  case ConnectionState.waiting:
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  case ConnectionState.active:
-                    //if there is snapshot data and the list of doucments it returns is empty
-                    if (snapshot.data != null &&
-                        snapshot.data.documents.isEmpty == false) {
-                      return Center(
-                        child: ListView(
-                          children: snapshot.data.documents.map(
-                            (DocumentSnapshot document) {
-                              return Student(
-                                color: document['mood'] == "green"
-                                    ? kGreenColor
-                                    : document['mood'] == "yellow"
-                                        ? kYellowColor
-                                        : document['mood'] == "red"
-                                            ? kRedColor
-                                            : document['mood'] == "black"
-                                                ? Colors.black
-                                                : Colors.grey,
-                                studentName: document['student name'],
-                                moodSelectionDate: document['date'],
-                              );
-                            },
-                          ).toList(),
-                        ),
-                      );
-                    }
-                    // need in both places?? prevent error with no return statement
-                    return Center(
-                      child: Text('no students'),
-                    );
-
-                  case ConnectionState.none:
-                    return Text('Connection state returned none');
-                    break;
-                  case ConnectionState.done:
-                    return Text('Connection state finished');
-                    break;
-                  default:
-                    return Text('nothing here');
-                }
-              },
+            SizedBox(
+              height: 15,
             ),
-          ),
-        ],
+
+            //STUDENTS ENROLLED
+            Container(
+              height: 380,
+              child: StreamBuilder(
+                stream: _firestore
+                    .collection('classes')
+                    .document(classId)
+                    .collection('students')
+                    .orderBy('mood', descending: true)
+                    .orderBy('date', descending: true)
+                    .snapshots(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  }
+                  if (snapshot.data == null) {
+                    return Center(
+                      child: Text('No students'),
+                    );
+                  }
+
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.waiting:
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    case ConnectionState.active:
+                      //if there is snapshot data and the list of doucments it returns is empty
+                      if (snapshot.data != null &&
+                          snapshot.data.documents.isEmpty == false) {
+                        return Center(
+                          child: ListView(
+                            children: snapshot.data.documents.map(
+                              (DocumentSnapshot document) {
+                                return Student(
+                                  color: document['mood'] == "green"
+                                      ? kGreenColor
+                                      : document['mood'] == "yellow"
+                                          ? kYellowColor
+                                          : document['mood'] == "red"
+                                              ? kRedColor
+                                              : document['mood'] == "black"
+                                                  ? Colors.black
+                                                  : Colors.grey,
+                                  studentName: document['student name'],
+                                  moodSelectionDate: document['date'],
+                                );
+                              },
+                            ).toList(),
+                          ),
+                        );
+                      }
+                      // need in both places?? prevent error with no return statement
+                      return Center(
+                        child: Text('no students'),
+                      );
+
+                    case ConnectionState.none:
+                      return Text('Connection state returned none');
+                      break;
+                    case ConnectionState.done:
+                      return Text('Connection state finished');
+                      break;
+                    default:
+                      return Text('nothing here');
+                  }
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -211,8 +213,10 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
 
 class PushAnnouncement extends StatelessWidget {
   final TextEditingController controller;
+  final Key formKey;
   PushAnnouncement({
     this.controller,
+    this.formKey,
   });
   @override
   Widget build(BuildContext context) {
@@ -250,7 +254,7 @@ class PushAnnouncement extends StatelessWidget {
             ),
             Padding(
               padding: EdgeInsets.only(left: 50, top: 10),
-              child: TextFormField(
+              child: TextField(
                 controller: controller,
                 maxLines: 1,
                 keyboardType: TextInputType.text,

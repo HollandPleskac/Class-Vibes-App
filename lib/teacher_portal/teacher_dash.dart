@@ -484,6 +484,7 @@ class PieChart2State extends State {
                           PieChartData(
                             pieTouchData:
                                 PieTouchData(touchCallback: (pieTouchResponse) {
+                                  print(pieTouchResponse.touchedSectionIndex);
                               setState(() {
                                 // if (
                                 //   pieTouchResponse.touchInput
