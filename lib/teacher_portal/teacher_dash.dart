@@ -484,8 +484,47 @@ class PieChart2State extends State {
                           PieChartData(
                             pieTouchData:
                                 PieTouchData(touchCallback: (pieTouchResponse) {
-                                  print(pieTouchResponse.touchedSectionIndex);
+                              print(pieTouchResponse.touchedSectionIndex);
                               setState(() {
+
+                                //getting variables for green,yellow, and red students
+                                var greenStudents = snapshot.data.documents
+                                    .where((documentSnapshot) =>
+                                        documentSnapshot.data['mood'] ==
+                                        'green')
+                                    .length
+                                    .toDouble();
+                                var yellowStudents = snapshot.data.documents
+                                    .where((documentSnapshot) =>
+                                        documentSnapshot.data['mood'] ==
+                                        'yellow')
+                                    .length
+                                    .toDouble();
+                                var redStudents = snapshot.data.documents
+                                    .where((documentSnapshot) =>
+                                        documentSnapshot.data['mood'] == 'red')
+                                    .length
+                                    .toDouble();
+                                var totalStudents = (snapshot.data.documents
+                                        .where((documentSnapshot) =>
+                                            documentSnapshot.data['mood'] ==
+                                            'green')
+                                        .length
+                                        .toDouble() +
+                                    snapshot.data.documents
+                                        .where((documentSnapshot) =>
+                                            documentSnapshot.data['mood'] ==
+                                            'yellow')
+                                        .length
+                                        .toDouble() +
+                                    snapshot.data.documents
+                                        .where((documentSnapshot) =>
+                                            documentSnapshot.data['mood'] ==
+                                            'red')
+                                        .length
+                                        .toDouble());
+
+                                
                                 // if (
                                 //   pieTouchResponse.touchInput
                                 //         is FlLongPressEnd ||
@@ -493,8 +532,32 @@ class PieChart2State extends State {
                                 //     ) {
                                 //   touchedIndex = -1;
                                 // } else {
+
+                                  //regular way to get the touched index
                                 touchedIndex =
                                     pieTouchResponse.touchedSectionIndex;
+
+                                    //fixes error where you cannot click on graph if it is 100% of one value
+                                    if ((yellowStudents / totalStudents * 100)
+                                            .toStringAsFixed(0) +
+                                        '%' ==
+                                    '100%') {
+                                  print('100 percent yellow');
+                                  touchedIndex = 1;
+                                } else if ((greenStudents / totalStudents * 100)
+                                            .toStringAsFixed(0) +
+                                        '%' ==
+                                    '100%') {
+                                  print('100 percent green');
+                                  touchedIndex = 0;
+                                } else if ((redStudents / totalStudents * 100)
+                                            .toStringAsFixed(0) +
+                                        '%' ==
+                                    '100%') {
+                                  print('100 percent red');
+                                  touchedIndex = 2;
+                                }
+                                print(pieTouchResponse.touchedSection);
                                 if (touchedIndex == 0) {
                                   print('touched students doing great');
                                   Navigator.push(
@@ -706,6 +769,7 @@ class PieChart2State extends State {
       final double fontSize = 16;
       // final double radius = isTouched ? 60 : 50;
       final double radius = 50;
+
       switch (i) {
         case 0:
           return PieChartSectionData(
