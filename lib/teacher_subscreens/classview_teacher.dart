@@ -16,15 +16,17 @@ class ClassViewTeacher extends StatefulWidget {
 }
 
 class _ClassViewTeacherState extends State<ClassViewTeacher> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
     final routeArguments = ModalRoute.of(context).settings.arguments as Map;
     final String className = routeArguments['class name'];
     final String classId = routeArguments['class id'];
     final String teacherName = routeArguments['teacher name'];
-    final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-    final TextEditingController _pushAnnouncementController =
+
+    final TextEditingController _pushAnnouncementContentController =
+        TextEditingController();
+    final TextEditingController _pushAnnouncementTitleController =
         TextEditingController();
     final TextEditingController _inviteStudentController =
         TextEditingController();
@@ -61,8 +63,9 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
                 child: Column(
                   children: [
                     PushAnnouncement(
-                      controller: _pushAnnouncementController,
-                      formKey: _formKey,
+                      contentController: _pushAnnouncementContentController,
+                      titleController: _pushAnnouncementTitleController,
+                      classId: classId,
                     ),
                   ],
                 ),
@@ -110,7 +113,6 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
                     Padding(
                       padding: EdgeInsets.only(left: 20),
                       child: TextFormField(
-                        
                         maxLines: 1,
                         keyboardType: TextInputType.text,
                         style: kSubTextStyle.copyWith(color: kPrimaryColor),
@@ -212,17 +214,20 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
 }
 
 class PushAnnouncement extends StatelessWidget {
-  final TextEditingController controller;
-  final Key formKey;
+  final TextEditingController contentController;
+  final TextEditingController titleController;
+  final String classId;
+
   PushAnnouncement({
-    this.controller,
-    this.formKey,
+    this.contentController,
+    this.titleController,
+    this.classId,
   });
   @override
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width * 0.85,
-      height: 175,
+      height: 190,
       child: Card(
         elevation: 4,
         child: Column(
@@ -247,15 +252,18 @@ class PushAnnouncement extends StatelessWidget {
                     icon: Icon(
                       Icons.arrow_forward,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      _fire.pushAnnouncement(classId, contentController.text,
+                          titleController.text);
+                    },
                   ),
                 ),
               ],
             ),
             Padding(
-              padding: EdgeInsets.only(left: 50, top: 10),
+              padding: EdgeInsets.only(left: 50, top: 00),
               child: TextField(
-                controller: controller,
+                controller: titleController,
                 maxLines: 1,
                 keyboardType: TextInputType.text,
                 style: kSubTextStyle.copyWith(color: kPrimaryColor),
@@ -266,7 +274,26 @@ class PushAnnouncement extends StatelessWidget {
                   labelStyle: TextStyle(
                     color: Colors.white,
                   ),
-                  hintText: 'announcement',
+                  hintText: 'title',
+                  icon: Icon(Icons.near_me),
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 50, top: 00),
+              child: TextField(
+                controller: contentController,
+                maxLines: 1,
+                keyboardType: TextInputType.text,
+                style: kSubTextStyle.copyWith(color: kPrimaryColor),
+                autofocus: false,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  //hintStyle: kSubTextStyle.copyWith(color: kPrimaryColor),
+                  labelStyle: TextStyle(
+                    color: Colors.white,
+                  ),
+                  hintText: 'content',
                   icon: Icon(Icons.near_me),
                 ),
               ),

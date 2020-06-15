@@ -114,7 +114,7 @@ class Fire {
     var _randomString = randomAlphaNumeric(30);
     _firestore.collection('classes').document(_randomString).setData({
       'class name': className,
-      'teacher':teacherName,
+      'teacher': teacherName,
     });
 
     _firestore
@@ -162,7 +162,10 @@ class Fire {
   }
 
   Future acceptInvitation(
-      {String classId, String studentUid, String studentName, String className}) {
+      {String classId,
+      String studentUid,
+      String studentName,
+      String className}) {
     print('trying to accept invite');
     //add to a student to the class
     _firestore
@@ -199,6 +202,22 @@ class Fire {
         DateTime.now(),
       ),
       'mood': 'green',
+    });
+  }
+
+  void pushAnnouncement(String classId, String content, String title) {
+    _firestore
+        .collection('classes')
+        .document(classId)
+        .collection('announcements')
+        .document()
+        .setData({
+      'date': DateFormat.yMMMMd('en_US').format(
+        DateTime.now(),
+      ),
+      'title':title,
+      'content': content,
+
     });
   }
 }
