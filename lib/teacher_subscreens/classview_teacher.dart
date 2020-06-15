@@ -23,7 +23,12 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
     final String className = routeArguments['class name'];
     final String classId = routeArguments['class id'];
     final String teacherName = routeArguments['teacher name'];
+    //meeting controllers
+    final TextEditingController titleController = TextEditingController();
+    final TextEditingController contentController = TextEditingController();
+    final TextEditingController dateController = TextEditingController();
 
+    //announcement controllers
     final TextEditingController _pushAnnouncementContentController =
         TextEditingController();
     final TextEditingController _pushAnnouncementTitleController =
@@ -183,6 +188,11 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
                                                   : Colors.grey,
                                   studentName: document['student name'],
                                   moodSelectionDate: document['date'],
+                                  contentController: contentController,
+                                  dateController: dateController,
+                                  studentUid: document.documentID,
+                                  titleController: titleController,
+
                                 );
                               },
                             ).toList(),
@@ -217,11 +227,15 @@ class PushAnnouncement extends StatelessWidget {
   final TextEditingController contentController;
   final TextEditingController titleController;
   final String classId;
+  final TextEditingController dateController;
+  final String studentUid;
 
   PushAnnouncement({
     this.contentController,
     this.titleController,
     this.classId,
+    this.dateController,
+    this.studentUid,
   });
   @override
   Widget build(BuildContext context) {
@@ -309,11 +323,19 @@ class Student extends StatelessWidget {
   final String studentName;
   final Color color;
   final String moodSelectionDate;
+  final TextEditingController titleController;
+  final TextEditingController contentController;
+  final TextEditingController dateController;
+  final String studentUid;
 
   Student({
     this.color,
     this.studentName,
     this.moodSelectionDate,
+    this.titleController,
+    this.dateController,
+    this.contentController,
+    this.studentUid,
   });
   @override
   Widget build(BuildContext context) {
@@ -377,9 +399,24 @@ class Student extends StatelessWidget {
                         ),
                       ],
                     ),
-                    StudentChat(
-                      color: color,
+                    Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          studentMeeting(
+                            context,
+                            titleController,
+                            contentController,
+                            dateController,
+                            studentUid,
+                          ),
+                          StudentChat(
+                            color: color,
+                          ),
+                        ],
+                      ),
                     ),
+                    
                   ],
                 ),
               ),
@@ -420,6 +457,66 @@ class Hexagon extends StatelessWidget {
       ),
     );
   }
+}
+
+Widget studentMeeting(
+  BuildContext context,
+  TextEditingController titleController,
+  TextEditingController contentController,
+  TextEditingController dateController,
+  String studentUid,
+) {
+  return Padding(
+    padding: const EdgeInsets.only(right: 5),
+    child: IconButton(
+      icon: Icon(
+        Icons.schedule,
+        color: kRedColor,
+        size: 30,
+      ),
+      onPressed: () {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Setup a meeting (title,content,date)'),
+              content: Column(
+                children: [
+                  TextField(
+                    controller: titleController,
+                  ),
+                  TextField(
+                    controller: contentController,
+                  ),
+                  TextField(
+                    controller: dateController,
+                  ),
+                  FlatButton(
+                    child: Text('setup'),
+                    onPressed: () {
+                      _fire.setUpStudentMeeting(
+                        titleController.text,
+                        contentController.text,
+                        dateController.text,
+                        studentUid,
+                      );
+                      Navigator.pop(context);
+                    },
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder: (context) => TeacherMessages(),
+        //   ),
+        // );
+      },
+    ),
+  );
 }
 
 class StudentChat extends StatelessWidget {

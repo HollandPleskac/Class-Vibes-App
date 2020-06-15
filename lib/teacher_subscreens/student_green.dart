@@ -5,7 +5,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constant.dart';
 import '../teacher_portal/teacher_messages_screen.dart';
+import '../logic/fire.dart';
 
+final _fire = Fire();
 final Firestore _firestore = Firestore();
 
 class StudentGreen extends StatefulWidget {
@@ -14,6 +16,9 @@ class StudentGreen extends StatefulWidget {
 }
 
 class _StudentGreenState extends State<StudentGreen> {
+  final TextEditingController titleController = TextEditingController();
+  final TextEditingController contentController = TextEditingController();
+  final TextEditingController dateController = TextEditingController();
   String teacherUid = '';
   String teacherSelectedClassId = '';
 
@@ -85,6 +90,10 @@ class _StudentGreenState extends State<StudentGreen> {
                           return GreenStudent(
                             studentName: document['student name'],
                             moodSelectionDate: document['date'],
+                            contentController: contentController,
+                            titleController: titleController,
+                            dateController: dateController,
+                            studentUid: document.documentID,
                           );
                         },
                       ).toList(),
@@ -131,10 +140,18 @@ class _StudentGreenState extends State<StudentGreen> {
 class GreenStudent extends StatelessWidget {
   final String studentName;
   final String moodSelectionDate;
+  final TextEditingController titleController;
+  final TextEditingController contentController;
+  final TextEditingController dateController;
+  final String studentUid;
 
   const GreenStudent({
     @required this.studentName,
     @required this.moodSelectionDate,
+    @required this.titleController,
+    @required this.contentController,
+    @required this.dateController,
+    @required this.studentUid,
   });
 
   @override
@@ -201,7 +218,13 @@ class GreenStudent extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          studentMeeting(context),
+                          studentMeeting(
+                            context,
+                            titleController,
+                            contentController,
+                            dateController,
+                            studentUid,
+                          ),
                           studentChat(context),
                         ],
                       ),
@@ -266,7 +289,13 @@ Widget hexagon(BuildContext context) {
   );
 }
 
-Widget studentMeeting(BuildContext context) {
+Widget studentMeeting(
+  BuildContext context,
+  TextEditingController titleController,
+  TextEditingController contentController,
+  TextEditingController dateController,
+  String studentUid,
+) {
   return Padding(
     padding: const EdgeInsets.only(right: 5),
     child: IconButton(
@@ -276,12 +305,45 @@ Widget studentMeeting(BuildContext context) {
         size: 30,
       ),
       onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => TeacherMessages(),
-          ),
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Setup a meeting (title,content,date)'),
+              content: Column(
+                children: [
+                  TextField(
+                    controller: titleController,
+                  ),
+                  TextField(
+                    controller: contentController,
+                  ),
+                  TextField(
+                    controller: dateController,
+                  ),
+                  FlatButton(
+                    child: Text('setup'),
+                    onPressed: () {
+                      _fire.setUpStudentMeeting(
+                        titleController.text,
+                        contentController.text,
+                        dateController.text,
+                        studentUid,
+                      );
+                      Navigator.pop(context);
+                    },
+                  ),
+                ],
+              ),
+            );
+          },
         );
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder: (context) => TeacherMessages(),
+        //   ),
+        // );
       },
     ),
   );
