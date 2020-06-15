@@ -298,48 +298,49 @@ class Course extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      child: Container(
-        child: Card(
-          elevation: 2,
-          child: Column(
-            children: [
-              Expanded(
-                flex: 1,
-                child: Container(
-                  color: kPrimaryColor.withOpacity(0.8),
+        child: Container(
+          child: Card(
+            elevation: 2,
+            child: Column(
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    color: kPrimaryColor.withOpacity(0.8),
+                  ),
                 ),
-              ),
-              Expanded(
-                flex: 1,
-                child: Container(
-                  color: Colors.white,
-                  child: Align(
-                    alignment: Alignment.topLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                        top: 10,
-                        left: 10,
-                      ),
-                      child: Text(
-                        text,
-                        style: kSubTextStyle.copyWith(
-                            color: Colors.black, fontSize: 15.5),
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    color: Colors.white,
+                    child: Align(
+                      alignment: Alignment.topLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          top: 10,
+                          left: 10,
+                        ),
+                        child: Text(
+                          text,
+                          style: kSubTextStyle.copyWith(
+                              color: Colors.black, fontSize: 15.5),
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
-      ),
-      onTap: () =>
+        onTap: () {
+          print('pushing classview teacher');
           Navigator.pushNamed(context, ClassViewTeacher.routeName, arguments: {
-        'class name': text,
-        'class id': classId,
-        'teacher name': teacherName,
-      }),
-    );
+            'class name': text,
+            'class id': classId,
+            'teacher name': teacherName,
+          });
+        });
   }
 }
 

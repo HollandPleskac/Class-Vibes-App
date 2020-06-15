@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 final Firestore _firestore = Firestore();
 
 class ClassViewStudent extends StatefulWidget {
-  static const routeName = 'class-view-teacher';
+  static const routeName = 'class-view-student';
   @override
   _ClassViewStudentState createState() => _ClassViewStudentState();
 }
