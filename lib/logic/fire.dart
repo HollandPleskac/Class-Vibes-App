@@ -159,19 +159,44 @@ class Fire {
     }
   }
 
-  Future acceptInvitation({String classId, String studentUid, String studentName}) {
-
+  Future acceptInvitation(
+      {String classId, String studentUid, String studentName, String className}) {
+    print('trying to accept invite');
     //add to a student to the class
-    _firestore.collection('classes').document(classId).collection('students').document(studentUid).setData({
-      'date':DateFormat.yMMMMd('en_US').format(
-          DateTime.now(),
-        ),
-      'mood':'green',
-      'student naem':studentName,
+    _firestore
+        .collection('classes')
+        .document(classId)
+        .collection('students')
+        .document(studentUid)
+        .setData({
+      'date': DateFormat.yMMMMd('en_US').format(
+        DateTime.now(),
+      ),
+      'mood': 'green',
+      'student name': studentName,
     });
-    
+
     //remove invite out of students
-    _firestore.collection('studnets').document(studentUid).collection('invitations').document(classId).delete();
-    
+    _firestore
+        .collection('students')
+        .document(studentUid)
+        .collection('invitations')
+        .document(classId)
+        .delete();
+    print('complete!');
+
+    //add to students classes
+    _firestore
+        .collection('students')
+        .document(studentUid)
+        .collection('classes')
+        .document(classId)
+        .setData({
+      'class name': className,
+      'date': DateFormat.yMMMMd('en_US').format(
+        DateTime.now(),
+      ),
+      'mood': 'green',
+    });
   }
 }

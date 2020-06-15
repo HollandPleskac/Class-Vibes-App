@@ -24,6 +24,7 @@ class _TeacherClassesScreenState extends State<TeacherClassesScreen> {
   final TextEditingController _classIdController = TextEditingController();
 
   String teacherUid;
+  String teacherName = '';
 
   Future getTeacherUid() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -34,11 +35,23 @@ class _TeacherClassesScreenState extends State<TeacherClassesScreen> {
     print(teacherUid);
   }
 
+  Future getTeacherName(uid) async {
+    String nameOfTeacher =
+        await _firestore.collection('teachers').document(uid).get().then(
+              (docSnap) => docSnap.data['user name'],
+            );
+    teacherName = nameOfTeacher;
+    print(teacherName);
+  }
+
   @override
   void initState() {
     getTeacherUid().then((_) {
       print("got uid");
-      setState(() {});
+      getTeacherName(teacherUid).then((_) {
+        print("got name");
+        setState(() {});
+      });
     });
 
     super.initState();
@@ -46,14 +59,7 @@ class _TeacherClassesScreenState extends State<TeacherClassesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Future getTeacherUid() async {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-
-      String userUid = prefs.getString('uid');
-
-      teacherUid = userUid;
-      print(teacherUid);
-    }
+    
 
     return Scaffold(
       key: _scaffoldKey,
@@ -192,7 +198,7 @@ class _TeacherClassesScreenState extends State<TeacherClassesScreen> {
                               color: Colors.teal[200],
                               text: document['class name'],
                               classId: document.documentID,
-                              teacherName: document['student display name'],
+                              teacherName: teacherName,
                             );
                           }).toList(),
                         ),
@@ -332,7 +338,7 @@ class Course extends StatelessWidget {
           Navigator.pushNamed(context, ClassViewTeacher.routeName, arguments: {
         'class name': text,
         'class id': classId,
-        'teacher name':teacherName,
+        'teacher name': teacherName,
       }),
     );
   }

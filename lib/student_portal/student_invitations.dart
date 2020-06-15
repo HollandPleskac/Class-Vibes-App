@@ -29,20 +29,22 @@ class _StudentInvitationsState extends State<StudentInvitations> {
   }
 
   Future getStudentName(uid) async {
-    String nameOfStudent = await _firestore.collection('students').document(uid).get().then(
-          (docSnap) => docSnap.data['user name'],
-        );
+    String nameOfStudent =
+        await _firestore.collection('students').document(uid).get().then(
+              (docSnap) => docSnap.data['user name'],
+            );
 
-        studentName = nameOfStudent;
-        print(studentName);
+    studentName = nameOfStudent;
+    print(studentName);
   }
 
   @override
   void initState() {
     getStudentUid().then((_) {
       print("got uid");
-      setState(() {
-        print('uid ' + uid);
+      getStudentName(uid).then((_) {
+        print("got name");
+        setState(() {});
       });
     });
 
@@ -184,8 +186,8 @@ Widget invitation({
   return Container(
     child: Column(
       children: [
-        Text('class name ' + className),
-        Text('teacher name ' + teacherName),
+        Text('class name: ' + className.toString()),
+        Text('teacher name: ' + teacherName.toString()),
         RaisedButton(
           child: Text('accept'),
           onPressed: () {
@@ -193,6 +195,7 @@ Widget invitation({
               studentUid: uid,
               classId: classId,
               studentName: studentName,
+              className:className,
             );
           },
         ),
