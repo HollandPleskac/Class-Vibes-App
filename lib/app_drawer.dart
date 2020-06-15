@@ -9,6 +9,7 @@ import './teacher_portal/teacher_classes.dart';
 import './student_portal/student_view_classes.dart';
 import './student_portal/student_invitations.dart';
 import './student_portal/student_announcements.dart';
+import './student_portal/student_meetings.dart';
 class AppDrawer {
   Widget studentDrawer(context) {
     return Drawer(
@@ -74,6 +75,19 @@ class AppDrawer {
                 context,
                 MaterialPageRoute(
                   builder: (context) => StudentAnnouncements(),
+                ),
+              );
+            },
+          ),
+          ListTile(
+            title: Text('Student Meetings'),
+            onTap: () {
+              // Update the state of the app.
+              // ...
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => StudentMeetings(),
                 ),
               );
             },
