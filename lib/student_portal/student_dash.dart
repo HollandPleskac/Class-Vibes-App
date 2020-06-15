@@ -268,7 +268,6 @@ class _StudentDashState extends State<StudentDash> {
                         SizedBox(
                           width: 30,
                         ),
-                        
                         Spacer(),
                         Container(
                           margin: const EdgeInsets.only(top: 2),
@@ -359,27 +358,30 @@ class _StudentDashState extends State<StudentDash> {
                         SizedBox(
                           height: 2,
                         ),
-                        StreamBuilder(
-                            stream: Firestore.instance
-                                .collection('classes')
-                                .document(studentSelectedClassId)
-                                .snapshots(),
-                            builder: (context, snapshot) {
-                              if (!snapshot.hasData) {
-                                return Text('');
-                              } else {
-                                return Padding(
-                                  padding: EdgeInsets.only(left: 2),
-                                  child: Text(
-                                    snapshot.data['teacher'],
-                                    style: TextStyle(
-                                      color: kTextLightColor,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                );
-                              }
-                            }),
+                        studentSelectedClassNameDisplay == 'No Classes' ||
+                                studentSelectedClassNameDisplay == ''
+                            ? Container()
+                            : StreamBuilder(
+                                stream: Firestore.instance
+                                    .collection('classes')
+                                    .document(studentSelectedClassId)
+                                    .snapshots(),
+                                builder: (context, snapshot) {
+                                  if (!snapshot.hasData) {
+                                    return Text('');
+                                  } else {
+                                    return Padding(
+                                      padding: EdgeInsets.only(left: 2),
+                                      child: Text(
+                                        snapshot.data['teacher'],
+                                        style: TextStyle(
+                                          color: kTextLightColor,
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                }),
                       ],
                     ),
                     Spacer(),
@@ -421,63 +423,70 @@ class _StudentDashState extends State<StudentDash> {
                     ),
                     // dynamic
 
-                    StreamBuilder(
-                      stream: Firestore.instance
-                          .collection('classes')
-                          .document(studentSelectedClassId)
-                          .collection('students')
-                          .document(studentUid)
-                          .snapshots(),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasError) {
-                          return Text("Error : ${snapshot.error}");
-                        } else {
-                          switch (snapshot.connectionState) {
-                            case ConnectionState.waiting:
-                              return Container(
-                                height: 80,
-                                width: 80,
-                              );
-                            default:
-                              var document = snapshot.data;
-                              return Align(
-                                alignment: Alignment.center,
-                                child: Container(
-                                  height: 80,
-                                  width: 80,
-                                  child: Center(
-                                    child: document['mood'] == "green"
-                                        ? Image.asset(
-                                            'assets/images/happy face.png',
-                                            width: 55,
-                                            height: 55,
-                                          )
-                                        : document['mood'] == 'red'
-                                            ? Image.asset(
-                                                'assets/images/sad face.png',
-                                                width: 55,
-                                                height: 55,
-                                              )
-                                            : document['mood'] == 'yellow'
-                                                ? Image.asset(
-                                                    'assets/images/thinking face.png',
-                                                    width: 55,
-                                                    height: 55,
-                                                  )
-                                                : Text(
-                                                    '',
-                                                    style: kHeadingTextStyle
-                                                        .copyWith(
-                                                            color: Colors.grey,
-                                                            fontSize: 18),
-                                                  ),
-                                  ),
-                                ),
-                              );
-                          }
-                        }
-                      },
-                    ),
+                    studentSelectedClassNameDisplay == 'No Classes' ||
+                            studentSelectedClassNameDisplay == ''
+                        ? Container(
+                            child: Text(
+                                'join a class before\nyou can select your mood'),
+                          )
+                        : StreamBuilder(
+                            stream: Firestore.instance
+                                .collection('classes')
+                                .document(studentSelectedClassId)
+                                .collection('students')
+                                .document(studentUid)
+                                .snapshots(),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasError) {
+                                return Text("Error : ${snapshot.error}");
+                              } else {
+                                switch (snapshot.connectionState) {
+                                  case ConnectionState.waiting:
+                                    return Container(
+                                      height: 80,
+                                      width: 80,
+                                    );
+                                  default:
+                                    var document = snapshot.data;
+                                    return Align(
+                                      alignment: Alignment.center,
+                                      child: Container(
+                                        height: 80,
+                                        width: 80,
+                                        child: Center(
+                                          child: document['mood'] == "green"
+                                              ? Image.asset(
+                                                  'assets/images/happy face.png',
+                                                  width: 55,
+                                                  height: 55,
+                                                )
+                                              : document['mood'] == 'red'
+                                                  ? Image.asset(
+                                                      'assets/images/sad face.png',
+                                                      width: 55,
+                                                      height: 55,
+                                                    )
+                                                  : document['mood'] == 'yellow'
+                                                      ? Image.asset(
+                                                          'assets/images/thinking face.png',
+                                                          width: 55,
+                                                          height: 55,
+                                                        )
+                                                      : Text(
+                                                          '',
+                                                          style: kHeadingTextStyle
+                                                              .copyWith(
+                                                                  color: Colors
+                                                                      .grey,
+                                                                  fontSize: 18),
+                                                        ),
+                                        ),
+                                      ),
+                                    );
+                                }
+                              }
+                            },
+                          ),
                   ],
                 ),
 

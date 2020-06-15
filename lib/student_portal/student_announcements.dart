@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../constant.dart';
 
 final Firestore _firestore = Firestore.instance;
 
@@ -10,7 +11,6 @@ class StudentAnnouncements extends StatefulWidget {
 }
 
 class _StudentAnnouncementsState extends State<StudentAnnouncements> {
-
   String studentUid = '';
   String studentSelectedClassId = '';
   String studentSelectedClassName;
@@ -36,7 +36,7 @@ class _StudentAnnouncementsState extends State<StudentAnnouncements> {
     }
   }
 
-Future getStudentClassName(uid, selectedClassId) async {
+  Future getStudentClassName(uid, selectedClassId) async {
     try {
       String className = await _firestore
           .collection('classes')
@@ -66,7 +66,6 @@ Future getStudentClassName(uid, selectedClassId) async {
               print('uid ' + studentUid);
               print('class id ' + studentSelectedClassId);
               print('class name display' + studentSelectedClassName);
-              
             });
           },
         );
@@ -78,7 +77,76 @@ Future getStudentClassName(uid, selectedClassId) async {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+    return Scaffold(
+      key: _scaffoldKey,
+      body: Column(
+        children: [
+          Container(
+              padding: EdgeInsets.only(
+                left: MediaQuery.of(context).size.width * 0.1,
+                top: MediaQuery.of(context).size.height * 0.06,
+                right: MediaQuery.of(context).size.width * 0.05,
+              ),
+              height: MediaQuery.of(context).size.height * 0.4,
+              //height:350
+              width: double.infinity,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    kPrimaryColor,
+                    Colors.blue[700],
+                  ],
+                ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Expanded(
+                    child: Stack(
+                      children: <Widget>[
+                        IconButton(
+                          icon: Icon(
+                            Icons.menu,
+                            color: Colors.white,
+                            size: 28,
+                          ),
+                          onPressed: () =>
+                              _scaffoldKey.currentState.openDrawer(),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              top: MediaQuery.of(context).size.height * 0.085),
+                          child: Align(
+                            alignment: Alignment.topCenter,
+                            child: Column(
+                              children: [
+                                Text(
+                                  'Welcome Back',
+                                  style: kHeadingTextStyle.copyWith(
+                                      color: Colors.white, fontSize: 32),
+                                ),
+                                SizedBox(
+                                  height: 15,
+                                ),
+                                Text(
+                                  'Holland Pleskac',
+                                  style: kSubTextStyle.copyWith(
+                                      color: Colors.white, fontSize: 18),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          Container(
             height: 300,
             child: StreamBuilder(
               stream: _firestore
@@ -86,8 +154,8 @@ Future getStudentClassName(uid, selectedClassId) async {
                   .document(studentSelectedClassId)
                   .collection('announcements')
                   .snapshots(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<QuerySnapshot> snapshot) {
+              builder:
+                  (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 }
@@ -98,7 +166,8 @@ Future getStudentClassName(uid, selectedClassId) async {
                     );
 
                   default:
-                    return snapshot.data == null || snapshot.data.documents.isEmpty == true
+                    return snapshot.data == null ||
+                            snapshot.data.documents.isEmpty == true
                         ? Container(
                             child: Text('no announcements'),
                           )
@@ -115,11 +184,13 @@ Future getStudentClassName(uid, selectedClassId) async {
                                   .toList(),
                             ),
                           );
-                    ;
                 }
               },
             ),
-          );
+          ),
+        ],
+      ),
+    );
   }
 }
 
@@ -137,8 +208,8 @@ class Announcement extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Padding(
-        padding: EdgeInsets.only(top:15),
-              child: Column(
+        padding: EdgeInsets.only(top: 15),
+        child: Column(
           children: [
             Text('announcement title : ' + title),
             Text('announcement content: ' + content),

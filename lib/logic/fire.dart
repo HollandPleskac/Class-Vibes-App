@@ -215,9 +215,23 @@ class Fire {
       'date': DateFormat.yMMMMd('en_US').format(
         DateTime.now(),
       ),
-      'title':title,
+      'title': title,
       'content': content,
-
     });
+
+    // push announcements to student view for mass announcement view
+
+    // _firestore
+    //     .collection('students')
+    //     .document(studentUid)
+    //     .collection('announements')
+    //     .document()
+    //     .setData({
+    //       'date': DateFormat.yMMMMd('en_US').format(
+    //     DateTime.now(),
+    //   ),
+    //   'title': title,
+    //   'content': content,
+    //     });
   }
 }

@@ -1,12 +1,14 @@
 import 'package:cyber_dojo_app/teacher_portal/teacher_dash.dart';
 import 'package:cyber_dojo_app/teacher_portal/teacher_profile.dart';
 import 'package:flutter/material.dart';
+
+
 import './student_portal/student_dash.dart';
 import './student_portal/student_profile.dart';
 import './teacher_portal/teacher_classes.dart';
 import './student_portal/student_view_classes.dart';
 import './student_portal/student_invitations.dart';
-
+import './student_portal/student_announcements.dart';
 class AppDrawer {
   Widget studentDrawer(context) {
     return Drawer(
@@ -59,6 +61,19 @@ class AppDrawer {
                 context,
                 MaterialPageRoute(
                   builder: (context) => StudentInvitations(),
+                ),
+              );
+            },
+          ),
+          ListTile(
+            title: Text('Student Announcements'),
+            onTap: () {
+              // Update the state of the app.
+              // ...
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => StudentAnnouncements(),
                 ),
               );
             },
