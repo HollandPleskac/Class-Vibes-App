@@ -235,6 +235,8 @@ class Fire {
       'class id': _randomString,
       'class code':_classCode,
     });
+
+    _firestore.collection('user data').document(teacherUid).setData({'selected class' : _randomString});
   }
 
   // Future<String> inviteStudent({
