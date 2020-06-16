@@ -7,9 +7,9 @@ import './student_portal/student_dash.dart';
 import './student_portal/student_profile.dart';
 import './teacher_portal/teacher_classes.dart';
 import './student_portal/student_view_classes.dart';
-import './student_portal/student_invitations.dart';
 import './student_portal/student_announcements.dart';
 import './student_portal/student_meetings.dart';
+import './student_portal/student_join_class.dart';
 class AppDrawer {
   Widget studentDrawer(context) {
     return Drawer(
@@ -54,18 +54,19 @@ class AppDrawer {
             },
           ),
           ListTile(
-            title: Text('Student Invitations'),
+            title: Text('student join class'),
             onTap: () {
-              // Update the state of the app.
-              // ...
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => StudentInvitations(),
+                  builder: (context) => StudentJoinClassScreen(),
                 ),
               );
+              // Update the state of the app.
+              // ...
             },
           ),
+         
           ListTile(
             title: Text('Student Announcements'),
             onTap: () {

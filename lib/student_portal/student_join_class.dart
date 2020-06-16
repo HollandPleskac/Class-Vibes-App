@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constant.dart';
 import '../app_drawer.dart';
@@ -9,10 +10,56 @@ final _appDrawer = AppDrawer();
 final Firestore _firestore = Firestore.instance;
 final _fire = Fire();
 
-class StudentJoinClassScreen extends StatelessWidget {
+class StudentJoinClassScreen extends StatefulWidget {
+  @override
+  _StudentJoinClassScreenState createState() => _StudentJoinClassScreenState();
+}
+
+class _StudentJoinClassScreenState extends State<StudentJoinClassScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  String studentUid = '';
+
+  String studentName = '';
+
+  Future getStudentUid() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    String userUid = prefs.getString('uid');
+
+    studentUid = userUid;
+    print(studentUid);
+  }
+
+  Future getStudentName(uid) async {
+    String nameOfStudent = await _firestore
+        .collection('user data')
+        .document(uid)
+        .get()
+        .then((docSnap) => docSnap.data['user name']);
+
+    studentName = nameOfStudent;
+  }
+
+  @override
+  void initState() {
+    getStudentUid().then((_) {
+      print("got uid");
+      getStudentName(studentUid).then((_) {
+        print("got student name ");
+        setState(() {
+
+        });
+      });
+    });
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+    final TextEditingController _joinClassController = TextEditingController();
+
     return Scaffold(
       key: _scaffoldKey,
       drawer: _appDrawer.studentDrawer(context),
@@ -61,7 +108,7 @@ class StudentJoinClassScreen extends StatelessWidget {
                             child: Column(
                               children: [
                                 Text(
-                                  'Welcome Back',
+                                  'Join a class',
                                   style: kHeadingTextStyle.copyWith(
                                       color: Colors.white, fontSize: 32),
                                 ),
@@ -69,7 +116,7 @@ class StudentJoinClassScreen extends StatelessWidget {
                                   height: 15,
                                 ),
                                 Text(
-                                  'Holland Pleskac',
+                                  'as Holland Pleskac',
                                   style: kSubTextStyle.copyWith(
                                       color: Colors.white, fontSize: 18),
                                 )
@@ -83,66 +130,19 @@ class StudentJoinClassScreen extends StatelessWidget {
                 ],
               ),
             ),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: EdgeInsets.only(left: 20, top: 20),
-                child: Text(
-                  'Email',
-                  style: kHeadingTextStyle.copyWith(fontSize: 24),
-                ),
-              ),
+            Text('Join a class (enter class code)'),
+            TextField(
+              controller: _joinClassController,
             ),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: EdgeInsets.only(left: 20, top: 20),
-                child: Text(
-                  '1069338@lammersvilleusd.net',
-                  style: kSubTextStyle.copyWith(
-                      fontSize: 18, color: kPrimaryColor),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: EdgeInsets.only(left: 20, top: 20),
-                child: Text(
-                  'User Name',
-                  style: kHeadingTextStyle.copyWith(fontSize: 24),
-                ),
-              ),
-            ),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: EdgeInsets.only(left: 20, top: 20),
-                child: Text(
-                  'Holland Pleskac',
-                  style: kSubTextStyle.copyWith(
-                      fontSize: 18, color: kPrimaryColor),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            FlatButton(
-              color: kPrimaryColor,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(2),
-              ),
-              child: Text(
-                'Sign Out',
-                style: kSubTextStyle.copyWith(
-                  color: Colors.white,
-                ),
-              ),
-              onPressed: () {},
+            RaisedButton(
+              child: Text('join'),
+              onPressed: () {
+                _fire.joinClass(
+                  classCode: _joinClassController.text,
+                  studentName: studentName,
+                  studentUid: studentUid,
+                );
+              },
             ),
           ],
         ),
