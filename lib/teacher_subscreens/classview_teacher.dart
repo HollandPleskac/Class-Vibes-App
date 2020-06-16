@@ -17,12 +17,14 @@ class ClassViewTeacher extends StatefulWidget {
 
 class _ClassViewTeacherState extends State<ClassViewTeacher> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  String sortedChoice = 'yellow';
   @override
   Widget build(BuildContext context) {
     final routeArguments = ModalRoute.of(context).settings.arguments as Map;
     final String className = routeArguments['class name'];
     final String classId = routeArguments['class id'];
     final String teacherName = routeArguments['teacher name'];
+
     //meeting controllers
     final TextEditingController titleController = TextEditingController();
     final TextEditingController contentController = TextEditingController();
@@ -35,6 +37,8 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
         TextEditingController();
     final TextEditingController _inviteStudentController =
         TextEditingController();
+
+    
 
     return Scaffold(
       key: _scaffoldKey,
@@ -103,40 +107,90 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
             SizedBox(
               height: 10,
             ),
-            //SEARCH BAR
-            Center(
-              child: Container(
-                width: MediaQuery.of(context).size.width * 0.9,
-                height: 52,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(1000),
-                    border: Border.all(color: kPrimaryColor, width: 2)),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(left: 20),
-                      child: TextFormField(
-                        maxLines: 1,
-                        keyboardType: TextInputType.text,
-                        style: kSubTextStyle.copyWith(color: kPrimaryColor),
-                        autofocus: false,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          //hintStyle: kSubTextStyle.copyWith(color: kPrimaryColor),
-                          labelStyle: TextStyle(
-                            color: Colors.white,
-                          ),
-                          hintText: 'search',
-                          icon: Icon(Icons.person),
-                        ),
-                      ),
+            //Sorting Bar
+
+            Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  InkWell(
+                    onTap: () {
+                      setState(() {
+                        sortedChoice = 'All Students';
+                      });
+                      print(sortedChoice);
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(left: 4, right: 4),
+                      height: 40,
+                      width: 80,
+                      color: kPrimaryColor,
+                      child: Center(
+                          child: Text(
+                        'all',
+                        style: kSubTextStyle.copyWith(color: Colors.white),
+                      )),
                     ),
-                  ],
-                ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      setState(() {
+                        sortedChoice = 'green';
+                      });
+                      print(sortedChoice);
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(left: 4, right: 4),
+                      height: 40,
+                      width: 80,
+                      color: kPrimaryColor,
+                      child: Center(
+                          child: Text(
+                        'green',
+                        style: kSubTextStyle.copyWith(color: Colors.white),
+                      )),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      setState(() {
+                        sortedChoice = 'yellow';
+                      });
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(left: 4, right: 4),
+                      height: 40,
+                      width: 80,
+                      color: kPrimaryColor,
+                      child: Center(
+                          child: Text(
+                        'yellow',
+                        style: kSubTextStyle.copyWith(color: Colors.white),
+                      )),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      setState(() {
+                        sortedChoice = 'red';
+                      });
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(left: 4, right: 4),
+                      height: 40,
+                      width: 80,
+                      color: kPrimaryColor,
+                      child: Center(
+                          child: Text(
+                        'red',
+                        style: kSubTextStyle.copyWith(color: Colors.white),
+                      )),
+                    ),
+                  ),
+                ],
               ),
             ),
+
             SizedBox(
               height: 15,
             ),
@@ -149,8 +203,7 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
                     .collection('classes')
                     .document(classId)
                     .collection('students')
-                    .orderBy('mood', descending: true)
-                    .orderBy('date', descending: true)
+                    .where('mood', isEqualTo: sortedChoice)
                     .snapshots(),
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -192,7 +245,6 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
                                   dateController: dateController,
                                   studentUid: document.documentID,
                                   titleController: titleController,
-
                                 );
                               },
                             ).toList(),
@@ -223,7 +275,7 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
   }
 }
 
-class PushAnnouncement extends StatelessWidget {
+class PushAnnouncement extends StatefulWidget {
   final TextEditingController contentController;
   final TextEditingController titleController;
   final String classId;
@@ -237,6 +289,12 @@ class PushAnnouncement extends StatelessWidget {
     this.dateController,
     this.studentUid,
   });
+
+  @override
+  _PushAnnouncementState createState() => _PushAnnouncementState();
+}
+
+class _PushAnnouncementState extends State<PushAnnouncement> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -267,8 +325,10 @@ class PushAnnouncement extends StatelessWidget {
                       Icons.arrow_forward,
                     ),
                     onPressed: () {
-                      _fire.pushAnnouncement(classId, contentController.text,
-                          titleController.text);
+                      _fire.pushAnnouncement(
+                          widget.classId,
+                          widget.contentController.text,
+                          widget.titleController.text);
                     },
                   ),
                 ),
@@ -277,7 +337,7 @@ class PushAnnouncement extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(left: 50, top: 00),
               child: TextField(
-                controller: titleController,
+                controller: widget.titleController,
                 maxLines: 1,
                 keyboardType: TextInputType.text,
                 style: kSubTextStyle.copyWith(color: kPrimaryColor),
@@ -296,7 +356,7 @@ class PushAnnouncement extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(left: 50, top: 00),
               child: TextField(
-                controller: contentController,
+                controller: widget.contentController,
                 maxLines: 1,
                 keyboardType: TextInputType.text,
                 style: kSubTextStyle.copyWith(color: kPrimaryColor),
@@ -416,7 +476,6 @@ class Student extends StatelessWidget {
                         ],
                       ),
                     ),
-                    
                   ],
                 ),
               ),

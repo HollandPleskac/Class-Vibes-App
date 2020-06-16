@@ -5,66 +5,139 @@ import 'package:intl/intl.dart';
 final Firestore _firestore = Firestore();
 
 class Fire {
-  void createStudentAccount({String userUid, String email, String userName
-      //String school,
-      //String studentId,
-      }) {
-    _firestore.collection('students').document(userUid).setData(
-      {
-        'email': email,
-        'user name': userName,
-        //'school': school,
-        //'student id': studentId,
-        'selected class': 'no selected class',
-      },
-    );
+  // void createStudentAccount({String userUid, String email, String userName
+  //     //String school,
+  //     //String studentId,
+  //     }) {
+  //   _firestore.collection('students').document(userUid).setData(
+  //     {
+  //       'email': email,
+  //       'user name': userName,
+  //       //'school': school,
+  //       //'student id': studentId,
+  //       'selected class': 'no selected class',
+  //     },
+  //   );
+  // }
+
+  void createStudentAccount({String userUid, String email, String userName}) {
+    _firestore.collection('user data').document(userUid).setData({
+      'email': email,
+      'user name': userName,
+      'selected class': 'no selected class',
+      'account status': 'activated',
+      'account type': 'student',
+    });
   }
 
-  void createTeacherAccount({
-    String userUid,
-    String email,
-    String userName,
-    //String school,
-    //String professionalName,
-  }) {
-    _firestore.collection('teachers').document(userUid).setData(
-      {
-        'email': email,
-        'user name': userName,
-        'selected class': 'no selected class',
-        'student display name': userName,
-        //'professional name': professionalName,
-      },
-    );
+  // void createTeacherAccount({
+  //   String userUid,
+  //   String email,
+  //   String userName,
+  //   //String school,
+  //   //String professionalName,
+  // }) {
+  //   _firestore.collection('teachers').document(userUid).setData(
+  //     {
+  //       'email': email,
+  //       'user name': userName,
+  //       'selected class': 'no selected class',
+  //       'student display name': userName,
+  //       //'professional name': professionalName,
+  //     },
+  //   );
+  // }
+
+  void createTeacherAccount({String userUid, String email, String userName}) {
+    _firestore.collection('user data').document(userUid).setData({
+      'email': email,
+      'user name': userName,
+      'selected class': 'no selected class',
+      'account status': 'activated',
+      'account type': 'teacher',
+    });
   }
 
-  Future<String> getLoginType({
-    String email,
-  }) async {
+  // Future<String> getLoginType({
+  //   String email,
+  // }) async {
+  //   try {
+  //     String teacherQueryResult = await _firestore
+  //         .collection('teachers')
+  //         .where('email', isEqualTo: email)
+  //         .getDocuments()
+  //         .then(
+  //           (querySnap) => querySnap.documents[0].documentID.toString(),
+  //         );
+  //     print(
+  //       'teacher result ' + teacherQueryResult.toString(),
+  //     );
+  //     return 'teacher';
+  //   } catch (e) {
+  //     return 'student';
+  //   }
+  // }
+
+  Future<String> getLoginType({String email}) async {
     try {
-      String teacherQueryResult = await _firestore
-          .collection('teachers')
+      String queryResult = await _firestore
+          .collection('user data')
           .where('email', isEqualTo: email)
+          .where('account type', isEqualTo: 'teacher')
           .getDocuments()
           .then(
-            (querySnap) => querySnap.documents[0].documentID.toString(),
-          );
-      print(
-        'teacher result ' + teacherQueryResult.toString(),
-      );
+              (querySnap) => querySnap.documents[0]['account type'].toString());
       return 'teacher';
     } catch (e) {
-      return 'student';
+      String queryResult = await _firestore
+          .collection('user data')
+          .where('email', isEqualTo: email)
+          .where('account type', isEqualTo: 'student')
+          .getDocuments()
+          .then(
+              (querySnap) => querySnap.documents[0]['account type'].toString());
+      if (queryResult == 'student') {
+        return 'student';
+      } else {
+        return 'no account with this email';
+      }
     }
   }
 
-  void updateStudentMood({
-    String studentUid,
-    String classId,
-    String newMood,
-  }) {
+  // void updateStudentMood({
+  //   String studentUid,
+  //   String classId,
+  //   String newMood,
+  // }) {
+  //   _firestore
+  //       .collection('students')
+  //       .document(studentUid)
+  //       .collection('classes')
+  //       .document(classId)
+  //       .updateData({
+  //     'mood': newMood,
+  //     'date': DateFormat.yMMMMd('en_US').format(
+  //       DateTime.now(),
+  //     ),
+  //   });
+
+  // _firestore
+  //     .collection('classes')
+  //     .document(classId)
+  //     .collection('students')
+  //     .document(studentUid)
+  //     .updateData(
+  //   {
+  //     'mood': newMood,
+  //     'date': DateFormat.yMMMMd('en_US').format(
+  //       DateTime.now(),
+  //     ),
+  //   },
+  // );
+
+  void updateStudentMood({String studentUid, String classId, String newMood}) {
     _firestore
-        .collection('students')
+        .collection('user data')
         .document(studentUid)
         .collection('classes')
         .document(classId)
@@ -80,73 +153,139 @@ class Fire {
         .document(classId)
         .collection('students')
         .document(studentUid)
-        .updateData(
-      {
-        'mood': newMood,
-        'date': DateFormat.yMMMMd('en_US').format(
-          DateTime.now(),
-        ),
-      },
-    );
+        .updateData({
+      'mood': newMood,
+      'date': DateFormat.yMMMMd('en_US').format(
+        DateTime.now(),
+      )
+    });
   }
 
-  void setStudentSelectedClass({
-    String studentUid,
-    String classId,
-  }) {
-    _firestore.collection('students').document(studentUid).updateData(
-      {'selected class': classId},
-    );
+  // void setStudentSelectedClass({
+  //   String studentUid,
+  //   String classId,
+  // }) {
+  //   _firestore.collection('students').document(studentUid).updateData(
+  //     {'selected class': classId},
+  //   );
+  // }
+
+  void setStudentSelectedClass({String studentUid, String classId}) {
+    _firestore
+        .collection('user data')
+        .document(studentUid)
+        .updateData({'selected class': classId});
   }
+
+  // void setTeacherSelectedClass({String teacherUid, String classId}) {
+  //   _firestore.collection('teachers').document(teacherUid).updateData(
+  //     {'selected class': classId},
+  //   );
+  // }
 
   void setTeacherSelectedClass({String teacherUid, String classId}) {
-    _firestore.collection('teachers').document(teacherUid).updateData(
-      {'selected class': classId},
-    );
-  }
-
-  void createClass({
-    String teacherUid,
-    String className,
-    String classId,
-    String teacherName,
-  }) {
-    var _randomString = randomAlphaNumeric(30);
-    _firestore.collection('classes').document(_randomString).setData({
-      'class name': className,
-      'teacher': teacherName,
-    });
-
     _firestore
         .collection('teachers')
         .document(teacherUid)
-        .collection('classes')
-        .document(_randomString)
-        .setData(
-      {
-        'class name': className,
-        'class id': classId,
-      },
-    );
+        .updateData({'selected class': classId});
   }
 
-  Future<String> inviteStudent({
-    String studentEmail,
-    String classId,
-    String teacherName,
-    String className,
-  }) async {
+  // void createClass({
+  //   String teacherUid,
+  //   String className,
+  //   String classId,
+  //   String teacherName,
+  // }) {
+  //   var _randomString = randomAlphaNumeric(30);
+  //   _firestore.collection('classes').document(_randomString).setData({
+  //     'class name': className,
+  //     'teacher': teacherName,
+  //   });
+
+  //   _firestore
+  //       .collection('teachers')
+  //       .document(teacherUid)
+  //       .collection('classes')
+  //       .document(_randomString)
+  //       .setData(
+  //     {
+  //       'class name': className,
+  //       'class id': classId,
+  //     },
+  //   );
+  // }
+
+  void createClass(
+      {String teacherUid,
+      String className,
+      String classId,
+      String teacherName}) {
+    var _randomString = randomAlphaNumeric(30);
+
+    _firestore.collection('classes').document(_randomString).setData({
+      'class name': className,
+      'class id': classId,
+    });
+
+    _firestore
+        .collection('user data')
+        .document(teacherUid)
+        .collection('classes')
+        .document(_randomString)
+        .setData({
+      'class name': className,
+      'class id': classId,
+    });
+  }
+
+  // Future<String> inviteStudent({
+  //   String studentEmail,
+  //   String classId,
+  //   String teacherName,
+  //   String className,
+  // }) async {
+  //   try {
+  //     String studentUid = await _firestore
+  //         .collection('students')
+  //         .where('email', isEqualTo: studentEmail)
+  //         .getDocuments()
+  //         .then(
+  //           (querySnap) => querySnap.documents[0].documentID.toString(),
+  //         );
+
+  //     _firestore
+  //         .collection('students')
+  //         .document(studentUid)
+  //         .collection('invitations')
+  //         .document(classId)
+  //         .setData({
+  //       'teacher name': teacherName,
+  //       'class name': className,
+  //       'class id': classId,
+  //     });
+  //     return 'success';
+  //   } catch (e) {
+  //     return 'fail';
+  //   }
+  // }
+
+  Future<String> inviteStudent(
+      {String studentEmail,
+      String classId,
+      String teacherName,
+      String className}) async {
     try {
       String studentUid = await _firestore
-          .collection('students')
+          .collection('user data')
           .where('email', isEqualTo: studentEmail)
+          .where('account type', isEqualTo: 'student')
           .getDocuments()
           .then(
             (querySnap) => querySnap.documents[0].documentID.toString(),
           );
 
       _firestore
-          .collection('students')
+          .collection('user data')
           .document(studentUid)
           .collection('invitations')
           .document(classId)
@@ -161,6 +300,51 @@ class Fire {
     }
   }
 
+  // Future acceptInvitation(
+  //     {String classId,
+  //     String studentUid,
+  //     String studentName,
+  //     String className}) {
+  //   print('trying to accept invite');
+  //   //add to a student to the class
+  //   _firestore
+  //       .collection('classes')
+  //       .document(classId)
+  //       .collection('students')
+  //       .document(studentUid)
+  //       .setData({
+  //     'date': DateFormat.yMMMMd('en_US').format(
+  //       DateTime.now(),
+  //     ),
+  //     'mood': 'green',
+  //     'student name': studentName,
+  //   });
+
+  //   //remove invite out of students
+  //   _firestore
+  //       .collection('students')
+  //       .document(studentUid)
+  //       .collection('invitations')
+  //       .document(classId)
+  //       .delete();
+  //   print('complete!');
+
+  //   //add to students classes
+  //   _firestore
+  //       .collection('students')
+  //       .document(studentUid)
+  //       .collection('classes')
+  //       .document(classId)
+  //       .setData({
+  //     'class name': className,
+  //     'date': DateFormat.yMMMMd('en_US').format(
+  //       DateTime.now(),
+  //     ),
+  //     'mood': 'green',
+  //   });
+  // }
+
+  
   Future acceptInvitation(
       {String classId,
       String studentUid,
@@ -183,7 +367,7 @@ class Fire {
 
     //remove invite out of students
     _firestore
-        .collection('students')
+        .collection('user data')
         .document(studentUid)
         .collection('invitations')
         .document(classId)
@@ -192,7 +376,7 @@ class Fire {
 
     //add to students classes
     _firestore
-        .collection('students')
+        .collection('user data')
         .document(studentUid)
         .collection('classes')
         .document(classId)
@@ -218,26 +402,24 @@ class Fire {
       'title': title,
       'content': content,
     });
-
-    // push announcements to student view for mass announcement view
-
-    // _firestore
-    //     .collection('students')
-    //     .document(studentUid)
-    //     .collection('announements')
-    //     .document()
-    //     .setData({
-    //       'date': DateFormat.yMMMMd('en_US').format(
-    //     DateTime.now(),
-    //   ),
-    //   'title': title,
-    //   'content': content,
-    //     });
   }
 
-  Future setUpStudentMeeting(String title, String content, String date, String studentUid) {
+  // void setUpStudentMeeting(
+  //     String title, String content, String date, String studentUid) {
+  //   _firestore
+  //       .collection('students')
+  //       .document(studentUid)
+  //       .collection('meetings')
+  //       .document()
+  //       .setData(
+  //     {'title': title, 'content': content, 'date': date},
+  //   );
+  // }
+
+  void setUpStudentMeeting(
+      String title, String content, String date, String studentUid) {
     _firestore
-        .collection('students')
+        .collection('user data')
         .document(studentUid)
         .collection('meetings')
         .document()

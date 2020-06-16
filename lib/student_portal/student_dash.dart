@@ -49,7 +49,7 @@ class _StudentDashState extends State<StudentDash> {
   Future getStudentClassId(String uid) async {
     try {
       String classIdentification =
-          await _firestore.collection('students').document(uid).get().then(
+          await _firestore.collection('user data').document(uid).get().then(
                 (docSnap) => docSnap.data['selected class'],
               );
       studentSelectedClassId = classIdentification;
@@ -93,7 +93,7 @@ class _StudentDashState extends State<StudentDash> {
 
   Future setStudentNewSelectedClassID(String newSelectedClassName) async {
     String newSelectedClassId = await _firestore
-        .collection('students')
+        .collection('user data')
         .document(studentUid)
         .collection('classes')
         .where('class name', isEqualTo: newSelectedClassName)
@@ -248,7 +248,7 @@ class _StudentDashState extends State<StudentDash> {
             ),
             child: StreamBuilder<QuerySnapshot>(
                 stream: Firestore.instance
-                    .collection("students")
+                    .collection("user data")
                     .document(studentUid)
                     .collection('classes')
                     .snapshots(),
