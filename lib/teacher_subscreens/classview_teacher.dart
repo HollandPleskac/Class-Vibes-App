@@ -17,7 +17,9 @@ class ClassViewTeacher extends StatefulWidget {
 
 class _ClassViewTeacherState extends State<ClassViewTeacher> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  String sortedChoice = 'yellow';
+  String sortedChoice = 'green';
+  bool isSelectedAll = true;
+
   @override
   Widget build(BuildContext context) {
     final routeArguments = ModalRoute.of(context).settings.arguments as Map;
@@ -113,15 +115,15 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
                   InkWell(
                     onTap: () {
                       setState(() {
-                        sortedChoice = 'All Students';
+                        sortedChoice = 'all';
+                        isSelectedAll = true;
                       });
-                      print(sortedChoice);
                     },
                     child: Container(
                       margin: EdgeInsets.only(left: 4, right: 4),
                       height: 40,
                       width: 80,
-                      color: kPrimaryColor,
+                      color: sortedChoice == 'all' ? Colors.purple : kPrimaryColor,
                       child: Center(
                           child: Text(
                         'all',
@@ -133,14 +135,14 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
                     onTap: () {
                       setState(() {
                         sortedChoice = 'green';
+                        isSelectedAll = false;
                       });
-                      print(sortedChoice);
                     },
                     child: Container(
                       margin: EdgeInsets.only(left: 4, right: 4),
                       height: 40,
                       width: 80,
-                      color: kPrimaryColor,
+                      color: sortedChoice == 'green' ? kGreenColor : kPrimaryColor,
                       child: Center(
                           child: Text(
                         'green',
@@ -152,13 +154,14 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
                     onTap: () {
                       setState(() {
                         sortedChoice = 'yellow';
+                        isSelectedAll = false;
                       });
                     },
                     child: Container(
                       margin: EdgeInsets.only(left: 4, right: 4),
                       height: 40,
                       width: 80,
-                      color: kPrimaryColor,
+                      color: sortedChoice == 'yellow' ? Color(0xfff8b250) : kPrimaryColor,
                       child: Center(
                           child: Text(
                         'yellow',
@@ -170,13 +173,14 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
                     onTap: () {
                       setState(() {
                         sortedChoice = 'red';
+                        isSelectedAll = false;
                       });
                     },
                     child: Container(
                       margin: EdgeInsets.only(left: 4, right: 4),
                       height: 40,
                       width: 80,
-                      color: kPrimaryColor,
+                      color: sortedChoice == 'red' ? kRedColor : kPrimaryColor,
                       child: Center(
                           child: Text(
                         'red',
@@ -196,12 +200,19 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
             Container(
               height: 380,
               child: StreamBuilder(
-                stream: _firestore
-                    .collection('classes')
-                    .document(classId)
-                    .collection('students')
-                    .where('mood', isEqualTo: sortedChoice)
-                    .snapshots(),
+                //takes off the where query if the teacher wishes to see all students
+                stream: isSelectedAll == false
+                    ? _firestore
+                        .collection('classes')
+                        .document(classId)
+                        .collection('students')
+                        .where('mood', isEqualTo: sortedChoice)
+                        .snapshots()
+                    : _firestore
+                        .collection('classes')
+                        .document(classId)
+                        .collection('students')
+                        .snapshots(),
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.hasError) {
@@ -637,7 +648,8 @@ class _AddStudentIconState extends State<AddStudentIcon> {
                   content: StatefulBuilder(
                     builder: (BuildContext context, StateSetter setState) {
                       return Container(
-                        child: Text('Class Code : ' + widget.classCode.toString()),
+                        child:
+                            Text('Class Code : ' + widget.classCode.toString()),
                       );
                     },
                   ),
