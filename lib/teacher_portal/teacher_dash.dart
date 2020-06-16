@@ -486,7 +486,6 @@ class PieChart2State extends State {
                                 PieTouchData(touchCallback: (pieTouchResponse) {
                               print(pieTouchResponse.touchedSectionIndex);
                               setState(() {
-
                                 //getting variables for green,yellow, and red students
                                 var greenStudents = snapshot.data.documents
                                     .where((documentSnapshot) =>
@@ -524,7 +523,6 @@ class PieChart2State extends State {
                                         .length
                                         .toDouble());
 
-                                
                                 // if (
                                 //   pieTouchResponse.touchInput
                                 //         is FlLongPressEnd ||
@@ -533,14 +531,15 @@ class PieChart2State extends State {
                                 //   touchedIndex = -1;
                                 // } else {
 
-                                  //regular way to get the touched index
+                                //regular way to get the touched index
                                 touchedIndex =
                                     pieTouchResponse.touchedSectionIndex;
-///
-///
-///
-                                    //fixes error where you cannot click on graph if it is 100% of one value
-                                    if ((yellowStudents / totalStudents * 100)
+
+                                ///
+                                ///
+                                ///
+                                //fixes error where you cannot click on graph if it is 100% of one value
+                                if ((yellowStudents / totalStudents * 100)
                                             .toStringAsFixed(0) +
                                         '%' ==
                                     '100%') {
@@ -561,9 +560,9 @@ class PieChart2State extends State {
                                 }
 
                                 //end of error fixing
-///
-///
-///
+                                ///
+                                ///
+                                ///
                                 print(pieTouchResponse.touchedSection);
                                 if (touchedIndex == 0) {
                                   print('touched students doing great');
@@ -639,7 +638,7 @@ class PieChart2State extends State {
                         );
                       }
                       return Center(
-                        child: Text('no graph'),
+                        child: Text('no students'),
                       );
                     case ConnectionState.none:
                       return Text('Connection state returned none');
