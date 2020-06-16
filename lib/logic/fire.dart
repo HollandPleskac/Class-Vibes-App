@@ -223,6 +223,7 @@ class Fire {
       'class name': className,
       'class id': _randomString,
       'class code': _classCode,
+      'teacher':teacherName,
     });
 
     _firestore
@@ -401,6 +402,14 @@ class Fire {
         .getDocuments()
         .then((querySnap) => querySnap.documents[0].documentID);
 
+    //get name of class that student is joining
+    String className = await _firestore
+        .collection('classes')
+        .document(classId)
+        .get()
+        .then((docSnap) => docSnap.data['class name']);
+
+    //join class in classes collection
     _firestore
         .collection('classes')
         .document(classId)
@@ -413,6 +422,22 @@ class Fire {
       'mood': 'green',
       'student name': studentName,
     });
+
+
+    //join class in user data collection
+    _firestore
+        .collection('user data')
+        .document(studentUid)
+        .collection('classes')
+        .document(classId)
+        .setData({
+      'class code': classCode,
+      'class name': className,
+      'student id': classId,
+    });
+
+    //set selected class to the new class
+    setStudentSelectedClass(studentUid: studentUid,classId: classId);
     return 'success';
   }
 
