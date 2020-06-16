@@ -222,7 +222,7 @@ class Fire {
     _firestore.collection('classes').document(_randomString).setData({
       'class name': className,
       'class id': _randomString,
-      'class code':_classCode,
+      'class code': _classCode,
     });
 
     _firestore
@@ -233,10 +233,13 @@ class Fire {
         .setData({
       'class name': className,
       'class id': _randomString,
-      'class code':_classCode,
+      'class code': _classCode,
     });
 
-    _firestore.collection('user data').document(teacherUid).setData({'selected class' : _randomString});
+    _firestore
+        .collection('user data')
+        .document(teacherUid)
+        .setData({'selected class': _randomString});
   }
 
   // Future<String> inviteStudent({
@@ -270,36 +273,36 @@ class Fire {
   //   }
   // }
 
-  Future<String> inviteStudent(
-      {String studentEmail,
-      String classId,
-      String teacherName,
-      String className}) async {
-    try {
-      String studentUid = await _firestore
-          .collection('user data')
-          .where('email', isEqualTo: studentEmail)
-          .where('account type', isEqualTo: 'student')
-          .getDocuments()
-          .then(
-            (querySnap) => querySnap.documents[0].documentID.toString(),
-          );
+  // Future<String> inviteStudent(
+  //     {String studentEmail,
+  //     String classId,
+  //     String teacherName,
+  //     String className}) async {
+  //   try {
+  //     String studentUid = await _firestore
+  //         .collection('user data')
+  //         .where('email', isEqualTo: studentEmail)
+  //         .where('account type', isEqualTo: 'student')
+  //         .getDocuments()
+  //         .then(
+  //           (querySnap) => querySnap.documents[0].documentID.toString(),
+  //         );
 
-      _firestore
-          .collection('user data')
-          .document(studentUid)
-          .collection('invitations')
-          .document(classId)
-          .setData({
-        'teacher name': teacherName,
-        'class name': className,
-        'class id': classId,
-      });
-      return 'success';
-    } catch (e) {
-      return 'fail';
-    }
-  }
+  //     _firestore
+  //         .collection('user data')
+  //         .document(studentUid)
+  //         .collection('invitations')
+  //         .document(classId)
+  //         .setData({
+  //       'teacher name': teacherName,
+  //       'class name': className,
+  //       'class id': classId,
+  //     });
+  //     return 'success';
+  //   } catch (e) {
+  //     return 'fail';
+  //   }
+  // }
 
   // Future acceptInvitation(
   //     {String classId,
@@ -345,13 +348,59 @@ class Fire {
   //   });
   // }
 
-  Future acceptInvitation(
-      {String classId,
-      String studentUid,
-      String studentName,
-      String className}) {
-    print('trying to accept invite');
-    //add to a student to the class
+  // Future acceptInvitation(
+  //     {String classId,
+  //     String studentUid,
+  //     String studentName,
+  //     String className}) {
+  //   print('trying to accept invite');
+  //   //add to a student to the class
+  //   _firestore
+  //       .collection('classes')
+  //       .document(classId)
+  //       .collection('students')
+  //       .document(studentUid)
+  //       .setData({
+  //     'date': DateFormat.yMMMMd('en_US').format(
+  //       DateTime.now(),
+  //     ),
+  //     'mood': 'green',
+  //     'student name': studentName,
+  //   });
+
+  //   //remove invite out of students
+  //   _firestore
+  //       .collection('user data')
+  //       .document(studentUid)
+  //       .collection('invitations')
+  //       .document(classId)
+  //       .delete();
+  //   print('complete!');
+
+  //   //add to students classes
+  //   _firestore
+  //       .collection('user data')
+  //       .document(studentUid)
+  //       .collection('classes')
+  //       .document(classId)
+  //       .setData({
+  //     'class name': className,
+  //     'date': DateFormat.yMMMMd('en_US').format(
+  //       DateTime.now(),
+  //     ),
+  //     'mood': 'green',
+  //   });
+  // }
+
+  Future<String> joinClass(
+      {String studentUid, String classCode, String studentName}) async {
+    //get id of class that student is joining
+    String classId = await _firestore
+        .collection('classes')
+        .where('class code', isEqualTo: classCode)
+        .getDocuments()
+        .then((querySnap) => querySnap.documents[0].documentID);
+
     _firestore
         .collection('classes')
         .document(classId)
@@ -363,29 +412,6 @@ class Fire {
       ),
       'mood': 'green',
       'student name': studentName,
-    });
-
-    //remove invite out of students
-    _firestore
-        .collection('user data')
-        .document(studentUid)
-        .collection('invitations')
-        .document(classId)
-        .delete();
-    print('complete!');
-
-    //add to students classes
-    _firestore
-        .collection('user data')
-        .document(studentUid)
-        .collection('classes')
-        .document(classId)
-        .setData({
-      'class name': className,
-      'date': DateFormat.yMMMMd('en_US').format(
-        DateTime.now(),
-      ),
-      'mood': 'green',
     });
   }
 

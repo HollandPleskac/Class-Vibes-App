@@ -191,12 +191,12 @@ Widget invitation({
         RaisedButton(
           child: Text('accept'),
           onPressed: () {
-            _fire.acceptInvitation(
-              studentUid: uid,
-              classId: classId,
-              studentName: studentName,
-              className:className,
-            );
+            // _fire.acceptInvitation(
+            //   studentUid: uid,
+            //   classId: classId,
+            //   studentName: studentName,
+            //   className:className,
+            // );
           },
         ),
       ],
