@@ -21,7 +21,6 @@ class _TeacherClassesScreenState extends State<TeacherClassesScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _classNameController = TextEditingController();
-  final TextEditingController _classIdController = TextEditingController();
 
   String teacherUid;
   String teacherName = '';
@@ -156,7 +155,6 @@ class _TeacherClassesScreenState extends State<TeacherClassesScreen> {
                   child: AddClass(
                     teacherUid: teacherUid,
                     classNameController: _classNameController,
-                    classIdController: _classIdController,
                     teacherName: teacherName,
                   ),
                 ),
@@ -167,7 +165,7 @@ class _TeacherClassesScreenState extends State<TeacherClassesScreen> {
             height: 380,
             child: StreamBuilder(
               stream: _firestore
-                  .collection('teachers')
+                  .collection('user data')
                   .document(teacherUid)
                   .collection('classes')
                   .snapshots(),
@@ -198,6 +196,7 @@ class _TeacherClassesScreenState extends State<TeacherClassesScreen> {
                               text: document['class name'],
                               classId: document.documentID,
                               teacherName: teacherName,
+                              classCode: document['class code'],
                             );
                           }).toList(),
                         ),
@@ -287,6 +286,7 @@ class Course extends StatelessWidget {
   final String text;
   final String classId;
   final String teacherName;
+  final int classCode;
 
   const Course({
     Key key,
@@ -294,6 +294,7 @@ class Course extends StatelessWidget {
     this.text,
     this.classId,
     this.teacherName,
+    this.classCode,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -339,6 +340,7 @@ class Course extends StatelessWidget {
             'class name': text,
             'class id': classId,
             'teacher name': teacherName,
+            'class code': classCode,
           });
         });
   }
@@ -346,13 +348,12 @@ class Course extends StatelessWidget {
 
 class AddClass extends StatelessWidget {
   final String teacherUid;
-  final TextEditingController classIdController;
+
   final TextEditingController classNameController;
   final String teacherName;
 
   AddClass({
     this.teacherUid,
-    this.classIdController,
     this.classNameController,
     this.teacherName,
   });
@@ -371,7 +372,6 @@ class AddClass extends StatelessWidget {
               // this container and single child scroll view allow for the sheet being pushed up
               child: AddClassBottomSheet(
                 teacherUid: teacherUid,
-                classIdController: classIdController,
                 classNameController: classNameController,
                 teacherName: teacherName,
               ),
@@ -421,7 +421,6 @@ class AddClassBottomSheet extends StatelessWidget {
             Align(
               alignment: Alignment.topLeft,
               child: AddClassForm(
-                classIdController: classIdController,
                 classNameController: classNameController,
                 teacherUid: teacherUid,
                 teacherName: teacherName,
@@ -437,14 +436,13 @@ class AddClassBottomSheet extends StatelessWidget {
 class AddClassForm extends StatelessWidget {
   final Key formKey;
   final TextEditingController classNameController;
-  final TextEditingController classIdController;
+
   final String teacherUid;
   final String teacherName;
 
   AddClassForm({
     this.formKey,
     this.classNameController,
-    this.classIdController,
     this.teacherUid,
     this.teacherName,
   });
@@ -466,15 +464,6 @@ class AddClassForm extends StatelessWidget {
                 controller: classNameController,
               ),
             ),
-            Padding(
-              padding: EdgeInsets.only(left: 10),
-              child: AddClassTextEntry(
-                hintText: 'Class Id',
-                icon: Icon(Icons.email),
-                validator: 'class id cannot be blank',
-                controller: classIdController,
-              ),
-            ),
             Align(
               alignment: Alignment.bottomRight,
               child: Padding(
@@ -491,7 +480,6 @@ class AddClassForm extends StatelessWidget {
                     _fire.createClass(
                       teacherUid: teacherUid,
                       className: classNameController.text,
-                      classId: classIdController.text,
                       teacherName: teacherName,
                     );
                     Navigator.pop(context);

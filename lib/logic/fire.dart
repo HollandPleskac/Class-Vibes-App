@@ -215,16 +215,14 @@ class Fire {
   //   );
   // }
 
-  void createClass(
-      {String teacherUid,
-      String className,
-      String classId,
-      String teacherName}) {
+  void createClass({String teacherUid, String className, String teacherName}) {
     var _randomString = randomAlphaNumeric(30);
+    var _classCode = randomNumeric(5);
 
     _firestore.collection('classes').document(_randomString).setData({
       'class name': className,
-      'class id': classId,
+      'class id': _randomString,
+      'class code':_classCode,
     });
 
     _firestore
@@ -234,7 +232,8 @@ class Fire {
         .document(_randomString)
         .setData({
       'class name': className,
-      'class id': classId,
+      'class id': _randomString,
+      'class code':_classCode,
     });
   }
 
@@ -344,7 +343,6 @@ class Fire {
   //   });
   // }
 
-  
   Future acceptInvitation(
       {String classId,
       String studentUid,

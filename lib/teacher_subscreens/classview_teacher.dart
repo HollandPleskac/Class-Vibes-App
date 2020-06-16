@@ -24,6 +24,7 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
     final String className = routeArguments['class name'];
     final String classId = routeArguments['class id'];
     final String teacherName = routeArguments['teacher name'];
+    final int classCode = routeArguments['class code'];
 
     //meeting controllers
     final TextEditingController titleController = TextEditingController();
@@ -35,10 +36,6 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
         TextEditingController();
     final TextEditingController _pushAnnouncementTitleController =
         TextEditingController();
-    final TextEditingController _inviteStudentController =
-        TextEditingController();
-
-    
 
     return Scaffold(
       key: _scaffoldKey,
@@ -96,10 +93,10 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
                 Padding(
                   padding: const EdgeInsets.only(right: 40.0, top: 20),
                   child: AddStudentIcon(
-                    inviteStudentController: _inviteStudentController,
                     classId: classId,
                     className: className,
                     teacherName: teacherName,
+                    classCode: classCode,
                   ),
                 ),
               ],
@@ -611,13 +608,13 @@ class AddStudentIcon extends StatefulWidget {
   final String teacherName;
   final String classId;
   final String className;
-  final TextEditingController inviteStudentController;
+  final int classCode;
 
   AddStudentIcon({
     this.teacherName,
     this.classId,
     this.className,
-    this.inviteStudentController,
+    this.classCode,
   });
 
   @override
@@ -640,31 +637,7 @@ class _AddStudentIconState extends State<AddStudentIcon> {
                   content: StatefulBuilder(
                     builder: (BuildContext context, StateSetter setState) {
                       return Container(
-                        child: Column(
-                          children: [
-                            TextField(
-                              controller: widget.inviteStudentController,
-                            ),
-                            FlatButton(
-                              child: Text('Invite'),
-                              onPressed: () async {
-                                String isValidEmail = await _fire.inviteStudent(
-                                  teacherName: widget.teacherName,
-                                  classId: widget.classId,
-                                  className: widget.className,
-                                  studentEmail:
-                                      widget.inviteStudentController.text,
-                                );
-                                if (isValidEmail == 'success') {
-                                  Navigator.pop(context);
-                                } else {
-                                  print(
-                                      'there was an error - email is not in database');
-                                }
-                              },
-                            ),
-                          ],
-                        ),
+                        child: Text('Class Code : ' + widget.classCode.toString()),
                       );
                     },
                   ),
