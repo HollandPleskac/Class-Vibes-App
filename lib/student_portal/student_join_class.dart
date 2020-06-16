@@ -138,7 +138,7 @@ class _StudentJoinClassScreenState extends State<StudentJoinClassScreen> {
               child: Text('join'),
               onPressed: () {
                 _fire.joinClass(
-                  classCode: _joinClassController.text,
+                  classCode: int.parse(_joinClassController.text).toInt(),
                   studentName: studentName,
                   studentUid: studentUid,
                 );

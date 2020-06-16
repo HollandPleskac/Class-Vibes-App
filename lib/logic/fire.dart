@@ -393,7 +393,7 @@ class Fire {
   // }
 
   Future<String> joinClass(
-      {String studentUid, String classCode, String studentName}) async {
+      {String studentUid, int classCode, String studentName}) async {
     //get id of class that student is joining
     String classId = await _firestore
         .collection('classes')
@@ -413,6 +413,7 @@ class Fire {
       'mood': 'green',
       'student name': studentName,
     });
+    return 'success';
   }
 
   void pushAnnouncement(String classId, String content, String title) {
