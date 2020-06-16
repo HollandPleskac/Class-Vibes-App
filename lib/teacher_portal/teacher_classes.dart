@@ -37,7 +37,7 @@ class _TeacherClassesScreenState extends State<TeacherClassesScreen> {
 
   Future getTeacherName(uid) async {
     String nameOfTeacher =
-        await _firestore.collection('teachers').document(uid).get().then(
+        await _firestore.collection('user data').document(uid).get().then(
               (docSnap) => docSnap.data['user name'],
             );
     teacherName = nameOfTeacher;

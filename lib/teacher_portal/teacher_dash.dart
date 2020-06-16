@@ -48,7 +48,7 @@ class _TeacherDashState extends State<TeacherDash> {
   Future getTeacherClassId(String uid) async {
     try {
       String classIdentification =
-          await _firestore.collection('teachers').document(uid).get().then(
+          await _firestore.collection('user data').document(uid).get().then(
                 (docSnap) => docSnap.data['selected class'],
               );
       teacherSelectedClassId = classIdentification;
@@ -75,7 +75,7 @@ class _TeacherDashState extends State<TeacherDash> {
 
   Future setTeacherNewSelectedClassID(String newSelectedClassName) async {
     String newSelectedClassId = await _firestore
-        .collection('teachers')
+        .collection('user data')
         .document(teacherUid)
         .collection('classes')
         .where('class name', isEqualTo: newSelectedClassName)
@@ -233,7 +233,7 @@ class _TeacherDashState extends State<TeacherDash> {
             ),
             child: StreamBuilder<QuerySnapshot>(
                 stream: Firestore.instance
-                    .collection("teachers")
+                    .collection("user data")
                     .document(teacherUid)
                     .collection('classes')
                     .snapshots(),

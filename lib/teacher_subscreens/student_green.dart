@@ -33,7 +33,7 @@ class _StudentGreenState extends State<StudentGreen> {
 
   Future getTeacherClassId(String uid) async {
     String classIdentification =
-        await _firestore.collection('teachers').document(uid).get().then(
+        await _firestore.collection('user data').document(uid).get().then(
               (docSnap) => docSnap.data['selected class'],
             );
     teacherSelectedClassId = classIdentification;

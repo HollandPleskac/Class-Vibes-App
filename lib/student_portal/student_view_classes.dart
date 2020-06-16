@@ -32,7 +32,7 @@ class _StudentClassesViewState extends State<StudentClassesView> {
 
   Future getStudentName(uid) async {
     String nameOfStudent =
-        await _firestore.collection('students').document(uid).get().then(
+        await _firestore.collection('user data').document(uid).get().then(
               (docSnap) => docSnap.data['user name'],
             );
     studentName = nameOfStudent;
@@ -161,7 +161,7 @@ class _StudentClassesViewState extends State<StudentClassesView> {
             height: 450,
             child: StreamBuilder(
               stream: _firestore
-                  .collection('students')
+                  .collection('user data')
                   .document(studentUid)
                   .collection('classes')
                   .snapshots(),

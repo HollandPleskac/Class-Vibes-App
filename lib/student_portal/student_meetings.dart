@@ -113,7 +113,7 @@ class _StudentMeetingsState extends State<StudentMeetings> {
               height: 300,
               child: StreamBuilder(
                 stream: _firestore
-                    .collection('students')
+                    .collection('user data')
                     .document(studentUid)
                     .collection('meetings')
                     .snapshots(),
