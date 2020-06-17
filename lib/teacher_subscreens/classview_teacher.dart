@@ -123,7 +123,8 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
                       margin: EdgeInsets.only(left: 4, right: 4),
                       height: 40,
                       width: 80,
-                      color: sortedChoice == 'all' ? Colors.purple : kPrimaryColor,
+                      color:
+                          sortedChoice == 'all' ? Colors.purple : kPrimaryColor,
                       child: Center(
                           child: Text(
                         'all',
@@ -142,7 +143,8 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
                       margin: EdgeInsets.only(left: 4, right: 4),
                       height: 40,
                       width: 80,
-                      color: sortedChoice == 'green' ? kGreenColor : kPrimaryColor,
+                      color:
+                          sortedChoice == 'green' ? kGreenColor : kPrimaryColor,
                       child: Center(
                           child: Text(
                         'green',
@@ -161,7 +163,9 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
                       margin: EdgeInsets.only(left: 4, right: 4),
                       height: 40,
                       width: 80,
-                      color: sortedChoice == 'yellow' ? Color(0xfff8b250) : kPrimaryColor,
+                      color: sortedChoice == 'yellow'
+                          ? Color(0xfff8b250)
+                          : kPrimaryColor,
                       child: Center(
                           child: Text(
                         'yellow',
@@ -287,14 +291,13 @@ class PushAnnouncement extends StatefulWidget {
   final TextEditingController contentController;
   final TextEditingController titleController;
   final String classId;
-  final TextEditingController dateController;
+
   final String studentUid;
 
   PushAnnouncement({
     this.contentController,
     this.titleController,
     this.classId,
-    this.dateController,
     this.studentUid,
   });
 
@@ -334,9 +337,10 @@ class _PushAnnouncementState extends State<PushAnnouncement> {
                     ),
                     onPressed: () {
                       _fire.pushAnnouncement(
-                          widget.classId,
-                          widget.contentController.text,
-                          widget.titleController.text);
+                        widget.classId,
+                        widget.contentController.text,
+                        widget.titleController.text,
+                      );
                     },
                   ),
                 ),
