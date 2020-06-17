@@ -124,7 +124,7 @@ class _StudentMeetingsState extends State<StudentMeetings> {
                   }
                   switch (snapshot.connectionState) {
                     case ConnectionState.waiting:
-                    print(snapshot.connectionState.toString());
+                      print(snapshot.connectionState.toString());
                       return Center(
                         child: CircularProgressIndicator(),
                       );
@@ -170,6 +170,14 @@ class Meeting extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(
+      child: Column(
+        children: [
+          Text('title ' + title),
+          Text('content ' + content),
+          Text('date ' + date),
+        ],
+      ),
+    );
   }
 }
