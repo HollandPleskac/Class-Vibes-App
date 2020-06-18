@@ -192,6 +192,7 @@ class _StudentClassesViewState extends State<StudentClassesView> {
                               className: document['class name'],
                               classId: document.documentID,
                               studentName: studentName,
+                              studentUid: studentUid,
                             );
                           }).toList(),
                         ),
@@ -289,6 +290,7 @@ class Course extends StatelessWidget {
   final String classId;
   final String studentName;
   final String className;
+  final String studentUid;
 
   const Course({
     Key key,
@@ -296,6 +298,7 @@ class Course extends StatelessWidget {
     this.classId,
     this.studentName,
     this.className,
+    this.studentUid,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -343,6 +346,7 @@ class Course extends StatelessWidget {
             'class name': className,
             'class id': classId,
             'student name': studentName,
+            'student uid':studentUid,
           },
         );
       },
