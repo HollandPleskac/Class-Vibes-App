@@ -217,7 +217,7 @@ class Fire {
 
   void createClass({String teacherUid, String className, String teacherName}) {
     var _randomString = randomAlphaNumeric(30);
-    var _classCode = randomNumeric(5);
+    int _classCode = int.parse(randomNumeric(5)).toInt();
 
     _firestore.collection('classes').document(_randomString).setData({
       'class name': className,
