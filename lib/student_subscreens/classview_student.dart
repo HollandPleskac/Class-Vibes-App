@@ -16,6 +16,7 @@ class _ClassViewStudentState extends State<ClassViewStudent> {
     final String className = routeArguments['class name'];
     final String classId = routeArguments['class id'];
     final String studentName = routeArguments['student name'];
+    final String studentUid = routeArguments['student uid'];
     return Scaffold(
       appBar: AppBar(
         title: Text(className),
@@ -67,7 +68,46 @@ class _ClassViewStudentState extends State<ClassViewStudent> {
           ),
           Container(
             height: 300,
-            child: Text('view meetings'),
+            child: StreamBuilder(
+                stream: _firestore
+                    .collection('user data')
+                    .document(studentUid)
+                    .collection('meetings')
+                    .snapshots(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  }
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.waiting:
+                      print(snapshot.connectionState.toString());
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+
+                    default:
+                      return snapshot.data == null ||
+                              snapshot.data.documents.isEmpty == true
+                          ? Container(
+                              child: Text('no meetings'),
+                            )
+                          : Center(
+                              child: ListView(
+                                children: snapshot.data.documents
+                                    .map(
+                                      (DocumentSnapshot document) => Meeting(
+                                        content: document['content'],
+                                        title: document['title'],
+                                        date: document['date'],
+                                      ),
+                                    )
+                                    .toList(),
+                              ),
+                            );
+                  }
+                },
+              ),
           ),
         ],
       ),
@@ -97,6 +137,31 @@ class Announcement extends StatelessWidget {
             Text('announcement date: ' + date)
           ],
         ),
+      ),
+    );
+  }
+}
+
+
+
+class Meeting extends StatelessWidget {
+  final String title;
+  final String content;
+  final String date;
+  Meeting({
+    this.title,
+    this.content,
+    this.date,
+  });
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Column(
+        children: [
+          Text('title ' + title),
+          Text('content ' + content),
+          Text('date ' + date),
+        ],
       ),
     );
   }
