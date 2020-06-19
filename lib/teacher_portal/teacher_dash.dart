@@ -266,7 +266,7 @@ class _TeacherDashState extends State<TeacherDash> {
                       dropdownEvents.add(
                         DropdownMenuItem(
                           child: Text(
-                            documentSnapshot['class name'],
+                            documentSnapshot['class-name'],
                             style: kSubTextStyle.copyWith(
                               color: kPrimaryColor,
                               fontWeight: FontWeight.w500,
