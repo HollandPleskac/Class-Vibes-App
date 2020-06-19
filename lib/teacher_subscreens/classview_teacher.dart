@@ -312,8 +312,9 @@ class _PushAnnouncementState extends State<PushAnnouncement> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.only(bottom:20),
       width: MediaQuery.of(context).size.width * 0.85,
-      height: 190,
+      //
       child: Card(
         elevation: 4,
         child: Column(
