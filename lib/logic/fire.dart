@@ -28,7 +28,7 @@ class Fire {
       'Account Status': 'Activated',
       'Account Type': 'Student',
       //idk what use name is - on website it is email
-      'username':email,
+      'username': email,
     });
   }
 
@@ -54,7 +54,7 @@ class Fire {
     _firestore.collection('user data').document(userUid).setData({
       'email': email,
       'username': email,
-      'display-name':userName,
+      'display-name': userName,
       'selected class': 'no selected class',
       'Account Status': 'Activated',
       'Account Type': 'Teacher',
@@ -226,7 +226,7 @@ class Fire {
       'ClassName': className,
       'class id': _randomString,
       'Code': _classCode.toString(),
-      'teacher':teacherName,
+      'teacher': teacherName,
     });
 
     _firestore
@@ -398,50 +398,53 @@ class Fire {
 
   Future<String> joinClass(
       {String studentUid, int classCode, String studentName}) async {
-    //get id of class that student is joining
-    String classId = await _firestore
-        .collection('Classes')
-        .where('Code', isEqualTo: classCode.toString())
-        .getDocuments()
-        .then((querySnap) => querySnap.documents[0].documentID);
+    try {
+      //get id of class that student is joining
+      String classId = await _firestore
+          .collection('Classes')
+          .where('Code', isEqualTo: classCode.toString())
+          .getDocuments()
+          .then((querySnap) => querySnap.documents[0].documentID);
 
-    //get name of class that student is joining
-    String className = await _firestore
-        .collection('Classes')
-        .document(classId)
-        .get()
-        .then((docSnap) => docSnap.data['ClassName']);
+      //get name of class that student is joining
+      String className = await _firestore
+          .collection('Classes')
+          .document(classId)
+          .get()
+          .then((docSnap) => docSnap.data['ClassName']);
 
-    //join class in classes collection
-    _firestore
-        .collection('Classes')
-        .document(classId)
-        .collection('Students')
-        .document(studentUid)
-        .setData({
-      'date': DateFormat.yMMMMd('en_US').format(
-        DateTime.now(),
-      ),
-      'mood': 'green',
-      'student name': studentName,
-    });
+      //join class in classes collection
+      _firestore
+          .collection('Classes')
+          .document(classId)
+          .collection('Students')
+          .document(studentUid)
+          .setData({
+        'date': DateFormat.yMMMMd('en_US').format(
+          DateTime.now(),
+        ),
+        'mood': 'green',
+        'student name': studentName,
+      });
 
+      //join class in user data collection
+      _firestore
+          .collection('UserData')
+          .document(studentUid)
+          .collection('Classes')
+          .document(classId)
+          .setData({
+        'Code': classCode.toString(),
+        'class-name': className,
+        'student id': classId,
+      });
 
-    //join class in user data collection
-    _firestore
-        .collection('UserData')
-        .document(studentUid)
-        .collection('Classes')
-        .document(classId)
-        .setData({
-      'Code': classCode.toString(),
-      'class-name': className,
-      'student id': classId,
-    });
-
-    //set selected class to the new class
-    setStudentSelectedClass(studentUid: studentUid,classId: classId);
-    return 'success';
+      //set selected class to the new class
+      setStudentSelectedClass(studentUid: studentUid, classId: classId);
+      return 'success';
+    } catch (e) {
+      return 'failure';
+    }
   }
 
   void pushAnnouncement(String classId, String content, String title) {
@@ -457,8 +460,6 @@ class Fire {
       'title': title,
       'content': content,
     });
-
-    
   }
 
   // void setUpStudentMeeting(
