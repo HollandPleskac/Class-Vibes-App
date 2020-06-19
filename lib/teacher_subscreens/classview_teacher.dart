@@ -38,6 +38,7 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
         TextEditingController();
     final TextEditingController _pushAnnouncementTitleController =
         TextEditingController();
+    final _formKey = GlobalKey<FormState>();
 
     return Scaffold(
       key: _scaffoldKey,
@@ -74,6 +75,7 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
                       contentController: _pushAnnouncementContentController,
                       titleController: _pushAnnouncementTitleController,
                       classId: classId,
+                      formKey: _formKey,
                     ),
                   ],
                 ),
@@ -293,13 +295,14 @@ class PushAnnouncement extends StatefulWidget {
   final String classId;
 
   final String studentUid;
+  final GlobalKey<FormState> formKey;
 
-  PushAnnouncement({
-    this.contentController,
-    this.titleController,
-    this.classId,
-    this.studentUid,
-  });
+  PushAnnouncement(
+      {this.contentController,
+      this.titleController,
+      this.classId,
+      this.studentUid,
+      this.formKey});
 
   @override
   _PushAnnouncementState createState() => _PushAnnouncementState();
@@ -336,52 +339,61 @@ class _PushAnnouncementState extends State<PushAnnouncement> {
                       Icons.arrow_forward,
                     ),
                     onPressed: () {
-                      _fire.pushAnnouncement(
-                        widget.classId,
-                        widget.contentController.text,
-                        widget.titleController.text,
-                      );
+                      if (widget.formKey.currentState.validate()) {
+                        _fire.pushAnnouncement(
+                          widget.classId,
+                          widget.contentController.text,
+                          widget.titleController.text,
+                        );
+                      }
                     },
                   ),
                 ),
               ],
             ),
-            Padding(
-              padding: EdgeInsets.only(left: 50, top: 00),
-              child: TextField(
-                controller: widget.titleController,
-                maxLines: 1,
-                keyboardType: TextInputType.text,
-                style: kSubTextStyle.copyWith(color: kPrimaryColor),
-                autofocus: false,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  //hintStyle: kSubTextStyle.copyWith(color: kPrimaryColor),
-                  labelStyle: TextStyle(
-                    color: Colors.white,
+            Form(
+              key: widget.formKey,
+              child: Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: 50, top: 00),
+                    child: TextFormField(
+                      controller: widget.titleController,
+                      maxLines: 1,
+                      keyboardType: TextInputType.text,
+                      style: kSubTextStyle.copyWith(color: kPrimaryColor),
+                      autofocus: false,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        //hintStyle: kSubTextStyle.copyWith(color: kPrimaryColor),
+                        labelStyle: TextStyle(
+                          color: Colors.white,
+                        ),
+                        hintText: 'title',
+                        icon: Icon(Icons.near_me),
+                      ),
+                    ),
                   ),
-                  hintText: 'title',
-                  icon: Icon(Icons.near_me),
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 50, top: 00),
-              child: TextField(
-                controller: widget.contentController,
-                maxLines: 1,
-                keyboardType: TextInputType.text,
-                style: kSubTextStyle.copyWith(color: kPrimaryColor),
-                autofocus: false,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  //hintStyle: kSubTextStyle.copyWith(color: kPrimaryColor),
-                  labelStyle: TextStyle(
-                    color: Colors.white,
+                  Padding(
+                    padding: EdgeInsets.only(left: 50, top: 00),
+                    child: TextFormField(
+                      controller: widget.contentController,
+                      maxLines: 1,
+                      keyboardType: TextInputType.text,
+                      style: kSubTextStyle.copyWith(color: kPrimaryColor),
+                      autofocus: false,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        //hintStyle: kSubTextStyle.copyWith(color: kPrimaryColor),
+                        labelStyle: TextStyle(
+                          color: Colors.white,
+                        ),
+                        hintText: 'content',
+                        icon: Icon(Icons.near_me),
+                      ),
+                    ),
                   ),
-                  hintText: 'content',
-                  icon: Icon(Icons.near_me),
-                ),
+                ],
               ),
             ),
           ],
