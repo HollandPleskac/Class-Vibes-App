@@ -45,7 +45,7 @@ class _StudentAnnouncementsState extends State<StudentAnnouncements> {
           .document(selectedClassId)
           .get()
           .then(
-            (docSnap) => docSnap.data['class name'],
+            (docSnap) => docSnap.data['class-name'],
           );
 
       studentSelectedClassName = className;
