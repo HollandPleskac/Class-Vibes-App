@@ -237,7 +237,7 @@ class Fire {
         .setData({
       'ClassName': className,
       'class id': _randomString,
-      'class code': _classCode,
+      'Code': _classCode,
     });
 
     _firestore
