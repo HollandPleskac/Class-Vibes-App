@@ -196,7 +196,7 @@ class _TeacherClassesScreenState extends State<TeacherClassesScreen> {
                               text: document['class-name'],
                               classId: document.documentID,
                               teacherName: teacherName,
-                              classCode: document['Code'],
+                              classCode: int.parse(document['Code']).toInt(),
                             );
                           }).toList(),
                         ),

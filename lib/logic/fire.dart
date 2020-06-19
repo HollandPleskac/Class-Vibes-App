@@ -225,7 +225,7 @@ class Fire {
     _firestore.collection('classes').document(_randomString).setData({
       'ClassName': className,
       'class id': _randomString,
-      'Code': _classCode,
+      'Code': _classCode.toString(),
       'teacher':teacherName,
     });
 
@@ -237,7 +237,7 @@ class Fire {
         .setData({
       'ClassName': className,
       'class id': _randomString,
-      'Code': _classCode,
+      'Code': _classCode.toString(),
     });
 
     _firestore
@@ -401,7 +401,7 @@ class Fire {
     //get id of class that student is joining
     String classId = await _firestore
         .collection('Classes')
-        .where('Code', isEqualTo: classCode)
+        .where('Code', isEqualTo: classCode.toString())
         .getDocuments()
         .then((querySnap) => querySnap.documents[0].documentID);
 
@@ -434,7 +434,7 @@ class Fire {
         .collection('Classes')
         .document(classId)
         .setData({
-      'Code': classCode,
+      'Code': classCode.toString(),
       'class-name': className,
       'student id': classId,
     });
