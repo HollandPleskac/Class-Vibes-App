@@ -435,7 +435,7 @@ class Fire {
         .document(classId)
         .setData({
       'class code': classCode,
-      'class name': className,
+      'class-name': className,
       'student id': classId,
     });
 
