@@ -181,18 +181,21 @@ class _StudentDashState extends State<StudentDash> {
                   Expanded(
                     child: Stack(
                       children: <Widget>[
-                        IconButton(
-                          icon: Icon(
-                            Icons.menu,
-                            color: Colors.white,
-                            size: 28,
+                        Padding(
+                          padding: const EdgeInsets.only(left: 0, top: 0.0),
+                          child: IconButton(
+                            icon: Icon(
+                              Icons.menu,
+                              color: Colors.white,
+                              size: 28,
+                            ),
+                            onPressed: () =>
+                                _scaffoldKey.currentState.openDrawer(),
                           ),
-                          onPressed: () =>
-                              _scaffoldKey.currentState.openDrawer(),
                         ),
                         Padding(
                           padding: EdgeInsets.only(
-                              top: MediaQuery.of(context).size.height * 0.09),
+                              top: MediaQuery.of(context).size.height * 0.085),
                           child: Align(
                             alignment: Alignment.topCenter,
                             child: Column(
@@ -227,13 +230,14 @@ class _StudentDashState extends State<StudentDash> {
                         ),
                         Padding(
                           padding: EdgeInsets.only(
-                            bottom: MediaQuery.of(context).size.height * 0.07,right:20,
+                            bottom: MediaQuery.of(context).size.height * 0.058,
+                            right: 00,
                           ),
                           child: Align(
                             alignment: Alignment.bottomCenter,
                             child: SvgPicture.asset(
                               'assets/images/undraw_Graduation_ktn0.svg',
-                              width: MediaQuery.of(context).size.height * 0.23,
+                              width: MediaQuery.of(context).size.height * 0.18,
                               fit: BoxFit.fitWidth,
                             ),
                           ),
@@ -545,13 +549,14 @@ class _StudentDashState extends State<StudentDash> {
                                   decoration: BoxDecoration(
                                       color: Colors.transparent,
                                       shape: BoxShape.circle),
-                                  child: Center(
-                                    child: Image.asset(
-                                      'assets/images/happy face.png',
-                                      width: 80,
-                                      height: 80,
-                                    ),
-                                  ),
+                                  // child: Center(
+                                  //   child: Image.asset(
+                                  //     'assets/images/happy face.png',
+                                  //     width: 80,
+                                  //     height: 80,
+                                  //   ),
+                                  // ),
+                                  child: Text(':smiley:'),
                                 ),
                                 onTap: () {
                                   _fire.updateStudentMood(

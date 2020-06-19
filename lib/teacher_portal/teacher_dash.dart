@@ -171,7 +171,7 @@ class _TeacherDashState extends State<TeacherDash> {
                     child: Stack(
                       children: <Widget>[
                         Padding(
-                          padding: const EdgeInsets.only(left: 0, top: 15.0),
+                          padding: const EdgeInsets.only(left: 0, top: 0.0),
                           child: IconButton(
                             icon: Icon(
                               Icons.menu,
@@ -184,7 +184,7 @@ class _TeacherDashState extends State<TeacherDash> {
                         ),
                         Padding(
                           padding: EdgeInsets.only(
-                              top: MediaQuery.of(context).size.height * 0.09),
+                              top: MediaQuery.of(context).size.height * 0.085),
                           child: Align(
                             alignment: Alignment.topCenter,
                             child: Column(
