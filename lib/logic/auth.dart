@@ -57,7 +57,8 @@ class Auth {
         //school: school,
       );
 
-      return ['success', _user.uid];
+      //return ['success', _user.uid];
+      return ['success', email];
     } catch (e) {
       return [e.message.toString(), ''];
     }
@@ -79,7 +80,8 @@ class Auth {
       print("LOGIN TYPE :: " + loginType);
       print('EMAIL' + email.toString());
 
-      return ['success', _user.uid, loginType];
+      //return ['success', _user.uid, loginType];
+      return ['success', email, loginType];
     } catch (e) {
       return [e.message.toString(), ''];
     }
