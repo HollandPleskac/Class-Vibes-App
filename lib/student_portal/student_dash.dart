@@ -277,66 +277,68 @@ class _StudentDashState extends State<StudentDash> {
                     );
                   // return Text('Loading...');
                   else {
-                    // switch (snapshot.connectionState) {
-                    //   // case ConnectionState.waiting:
-                    //   //   return Text('');
-                    //   default:
-                    List<DropdownMenuItem> dropdownEvents = [];
-                    for (int i = 0; i < snapshot.data.documents.length; i++) {
-                      DocumentSnapshot documentSnapshot =
-                          snapshot.data.documents[i];
-                      dropdownEvents.add(
-                        DropdownMenuItem(
-                          child: Text(
-                            documentSnapshot['class-name'],
-                            style: kSubTextStyle.copyWith(
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.waiting:
+                        return CircularProgressIndicator();
+                      default:
+                        List<DropdownMenuItem> dropdownEvents = [];
+                        for (int i = 0;
+                            i < snapshot.data.documents.length;
+                            i++) {
+                          DocumentSnapshot documentSnapshot =
+                              snapshot.data.documents[i];
+                          dropdownEvents.add(
+                            DropdownMenuItem(
+                              child: Text(
+                                documentSnapshot['class-name'],
+                                style: kSubTextStyle.copyWith(
+                                  color: kPrimaryColor,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              value: "${documentSnapshot['class-name']}",
+                            ),
+                          );
+                        }
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Icon(
+                              Icons.school,
                               color: kPrimaryColor,
-                              fontWeight: FontWeight.w500,
                             ),
-                          ),
-                          value: "${documentSnapshot['class-name']}",
-                        ),
-                      );
-                    }
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Icon(
-                          Icons.school,
-                          color: kPrimaryColor,
-                        ),
-                        SizedBox(
-                          width: 30,
-                        ),
-                        Expanded(
-                          child: DropdownButton(
-                            isExpanded: true,
-                            underline: SizedBox(),
-                            icon: Container(
-                              margin: const EdgeInsets.only(top: 2),
-                              child: const Icon(Icons.arrow_drop_down),
+                            SizedBox(
+                              width: 30,
                             ),
-                            value: studentSelectedClassName,
-                            items: dropdownEvents,
-                            onChanged: (newEventSelected) async {
-                              await setStudentNewSelectedClassID(
-                                newEventSelected,
-                              );
-                            },
-                            hint: Text(
-                              studentSelectedClassNameDisplay,
-                              style: TextStyle(
-                                color: Colors.black,
+                            Expanded(
+                              child: DropdownButton(
+                                isExpanded: true,
+                                underline: SizedBox(),
+                                icon: Container(
+                                  margin: const EdgeInsets.only(top: 2),
+                                  child: const Icon(Icons.arrow_drop_down),
+                                ),
+                                value: studentSelectedClassName,
+                                items: dropdownEvents,
+                                onChanged: (newEventSelected) async {
+                                  await setStudentNewSelectedClassID(
+                                    newEventSelected,
+                                  );
+                                },
+                                hint: Text(
+                                  studentSelectedClassNameDisplay,
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                        ),
-                      ],
-                    );
-                    //
+                          ],
+                        );
+                    }
                   }
                 }),
           ),

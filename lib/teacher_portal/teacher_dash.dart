@@ -259,126 +259,72 @@ class _TeacherDashState extends State<TeacherDash> {
                       ],
                     );
                   else {
-                    List<DropdownMenuItem> dropdownEvents = [];
-                    for (int i = 0; i < snapshot.data.documents.length; i++) {
-                      DocumentSnapshot documentSnapshot =
-                          snapshot.data.documents[i];
-                      dropdownEvents.add(
-                        DropdownMenuItem(
-                          child: Text(
-                            documentSnapshot['class-name'],
-                            style: kSubTextStyle.copyWith(
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.waiting:
+                        return CircularProgressIndicator();
+                      default:
+                        List<DropdownMenuItem> dropdownEvents = [];
+                        for (int i = 0;
+                            i < snapshot.data.documents.length;
+                            i++) {
+                          DocumentSnapshot documentSnapshot =
+                              snapshot.data.documents[i];
+                          dropdownEvents.add(
+                            DropdownMenuItem(
+                              child: Text(
+                                documentSnapshot['class-name'],
+                                style: kSubTextStyle.copyWith(
+                                  color: kPrimaryColor,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              value: "${documentSnapshot['class-name']}",
+                            ),
+                          );
+                        }
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Icon(
+                              Icons.school,
                               color: kPrimaryColor,
-                              fontWeight: FontWeight.w500,
                             ),
-                          ),
-                          value: "${documentSnapshot['class-name']}",
-                        ),
-                      );
-                    }
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Icon(
-                          Icons.school,
-                          color: kPrimaryColor,
-                        ),
-                        SizedBox(
-                          width: 30,
-                        ),
-                        Expanded(
-                          child: DropdownButton(
-                            isExpanded: true,
-                            underline: SizedBox(),
-                            icon: Container(
-                              margin: const EdgeInsets.only(top: 2),
-                              child: const Icon(Icons.arrow_drop_down),
+                            SizedBox(
+                              width: 30,
                             ),
-                            value: teacherSelectedClassName,
-                            items: dropdownEvents,
-                            onChanged: (newEventSelected) async {
-                              await setTeacherNewSelectedClassID(
-                                newEventSelected,
-                              );
-                              // setState(() {});
-                            },
-                            hint: Text(
-                              teacherSelectedClassNameDisplay,
-                              style: TextStyle(
-                                color: Colors.black,
+                            Expanded(
+                              child: DropdownButton(
+                                isExpanded: true,
+                                underline: SizedBox(),
+                                icon: Container(
+                                  margin: const EdgeInsets.only(top: 2),
+                                  child: const Icon(Icons.arrow_drop_down),
+                                ),
+                                value: teacherSelectedClassName,
+                                items: dropdownEvents,
+                                onChanged: (newEventSelected) async {
+                                  await setTeacherNewSelectedClassID(
+                                    newEventSelected,
+                                  );
+                                  // setState(() {});
+                                },
+                                hint: Text(
+                                  teacherSelectedClassNameDisplay,
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                        ),
-                      ],
-                    );
+                          ],
+                        );
+                    }
                   }
                 }),
           ),
-
-          // Example of a dropdown with a list instead of firebase
-          // Container(
-          //   margin: EdgeInsets.symmetric(
-          //     horizontal: MediaQuery.of(context).size.width * 0.045,
-          //   ),
-          //   padding: EdgeInsets.symmetric(
-          //     vertical: MediaQuery.of(context).size.height * 0.02,
-          //     horizontal: MediaQuery.of(context).size.width * 0.045,
-          //   ),
-          //   height: MediaQuery.of(context).size.height * 0.073,
-          //   width: double.infinity,
-          //   decoration: BoxDecoration(
-          //     color: Colors.white,
-          //     borderRadius: BorderRadius.circular(25),
-          //     border: Border.all(
-          //       color: Color(0xFFE5E5E5),
-          //     ),
-          //   ),
-          //   child: Row(
-          //     children: <Widget>[
-          //       SizedBox(
-          //         width: 5,
-          //       ),
-          //       Icon(
-          //         Icons.school,
-          //         color: kPrimaryColor,
-          //       ),
-          //       SizedBox(
-          //         width: 30,
-          //       ),
-          //       Expanded(
-          //         child: DropdownButton<String>(
-          //           isExpanded: true,
-          //           underline: SizedBox(),
-          //           icon: Icon(Icons.arrow_drop_down),
-          //           value: selectedClassDisplay,
-          //           items: studentClasses
-          //               .map<DropdownMenuItem<String>>((String dropDownItem) {
-          //             return DropdownMenuItem<String>(
-          //               value: dropDownItem,
-          //               child: Text(dropDownItem),
-          //             );
-          //           }).toList(),
-          //           hint: Text(
-          //             selectedClassDisplay,
-          //             style: TextStyle(
-          //               color: Colors.black,
-          //             ),
-          //           ),
-          //           onChanged: (String value) {
-          //             setState(() {
-          //               this.selectedClass = value;
-          //               this.selectedClassDisplay = value;
-          //             });
-          //           },
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
           SizedBox(height: MediaQuery.of(context).size.height * 0.028),
           Padding(
             padding: EdgeInsets.symmetric(
