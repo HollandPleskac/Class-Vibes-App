@@ -143,8 +143,8 @@ class _TeacherDashState extends State<TeacherDash> {
             clipper: MyClipper(),
             child: Container(
               padding: EdgeInsets.only(
-                left: MediaQuery.of(context).size.width * 0.1,
-                top: MediaQuery.of(context).size.height * 0.06,
+                left: MediaQuery.of(context).size.width * 0.05,
+                top: MediaQuery.of(context).size.height * 0.03,
                 right: MediaQuery.of(context).size.width * 0.05,
               ),
               height: MediaQuery.of(context).size.height * 0.4,
@@ -170,18 +170,21 @@ class _TeacherDashState extends State<TeacherDash> {
                   Expanded(
                     child: Stack(
                       children: <Widget>[
-                        IconButton(
-                          icon: Icon(
-                            Icons.menu,
-                            color: Colors.white,
-                            size: 28,
+                        Padding(
+                          padding: const EdgeInsets.only(left: 0, top: 10.0),
+                          child: IconButton(
+                            icon: Icon(
+                              Icons.menu,
+                              color: Colors.white,
+                              size: 28,
+                            ),
+                            onPressed: () =>
+                                _scaffoldKey.currentState.openDrawer(),
                           ),
-                          onPressed: () =>
-                              _scaffoldKey.currentState.openDrawer(),
                         ),
                         Padding(
                           padding: EdgeInsets.only(
-                              top: MediaQuery.of(context).size.height * 0.085),
+                              top: MediaQuery.of(context).size.height * 0.09),
                           child: Align(
                             alignment: Alignment.topCenter,
                             child: Column(
@@ -207,6 +210,19 @@ class _TeacherDashState extends State<TeacherDash> {
                                       color: Colors.white, fontSize: 18),
                                 ),
                               ],
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              bottom:
+                                  MediaQuery.of(context).size.height * 0.06),
+                          child: Align(
+                            alignment: Alignment.bottomCenter,
+                            child: SvgPicture.asset(
+                              'assets/images/undraw_donut_love_kau1.svg',
+                              width: MediaQuery.of(context).size.height * 0.2,
+                              fit: BoxFit.fitWidth,
                             ),
                           ),
                         ),
@@ -310,7 +326,10 @@ class _TeacherDashState extends State<TeacherDash> {
                                 underline: SizedBox(),
                                 icon: Container(
                                   margin: const EdgeInsets.only(top: 2),
-                                  child: const Icon(Icons.arrow_drop_down,color: Colors.black,),
+                                  child: const Icon(
+                                    Icons.arrow_drop_down,
+                                    color: Colors.black,
+                                  ),
                                 ),
                                 value: teacherSelectedClassName,
                                 items: dropdownEvents,
@@ -320,10 +339,11 @@ class _TeacherDashState extends State<TeacherDash> {
                                   );
                                   // setState(() {});
                                 },
-                                hint: Text(
-                                  teacherSelectedClassNameDisplay,
-                                  style: kSubTextStyle.copyWith(color:Colors.black,fontSize: 16,fontWeight:FontWeight.w500)
-                                ),
+                                hint: Text(teacherSelectedClassNameDisplay,
+                                    style: kSubTextStyle.copyWith(
+                                        color: Colors.black,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500)),
                               ),
                             ),
                           ],
