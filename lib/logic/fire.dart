@@ -434,7 +434,7 @@ class Fire {
         .collection('Classes')
         .document(classId)
         .setData({
-      'class code': classCode,
+      'Code': classCode,
       'class-name': className,
       'student id': classId,
     });
