@@ -17,7 +17,8 @@ class StudentJoinClassScreen extends StatefulWidget {
 
 class _StudentJoinClassScreenState extends State<StudentJoinClassScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-   final TextEditingController _joinClassController = TextEditingController();
+  final TextEditingController _joinClassController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   String studentUid = '';
 
@@ -57,8 +58,6 @@ class _StudentJoinClassScreenState extends State<StudentJoinClassScreen> {
 
   @override
   Widget build(BuildContext context) {
-   
-
     return Scaffold(
       key: _scaffoldKey,
       drawer: _appDrawer.studentDrawer(context),
@@ -130,30 +129,40 @@ class _StudentJoinClassScreenState extends State<StudentJoinClassScreen> {
               ),
             ),
             Text('Join a class (enter class code)'),
-            TextField(
-              controller: _joinClassController,
+            Form(
+              key: _formKey,
+              child: TextFormField(
+                  controller: _joinClassController,
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  }),
             ),
             RaisedButton(
               child: Text('join'),
               onPressed: () async {
-                String success = await _fire.joinClass(
-                  classCode: int.parse(_joinClassController.text).toInt(),
-                  studentName: studentName,
-                  studentUid: studentUid,
-                );
-                print('is success : ' + success);
-                if (success == 'failure') {
-                  final snackBar = SnackBar(
-                    content: Text('That Code Does Not Exist!'),
-                    action: SnackBarAction(
-                      label: 'Hide',
-                      onPressed: () {
-                        _scaffoldKey.currentState.hideCurrentSnackBar();
-                      },
-                    ),
+                if (_formKey.currentState.validate()) {
+                  String success = await _fire.joinClass(
+                    classCode: int.parse(_joinClassController.text).toInt(),
+                    studentName: studentName,
+                    studentUid: studentUid,
                   );
-                 
-                  _scaffoldKey.currentState.showSnackBar(snackBar);
+                  print('is success : ' + success);
+                  if (success == 'failure') {
+                    final snackBar = SnackBar(
+                      content: Text('That Code Does Not Exist!'),
+                      action: SnackBarAction(
+                        label: 'Hide',
+                        onPressed: () {
+                          _scaffoldKey.currentState.hideCurrentSnackBar();
+                        },
+                      ),
+                    );
+
+                    _scaffoldKey.currentState.showSnackBar(snackBar);
+                  }
                 }
               },
             ),
