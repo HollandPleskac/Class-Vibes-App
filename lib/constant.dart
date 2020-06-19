@@ -13,6 +13,7 @@ final kActiveShadowColor = Color(0xFF4056C6).withOpacity(.15);
 final kGreyColor = Colors.grey;
 final kYellowColor = Color(0xfff8b250);
 final kBlueColor = Color(0xff0293ee);
+final kOffColor = Color(0xFF11249F);
 
 // Text Style
 const kHeadingTextStyle = TextStyle(

@@ -159,6 +159,10 @@ class _TeacherDashState extends State<TeacherDash> {
                     Color(0xFF11249F),
                   ],
                 ),
+                // image: DecorationImage(
+                //   alignment: Alignment.bottomRight,
+                //   image: AssetImage('assets/images/virus.png'),
+                // ),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -201,7 +205,7 @@ class _TeacherDashState extends State<TeacherDash> {
                                   //'Spring 2020',
                                   style: kSubTextStyle.copyWith(
                                       color: Colors.white, fontSize: 18),
-                                )
+                                ),
                               ],
                             ),
                           ),
@@ -247,12 +251,15 @@ class _TeacherDashState extends State<TeacherDash> {
                         ),
                         Icon(
                           Icons.school,
-                          color: kPrimaryColor,
+                          color: kOffColor,
                         ),
                         SizedBox(
                           width: 30,
                         ),
-                        Text('No Classes',style: kSubTextStyle,),
+                        Text(
+                          'No Classes',
+                          style: kSubTextStyle,
+                        ),
                         Spacer(),
                         Container(
                           margin: const EdgeInsets.only(top: 2),
@@ -292,7 +299,7 @@ class _TeacherDashState extends State<TeacherDash> {
                             ),
                             Icon(
                               Icons.school,
-                              color: kPrimaryColor,
+                              color: kOffColor,
                             ),
                             SizedBox(
                               width: 30,
@@ -303,7 +310,7 @@ class _TeacherDashState extends State<TeacherDash> {
                                 underline: SizedBox(),
                                 icon: Container(
                                   margin: const EdgeInsets.only(top: 2),
-                                  child: const Icon(Icons.arrow_drop_down),
+                                  child: const Icon(Icons.arrow_drop_down,color: Colors.black,),
                                 ),
                                 value: teacherSelectedClassName,
                                 items: dropdownEvents,
@@ -315,9 +322,7 @@ class _TeacherDashState extends State<TeacherDash> {
                                 },
                                 hint: Text(
                                   teacherSelectedClassNameDisplay,
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                  ),
+                                  style: kSubTextStyle.copyWith(color:Colors.black,fontSize: 16,fontWeight:FontWeight.w500)
                                 ),
                               ),
                             ),
@@ -586,7 +591,7 @@ class PieChart2State extends State {
                         );
                       }
                       return Center(
-                        child: Text('no students'),
+                        child: Text('No Students'),
                       );
                     case ConnectionState.none:
                       return Text('Connection state returned none');
