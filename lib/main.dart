@@ -29,3 +29,7 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
+
+//IMPORTANT NOTES - MUST READ
+//SWAPPING EMAIL FOR USER UID TO BE CONSISTENT WITH THE WEBSITE
+

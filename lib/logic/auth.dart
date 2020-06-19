@@ -1,3 +1,5 @@
+//SWAPPING EMAIL FOR USER UID TO BE CONSISTENT WITH THE WEBSITE
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -26,7 +28,8 @@ class Auth {
       _fire.createStudentAccount(
           email: email, userName: userName, userUid: _user.uid);
 
-      return ['success', _user.uid];
+      //return ['success', _user.uid];
+      return ['success', email];
     } catch (e) {
       return [e.message.toString(), ''];
     }
