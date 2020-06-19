@@ -225,7 +225,7 @@ class Fire {
     _firestore.collection('classes').document(_randomString).setData({
       'ClassName': className,
       'class id': _randomString,
-      'class code': _classCode,
+      'Code': _classCode,
       'teacher':teacherName,
     });
 
