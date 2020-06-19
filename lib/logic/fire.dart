@@ -23,10 +23,12 @@ class Fire {
   void createStudentAccount({String userUid, String email, String userName}) {
     _firestore.collection('user data').document(userUid).setData({
       'email': email,
-      'user name': userName,
+      'display-name': userName,
       'selected class': 'no selected class',
-      'account status': 'activated',
-      'account type': 'student',
+      'Account Status': 'Activated',
+      'Account Type': 'Student',
+      //idk what use name is - on website it is email
+      'username':email,
     });
   }
 
@@ -51,10 +53,11 @@ class Fire {
   void createTeacherAccount({String userUid, String email, String userName}) {
     _firestore.collection('user data').document(userUid).setData({
       'email': email,
-      'user name': userName,
+      'username': email,
+      'display-name':userName,
       'selected class': 'no selected class',
-      'account status': 'activated',
-      'account type': 'teacher',
+      'Account Status': 'Activated',
+      'Account Type': 'Teacher',
     });
   }
 
@@ -81,22 +84,22 @@ class Fire {
   Future<String> getLoginType({String email}) async {
     try {
       String queryResult = await _firestore
-          .collection('user data')
+          .collection('UserData')
           .where('email', isEqualTo: email)
-          .where('account type', isEqualTo: 'teacher')
+          .where('Account Type', isEqualTo: 'Teacher')
           .getDocuments()
           .then(
-              (querySnap) => querySnap.documents[0]['account type'].toString());
+              (querySnap) => querySnap.documents[0]['Account Type'].toString());
       return 'teacher';
     } catch (e) {
       String queryResult = await _firestore
-          .collection('user data')
+          .collection('UserData')
           .where('email', isEqualTo: email)
-          .where('account type', isEqualTo: 'student')
+          .where('Account Type', isEqualTo: 'Student')
           .getDocuments()
           .then(
-              (querySnap) => querySnap.documents[0]['account type'].toString());
-      if (queryResult == 'student') {
+              (querySnap) => querySnap.documents[0]['Account Type'].toString());
+      if (queryResult == 'Student') {
         return 'student';
       } else {
         return 'no account with this email';
@@ -137,9 +140,9 @@ class Fire {
 
   void updateStudentMood({String studentUid, String classId, String newMood}) {
     _firestore
-        .collection('user data')
+        .collection('UserData')
         .document(studentUid)
-        .collection('classes')
+        .collection('Classes')
         .document(classId)
         .updateData({
       'mood': newMood,
@@ -149,9 +152,9 @@ class Fire {
     });
 
     _firestore
-        .collection('classes')
+        .collection('Classes')
         .document(classId)
-        .collection('students')
+        .collection('Students')
         .document(studentUid)
         .updateData({
       'mood': newMood,
@@ -172,7 +175,7 @@ class Fire {
 
   void setStudentSelectedClass({String studentUid, String classId}) {
     _firestore
-        .collection('user data')
+        .collection('UserData')
         .document(studentUid)
         .updateData({'selected class': classId});
   }
@@ -185,7 +188,7 @@ class Fire {
 
   void setTeacherSelectedClass({String teacherUid, String classId}) {
     _firestore
-        .collection('teachers')
+        .collection('UserData')
         .document(teacherUid)
         .updateData({'selected class': classId});
   }
@@ -220,25 +223,25 @@ class Fire {
     int _classCode = int.parse(randomNumeric(5)).toInt();
 
     _firestore.collection('classes').document(_randomString).setData({
-      'class name': className,
+      'ClassName': className,
       'class id': _randomString,
       'class code': _classCode,
       'teacher':teacherName,
     });
 
     _firestore
-        .collection('user data')
+        .collection('UserData')
         .document(teacherUid)
-        .collection('classes')
+        .collection('Classes')
         .document(_randomString)
         .setData({
-      'class name': className,
+      'ClassName': className,
       'class id': _randomString,
       'class code': _classCode,
     });
 
     _firestore
-        .collection('user data')
+        .collection('UserData')
         .document(teacherUid)
         .setData({'selected class': _randomString});
   }
@@ -397,23 +400,23 @@ class Fire {
       {String studentUid, int classCode, String studentName}) async {
     //get id of class that student is joining
     String classId = await _firestore
-        .collection('classes')
+        .collection('Classes')
         .where('class code', isEqualTo: classCode)
         .getDocuments()
         .then((querySnap) => querySnap.documents[0].documentID);
 
     //get name of class that student is joining
     String className = await _firestore
-        .collection('classes')
+        .collection('Classes')
         .document(classId)
         .get()
-        .then((docSnap) => docSnap.data['class name']);
+        .then((docSnap) => docSnap.data['ClassName']);
 
     //join class in classes collection
     _firestore
-        .collection('classes')
+        .collection('Classes')
         .document(classId)
-        .collection('students')
+        .collection('Students')
         .document(studentUid)
         .setData({
       'date': DateFormat.yMMMMd('en_US').format(
@@ -426,9 +429,9 @@ class Fire {
 
     //join class in user data collection
     _firestore
-        .collection('user data')
+        .collection('UserData')
         .document(studentUid)
-        .collection('classes')
+        .collection('Classes')
         .document(classId)
         .setData({
       'class code': classCode,
@@ -443,9 +446,9 @@ class Fire {
 
   void pushAnnouncement(String classId, String content, String title) {
     _firestore
-        .collection('classes')
+        .collection('Classes')
         .document(classId)
-        .collection('announcements')
+        .collection('Announcements')
         .document()
         .setData({
       'date': DateFormat.yMMMMd('en_US').format(
@@ -473,9 +476,9 @@ class Fire {
   void setUpStudentMeeting(
       String title, String content, String date, String studentUid) {
     _firestore
-        .collection('user data')
+        .collection('UserData')
         .document(studentUid)
-        .collection('meetings')
+        .collection('Meetings')
         .document()
         .setData(
       {'title': title, 'content': content, 'date': date},
