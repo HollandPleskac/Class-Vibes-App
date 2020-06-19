@@ -113,9 +113,9 @@ class _StudentMeetingsState extends State<StudentMeetings> {
               height: 300,
               child: StreamBuilder(
                 stream: _firestore
-                    .collection('user data')
+                    .collection('UserData')
                     .document(studentUid)
-                    .collection('meetings')
+                    .collection('Meetings')
                     .snapshots(),
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
