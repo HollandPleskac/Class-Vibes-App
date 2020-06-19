@@ -398,6 +398,9 @@ class Fire {
 
   Future<String> joinClass(
       {String studentUid, int classCode, String studentName}) async {
+    if (classCode == '' || classCode == null) {
+      return 'failure';
+    }
     try {
       //get id of class that student is joining
       String classId = await _firestore
