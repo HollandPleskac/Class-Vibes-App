@@ -34,7 +34,7 @@ class _StudentDashState extends State<StudentDash> {
 
   String studentUid = '';
   String studentSelectedClassId = '';
-  String studentSelectedClassName;
+  String studentSelectedClassName = 'loading';
   String studentMood = '';
 
   Future getStudentUid() async {

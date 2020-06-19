@@ -34,7 +34,7 @@ class _TeacherDashState extends State<TeacherDash> {
   String teacherUid = '';
   String teacherSelectedClassId = '';
   String teacherSelectedClassName;
-  String teacherSelectedClassNameDisplay = '';
+  String teacherSelectedClassNameDisplay = 'loading';
 
   Future getTeacherUid() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
