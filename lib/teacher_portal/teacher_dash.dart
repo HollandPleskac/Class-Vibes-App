@@ -251,6 +251,7 @@ class _TeacherDashState extends State<TeacherDash> {
                         SizedBox(
                           width: 30,
                         ),
+                        Text('No Classes',style: kSubTextStyle,),
                         Spacer(),
                         Container(
                           margin: const EdgeInsets.only(top: 2),

@@ -268,7 +268,9 @@ class _StudentDashState extends State<StudentDash> {
                         SizedBox(
                           width: 30,
                         ),
+                        Text('No Classes',style: kSubTextStyle,),
                         Spacer(),
+                        
                         Container(
                           margin: const EdgeInsets.only(top: 2),
                           child: const Icon(Icons.arrow_drop_down),
