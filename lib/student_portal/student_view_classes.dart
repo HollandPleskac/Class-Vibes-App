@@ -189,7 +189,7 @@ class _StudentClassesViewState extends State<StudentClassesView> {
                               .map((DocumentSnapshot document) {
                             return Course(
                               color: Colors.teal[200],
-                              className: document['class name'],
+                              className: document['class-name'],
                               classId: document.documentID,
                               studentName: studentName,
                               studentUid: studentUid,
