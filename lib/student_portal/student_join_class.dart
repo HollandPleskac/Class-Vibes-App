@@ -17,6 +17,7 @@ class StudentJoinClassScreen extends StatefulWidget {
 
 class _StudentJoinClassScreenState extends State<StudentJoinClassScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+   final TextEditingController _joinClassController = TextEditingController();
 
   String studentUid = '';
 
@@ -47,9 +48,7 @@ class _StudentJoinClassScreenState extends State<StudentJoinClassScreen> {
       print("got uid");
       getStudentName(studentUid).then((_) {
         print("got student name ");
-        setState(() {
-
-        });
+        setState(() {});
       });
     });
 
@@ -58,7 +57,7 @@ class _StudentJoinClassScreenState extends State<StudentJoinClassScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController _joinClassController = TextEditingController();
+   
 
     return Scaffold(
       key: _scaffoldKey,
@@ -136,12 +135,26 @@ class _StudentJoinClassScreenState extends State<StudentJoinClassScreen> {
             ),
             RaisedButton(
               child: Text('join'),
-              onPressed: () {
-                _fire.joinClass(
+              onPressed: () async {
+                String success = await _fire.joinClass(
                   classCode: int.parse(_joinClassController.text).toInt(),
                   studentName: studentName,
                   studentUid: studentUid,
                 );
+                print('is success : ' + success);
+                if (success == 'failure') {
+                  final snackBar = SnackBar(
+                    content: Text('That Code Does Not Exist!'),
+                    action: SnackBarAction(
+                      label: 'Hide',
+                      onPressed: () {
+                        _scaffoldKey.currentState.hideCurrentSnackBar();
+                      },
+                    ),
+                  );
+                 
+                  _scaffoldKey.currentState.showSnackBar(snackBar);
+                }
               },
             ),
           ],
