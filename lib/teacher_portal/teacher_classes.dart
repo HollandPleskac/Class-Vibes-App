@@ -36,8 +36,8 @@ class _TeacherClassesScreenState extends State<TeacherClassesScreen> {
 
   Future getTeacherName(uid) async {
     String nameOfTeacher =
-        await _firestore.collection('user data').document(uid).get().then(
-              (docSnap) => docSnap.data['user name'],
+        await _firestore.collection('UserData').document(uid).get().then(
+              (docSnap) => docSnap.data['username'],
             );
     teacherName = nameOfTeacher;
     print(teacherName);
@@ -165,9 +165,9 @@ class _TeacherClassesScreenState extends State<TeacherClassesScreen> {
             height: 380,
             child: StreamBuilder(
               stream: _firestore
-                  .collection('user data')
+                  .collection('UserData')
                   .document(teacherUid)
-                  .collection('classes')
+                  .collection('Classes')
                   .snapshots(),
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
