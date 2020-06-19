@@ -165,11 +165,15 @@ class _StudentDashState extends State<StudentDash> {
                   begin: Alignment.topRight,
                   end: Alignment.bottomRight,
                   colors: [
-                    kPrimaryColor,
-                    Colors.blue[700],
+                    Color(0xFF3383CD),
+                    Color(0xFF11249F),
                   ],
                 ),
+                // image: DecorationImage(
+                //   image: AssetImage("assets/images/virus.png"),
+                // ),
               ),
+
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -268,9 +272,11 @@ class _StudentDashState extends State<StudentDash> {
                         SizedBox(
                           width: 30,
                         ),
-                        Text('No Classes',style: kSubTextStyle,),
+                        Text(
+                          'No Classes',
+                          style: kSubTextStyle,
+                        ),
                         Spacer(),
-                        
                         Container(
                           margin: const EdgeInsets.only(top: 2),
                           child: const Icon(Icons.arrow_drop_down),
