@@ -48,7 +48,7 @@ class _TeacherDashState extends State<TeacherDash> {
   Future getTeacherClassId(String uid) async {
     try {
       String classIdentification =
-          await _firestore.collection('user data').document(uid).get().then(
+          await _firestore.collection('UserData').document(uid).get().then(
                 (docSnap) => docSnap.data['selected class'],
               );
       teacherSelectedClassId = classIdentification;
@@ -60,7 +60,7 @@ class _TeacherDashState extends State<TeacherDash> {
   Future getTeacherClassNameDisplay(uid, selectedClassId) async {
     try {
       String className = await _firestore
-          .collection('classes')
+          .collection('Classes')
           .document(selectedClassId)
           .get()
           .then(
@@ -75,9 +75,9 @@ class _TeacherDashState extends State<TeacherDash> {
 
   Future setTeacherNewSelectedClassID(String newSelectedClassName) async {
     String newSelectedClassId = await _firestore
-        .collection('user data')
+        .collection('UserData')
         .document(teacherUid)
-        .collection('classes')
+        .collection('Classes')
         .where('class name', isEqualTo: newSelectedClassName)
         .getDocuments()
         .then((value) => value.documents[0].documentID);
@@ -233,9 +233,9 @@ class _TeacherDashState extends State<TeacherDash> {
             ),
             child: StreamBuilder<QuerySnapshot>(
                 stream: Firestore.instance
-                    .collection("user data")
+                    .collection("UserData")
                     .document(teacherUid)
-                    .collection('classes')
+                    .collection('Classes')
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData)
@@ -462,9 +462,9 @@ class PieChart2State extends State {
               aspectRatio: 1,
               child: StreamBuilder(
                 stream: _firestore
-                    .collection('classes')
+                    .collection('Classes')
                     .document(selectedClassId)
-                    .collection("students")
+                    .collection("Students")
                     .snapshots(),
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
