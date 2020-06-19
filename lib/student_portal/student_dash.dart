@@ -49,7 +49,7 @@ class _StudentDashState extends State<StudentDash> {
   Future getStudentClassId(String uid) async {
     try {
       String classIdentification =
-          await _firestore.collection('user data').document(uid).get().then(
+          await _firestore.collection('UserData').document(uid).get().then(
                 (docSnap) => docSnap.data['selected class'],
               );
       studentSelectedClassId = classIdentification;
@@ -61,7 +61,7 @@ class _StudentDashState extends State<StudentDash> {
   Future getStudentClassNameDisplay(uid, selectedClassId) async {
     try {
       String className = await _firestore
-          .collection('classes')
+          .collection('Classes')
           .document(selectedClassId)
           .get()
           .then(
@@ -93,9 +93,9 @@ class _StudentDashState extends State<StudentDash> {
 
   Future setStudentNewSelectedClassID(String newSelectedClassName) async {
     String newSelectedClassId = await _firestore
-        .collection('user data')
+        .collection('UserData')
         .document(studentUid)
-        .collection('classes')
+        .collection('Classes')
         .where('class name', isEqualTo: newSelectedClassName)
         .getDocuments()
         .then((value) => value.documents[0].documentID);
@@ -248,9 +248,9 @@ class _StudentDashState extends State<StudentDash> {
             ),
             child: StreamBuilder<QuerySnapshot>(
                 stream: Firestore.instance
-                    .collection("user data")
+                    .collection("UserData")
                     .document(studentUid)
-                    .collection('classes')
+                    .collection('Classes')
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData)
@@ -363,7 +363,7 @@ class _StudentDashState extends State<StudentDash> {
                             ? Container()
                             : StreamBuilder(
                                 stream: Firestore.instance
-                                    .collection('classes')
+                                    .collection('Classes')
                                     .document(studentSelectedClassId)
                                     .snapshots(),
                                 builder: (context, snapshot) {
@@ -373,7 +373,7 @@ class _StudentDashState extends State<StudentDash> {
                                     return Padding(
                                       padding: EdgeInsets.only(left: 2),
                                       child: Text(
-                                        snapshot.data['teacher'],
+                                        snapshot.data['Teacher'],
                                         style: TextStyle(
                                           color: kTextLightColor,
                                           fontSize: 15,
@@ -431,9 +431,9 @@ class _StudentDashState extends State<StudentDash> {
                           )
                         : StreamBuilder(
                             stream: Firestore.instance
-                                .collection('classes')
+                                .collection('Classes')
                                 .document(studentSelectedClassId)
-                                .collection('students')
+                                .collection('Students')
                                 .document(studentUid)
                                 .snapshots(),
                             builder: (context, snapshot) {

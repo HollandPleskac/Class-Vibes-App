@@ -29,7 +29,7 @@ class _StudentAnnouncementsState extends State<StudentAnnouncements> {
   Future getStudentClassId(String uid) async {
     try {
       String classIdentification =
-          await _firestore.collection('students').document(uid).get().then(
+          await _firestore.collection('UserData').document(uid).get().then(
                 (docSnap) => docSnap.data['selected class'],
               );
       studentSelectedClassId = classIdentification;
@@ -41,7 +41,7 @@ class _StudentAnnouncementsState extends State<StudentAnnouncements> {
   Future getStudentClassName(uid, selectedClassId) async {
     try {
       String className = await _firestore
-          .collection('classes')
+          .collection('Classes')
           .document(selectedClassId)
           .get()
           .then(
