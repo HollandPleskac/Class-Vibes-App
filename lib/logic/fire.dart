@@ -401,7 +401,7 @@ class Fire {
     //get id of class that student is joining
     String classId = await _firestore
         .collection('Classes')
-        .where('class code', isEqualTo: classCode)
+        .where('Code', isEqualTo: classCode)
         .getDocuments()
         .then((querySnap) => querySnap.documents[0].documentID);
 
