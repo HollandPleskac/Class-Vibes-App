@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../constant.dart';
 import '../app_drawer.dart';
@@ -154,8 +155,8 @@ class _TeacherDashState extends State<TeacherDash> {
                   begin: Alignment.topRight,
                   end: Alignment.bottomRight,
                   colors: [
-                    kPrimaryColor,
-                    Colors.blue[700],
+                    Color(0xFF3383CD),
+                    Color(0xFF11249F),
                   ],
                 ),
               ),
