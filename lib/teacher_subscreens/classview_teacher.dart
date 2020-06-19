@@ -207,15 +207,15 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
                 //takes off the where query if the teacher wishes to see all students
                 stream: isSelectedAll == false
                     ? _firestore
-                        .collection('classes')
+                        .collection('Classes')
                         .document(classId)
-                        .collection('students')
+                        .collection('Students')
                         .where('mood', isEqualTo: sortedChoice)
                         .snapshots()
                     : _firestore
-                        .collection('classes')
+                        .collection('Classes')
                         .document(classId)
-                        .collection('students')
+                        .collection('Students')
                         .snapshots(),
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
