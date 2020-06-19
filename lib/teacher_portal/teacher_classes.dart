@@ -340,7 +340,7 @@ class Course extends StatelessWidget {
             'class name': text,
             'class id': classId,
             'teacher name': teacherName,
-            'class code': classCode,
+            'Code': classCode,
           });
         });
   }
