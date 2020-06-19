@@ -358,6 +358,12 @@ class _PushAnnouncementState extends State<PushAnnouncement> {
                   Padding(
                     padding: EdgeInsets.only(left: 50, top: 00),
                     child: TextFormField(
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Please enter some text';
+                        }
+                        return null;
+                      },
                       controller: widget.titleController,
                       maxLines: 1,
                       keyboardType: TextInputType.text,
@@ -377,6 +383,12 @@ class _PushAnnouncementState extends State<PushAnnouncement> {
                   Padding(
                     padding: EdgeInsets.only(left: 50, top: 00),
                     child: TextFormField(
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Please enter some text';
+                        }
+                        return null;
+                      },
                       controller: widget.contentController,
                       maxLines: 1,
                       keyboardType: TextInputType.text,
