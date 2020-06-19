@@ -64,7 +64,7 @@ class _TeacherDashState extends State<TeacherDash> {
           .document(selectedClassId)
           .get()
           .then(
-            (docSnap) => docSnap.data['class name'],
+            (docSnap) => docSnap.data['class-name'],
           );
 
       teacherSelectedClassNameDisplay = className;
