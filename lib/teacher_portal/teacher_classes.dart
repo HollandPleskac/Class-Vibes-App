@@ -193,7 +193,7 @@ class _TeacherClassesScreenState extends State<TeacherClassesScreen> {
                               .map((DocumentSnapshot document) {
                             return Course(
                               color: Colors.teal[200],
-                              text: document['class name'],
+                              text: document['class-name'],
                               classId: document.documentID,
                               teacherName: teacherName,
                               classCode: document['class code'],
