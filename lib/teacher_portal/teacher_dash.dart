@@ -171,7 +171,7 @@ class _TeacherDashState extends State<TeacherDash> {
                     child: Stack(
                       children: <Widget>[
                         Padding(
-                          padding: const EdgeInsets.only(left: 0, top: 10.0),
+                          padding: const EdgeInsets.only(left: 0, top: 15.0),
                           child: IconButton(
                             icon: Icon(
                               Icons.menu,
@@ -215,13 +215,13 @@ class _TeacherDashState extends State<TeacherDash> {
                         ),
                         Padding(
                           padding: EdgeInsets.only(
-                              bottom:
-                                  MediaQuery.of(context).size.height * 0.06),
+                            bottom: MediaQuery.of(context).size.height * 0.07,right:20,
+                          ),
                           child: Align(
                             alignment: Alignment.bottomCenter,
                             child: SvgPicture.asset(
                               'assets/images/undraw_donut_love_kau1.svg',
-                              width: MediaQuery.of(context).size.height * 0.2,
+                              width: MediaQuery.of(context).size.height * 0.23,
                               fit: BoxFit.fitWidth,
                             ),
                           ),
