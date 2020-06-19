@@ -78,7 +78,7 @@ class _TeacherDashState extends State<TeacherDash> {
         .collection('UserData')
         .document(teacherUid)
         .collection('Classes')
-        .where('class name', isEqualTo: newSelectedClassName)
+        .where('class-name', isEqualTo: newSelectedClassName)
         .getDocuments()
         .then((value) => value.documents[0].documentID);
 
