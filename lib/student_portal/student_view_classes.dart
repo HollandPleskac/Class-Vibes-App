@@ -343,7 +343,7 @@ class Course extends StatelessWidget {
           context,
           ClassViewStudent.routeName,
           arguments: {
-            'class name': className,
+            'class-name': className,
             'class id': classId,
             'student name': studentName,
             'student uid':studentUid,
