@@ -272,7 +272,7 @@ class _TeacherDashState extends State<TeacherDash> {
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          value: "${documentSnapshot['class name']}",
+                          value: "${documentSnapshot['class-name']}",
                         ),
                       );
                     }
