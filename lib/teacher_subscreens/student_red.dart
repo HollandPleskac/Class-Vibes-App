@@ -33,7 +33,7 @@ class _StudentRedState extends State<StudentRed> {
 
   Future getTeacherClassId(String uid) async {
     String classIdentification =
-        await _firestore.collection('user data').document(uid).get().then(
+        await _firestore.collection('UserData').document(uid).get().then(
               (docSnap) => docSnap.data['selected class'],
             );
     teacherSelectedClassId = classIdentification;
@@ -68,9 +68,9 @@ class _StudentRedState extends State<StudentRed> {
           padding: EdgeInsets.only(top: 25),
           child: StreamBuilder(
             stream: _firestore
-                .collection("classes")
+                .collection("Classes")
                 .document(teacherSelectedClassId)
-                .collection('students')
+                .collection('Students')
                 .where('mood', isEqualTo: 'red')
                 .snapshots(),
             builder:
