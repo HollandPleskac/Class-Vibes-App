@@ -33,10 +33,10 @@ class _StudentJoinClassScreenState extends State<StudentJoinClassScreen> {
 
   Future getStudentName(uid) async {
     String nameOfStudent = await _firestore
-        .collection('user data')
+        .collection('UserData')
         .document(uid)
         .get()
-        .then((docSnap) => docSnap.data['user name']);
+        .then((docSnap) => docSnap.data['username']);
 
     studentName = nameOfStudent;
   }
