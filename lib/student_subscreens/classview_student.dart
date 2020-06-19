@@ -28,9 +28,9 @@ class _ClassViewStudentState extends State<ClassViewStudent> {
             height: 300,
             child: StreamBuilder(
               stream: _firestore
-                  .collection('classes')
+                  .collection('Classes')
                   .document(classId)
-                  .collection('announcements')
+                  .collection('Announcements')
                   .snapshots(),
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -70,9 +70,9 @@ class _ClassViewStudentState extends State<ClassViewStudent> {
             height: 300,
             child: StreamBuilder(
                 stream: _firestore
-                    .collection('user data')
+                    .collection('UserData')
                     .document(studentUid)
-                    .collection('meetings')
+                    .collection('Meetings')
                     .snapshots(),
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
