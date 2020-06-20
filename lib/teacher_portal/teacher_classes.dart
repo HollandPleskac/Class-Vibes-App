@@ -208,7 +208,7 @@ class _TeacherClassesScreenState extends State<TeacherClassesScreen> {
                               .map((DocumentSnapshot document) {
                             return Course(
                               color: Colors.teal[200],
-                              text: document['class-name'],
+                              text: document['ClassName'],
                               classId: document.documentID,
                               teacherName: teacherName,
                               classCode: int.parse(document['Code']).toInt(),
@@ -442,7 +442,7 @@ class AddClassBottomSheet extends StatelessWidget {
   }
 }
 
-class AddClassForm extends StatelessWidget {
+class AddClassForm extends StatefulWidget {
   final Key formKey;
   final TextEditingController classNameController;
 
@@ -457,10 +457,15 @@ class AddClassForm extends StatelessWidget {
   });
 
   @override
+  _AddClassFormState createState() => _AddClassFormState();
+}
+
+class _AddClassFormState extends State<AddClassForm> {
+  @override
   Widget build(BuildContext context) {
     return Container(
       child: Form(
-        key: formKey,
+        key: widget.formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -470,7 +475,7 @@ class AddClassForm extends StatelessWidget {
                 hintText: 'Class Name',
                 icon: Icon(Icons.email),
                 validator: 'class name cannot be blank',
-                controller: classNameController,
+                controller: widget.classNameController,
               ),
             ),
             Align(
@@ -486,10 +491,13 @@ class AddClassForm extends StatelessWidget {
                         color: kPrimaryColor,
                       )),
                   onPressed: () {
+                    setState(() {
+                      
+                    });
                     _fire.createClass(
-                      teacherUid: teacherUid,
-                      className: classNameController.text,
-                      teacherName: teacherName,
+                      teacherUid: widget.teacherUid,
+                      className: widget.classNameController.text.toString(),
+                      teacherName: widget.teacherName,
                     );
                     Navigator.pop(context);
                   },

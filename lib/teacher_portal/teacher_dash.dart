@@ -65,7 +65,7 @@ class _TeacherDashState extends State<TeacherDash> {
           .document(selectedClassId)
           .get()
           .then(
-            (docSnap) => docSnap.data['class-name'],
+            (docSnap) => docSnap.data['ClassName'],
           );
 
       teacherSelectedClassNameDisplay = className;
@@ -79,7 +79,7 @@ class _TeacherDashState extends State<TeacherDash> {
         .collection('UserData')
         .document(teacherUid)
         .collection('Classes')
-        .where('class-name', isEqualTo: newSelectedClassName)
+        .where('ClassName', isEqualTo: newSelectedClassName)
         .getDocuments()
         .then((value) => value.documents[0].documentID);
 
@@ -297,13 +297,13 @@ class _TeacherDashState extends State<TeacherDash> {
                           dropdownEvents.add(
                             DropdownMenuItem(
                               child: Text(
-                                documentSnapshot['class-name'],
+                                documentSnapshot['ClassName'],
                                 style: kSubTextStyle.copyWith(
                                   color: kPrimaryColor,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
-                              value: "${documentSnapshot['class-name']}",
+                              value: "${documentSnapshot['ClassName']}",
                             ),
                           );
                         }
