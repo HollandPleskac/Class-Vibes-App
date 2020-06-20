@@ -81,13 +81,13 @@ class _TeacherProfileState extends State<TeacherProfile> {
                         ),
                         Padding(
                           padding: EdgeInsets.only(
-                            top: MediaQuery.of(context).size.height * 0.15,
+                            bottom: MediaQuery.of(context).size.height * 0.045,
                           ),
                           child: Align(
                             alignment: Alignment.bottomCenter,
                             child: SvgPicture.asset(
-                              'assets/images/undraw_online_connection_6778.svg',
-                              width: MediaQuery.of(context).size.height * 0.35,
+                              'assets/images/undraw_profile_6l1l.svg',
+                              width: MediaQuery.of(context).size.height * 0.25,
                               fit: BoxFit.fitWidth,
                             ),
                           ),
