@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
 import '../app_drawer.dart';
 import '../constant.dart';
 
@@ -21,8 +23,8 @@ class _TeacherProfileState extends State<TeacherProfile> {
           children: [
             Container(
               padding: EdgeInsets.only(
-                left: MediaQuery.of(context).size.width * 0.1,
-                top: MediaQuery.of(context).size.height * 0.06,
+                left: MediaQuery.of(context).size.width * 0.05,
+                top: MediaQuery.of(context).size.height * 0.03,
                 right: MediaQuery.of(context).size.width * 0.05,
               ),
               height: MediaQuery.of(context).size.height * 0.4,
@@ -33,8 +35,8 @@ class _TeacherProfileState extends State<TeacherProfile> {
                   begin: Alignment.topRight,
                   end: Alignment.bottomRight,
                   colors: [
-                    kPrimaryColor,
-                    Colors.blue[700],
+                    Color(0xFF3383CD),
+                    Color(0xFF11249F),
                   ],
                 ),
               ),
@@ -65,15 +67,28 @@ class _TeacherProfileState extends State<TeacherProfile> {
                                   style: kHeadingTextStyle.copyWith(
                                       color: Colors.white, fontSize: 32),
                                 ),
-                                SizedBox(
-                                  height: 15,
-                                ),
-                                Text(
-                                  'Micheal Shea',
-                                  style: kSubTextStyle.copyWith(
-                                      color: Colors.white, fontSize: 18),
-                                )
+                                // SizedBox(
+                                //   height: 15,
+                                // ),
+                                // Text(
+                                //   'Micheal Shea',
+                                //   style: kSubTextStyle.copyWith(
+                                //       color: Colors.white, fontSize: 18),
+                                // )
                               ],
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                            top: MediaQuery.of(context).size.height * 0.15,
+                          ),
+                          child: Align(
+                            alignment: Alignment.bottomCenter,
+                            child: SvgPicture.asset(
+                              'assets/images/undraw_online_connection_6778.svg',
+                              width: MediaQuery.of(context).size.height * 0.35,
+                              fit: BoxFit.fitWidth,
                             ),
                           ),
                         ),

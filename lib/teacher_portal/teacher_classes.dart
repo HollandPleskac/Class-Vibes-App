@@ -108,7 +108,7 @@ class _TeacherClassesScreenState extends State<TeacherClassesScreen> {
                             child: Column(
                               children: [
                                 Text(
-                                  'Classes',
+                                  'View Classes',
                                   style: kHeadingTextStyle.copyWith(
                                       color: Colors.white, fontSize: 32),
                                 ),
@@ -126,13 +126,13 @@ class _TeacherClassesScreenState extends State<TeacherClassesScreen> {
                         ),
                         Padding(
                           padding: EdgeInsets.only(
-                            bottom: MediaQuery.of(context).size.height * 0.07,right:20,
+                            top: MediaQuery.of(context).size.height * 0.15,
                           ),
                           child: Align(
                             alignment: Alignment.bottomCenter,
                             child: SvgPicture.asset(
-                              'assets/images/undraw_Books_l33t.svg',
-                              width: MediaQuery.of(context).size.height * 0.205,
+                              'assets/images/undraw_online_connection_6778.svg',
+                              width: MediaQuery.of(context).size.height * 0.35,
                               fit: BoxFit.fitWidth,
                             ),
                           ),
@@ -316,45 +316,27 @@ class Course extends StatelessWidget {
         child: Container(
           child: Card(
             elevation: 2,
+            color: Color.fromRGBO(232, 232, 232, 1),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topRight,
-                        end: Alignment.bottomLeft,
-                        colors: [
-                          Color(0xFF3383CD),
-                          Color(0xFF11249F),
-                        ],
-                      ),
-                      image: DecorationImage(
-                        image: AssetImage('assets/images/virus.png'),
-                      ),
-                    ),
-                  ),
+                // Image.asset(
+                //   'assets/images/virus.png',
+                //   width: 80,
+                //   height: 80,
+                // ),
+                Icon(
+                  Icons.school,
+                  size: 60,
+                  color: kPrimaryColor,
                 ),
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                    color: Colors.white,
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          top: 10,
-                          left: 10,
-                        ),
-                        child: Text(
-                          text,
-                          style: kSubTextStyle.copyWith(
-                              color: Colors.black, fontSize: 15.5),
-                        ),
-                      ),
-                    ),
-                  ),
+                SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  text,
+                  style: kHeadingTextStyle.copyWith(
+                      color: Colors.black, fontSize: 15.5),
                 ),
               ],
             ),
