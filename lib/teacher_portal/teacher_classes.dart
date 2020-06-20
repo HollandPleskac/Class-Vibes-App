@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../constant.dart';
 import '../app_drawer.dart';
@@ -67,8 +68,8 @@ class _TeacherClassesScreenState extends State<TeacherClassesScreen> {
             clipper: MyClipper(),
             child: Container(
               padding: EdgeInsets.only(
-                left: MediaQuery.of(context).size.width * 0.1,
-                top: MediaQuery.of(context).size.height * 0.06,
+                left: MediaQuery.of(context).size.width * 0.05,
+                top: MediaQuery.of(context).size.height * 0.03,
                 right: MediaQuery.of(context).size.width * 0.05,
               ),
               height: MediaQuery.of(context).size.height * 0.4,
@@ -79,8 +80,8 @@ class _TeacherClassesScreenState extends State<TeacherClassesScreen> {
                   begin: Alignment.topRight,
                   end: Alignment.bottomRight,
                   colors: [
-                    kPrimaryColor,
-                    Colors.blue[700],
+                    Color(0xFF3383CD),
+                    Color(0xFF11249F),
                   ],
                 ),
               ),
@@ -111,15 +112,28 @@ class _TeacherClassesScreenState extends State<TeacherClassesScreen> {
                                   style: kHeadingTextStyle.copyWith(
                                       color: Colors.white, fontSize: 32),
                                 ),
-                                SizedBox(
-                                  height: 15,
-                                ),
-                                Text(
-                                  'Spring 2020',
-                                  style: kSubTextStyle.copyWith(
-                                      color: Colors.white, fontSize: 18),
-                                )
+                                // SizedBox(
+                                //   height: 15,
+                                // ),
+                                // Text(
+                                //   'Spring 2020',
+                                //   style: kSubTextStyle.copyWith(
+                                //       color: Colors.white, fontSize: 18),
+                                // )
                               ],
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).size.height * 0.07,right:20,
+                          ),
+                          child: Align(
+                            alignment: Alignment.bottomCenter,
+                            child: SvgPicture.asset(
+                              'assets/images/undraw_Books_l33t.svg',
+                              width: MediaQuery.of(context).size.height * 0.205,
+                              fit: BoxFit.fitWidth,
                             ),
                           ),
                         ),
