@@ -222,8 +222,8 @@ class Fire {
     var _randomString = randomAlphaNumeric(30);
     int _classCode = int.parse(randomNumeric(5)).toInt();
 
-    _firestore.collection('classes').document(_randomString).setData({
-      'ClassName': className,
+    _firestore.collection('Classes').document(_randomString).setData({
+      'class-name': className,
       'class id': _randomString,
       'Code': _classCode.toString(),
       'teacher': teacherName,

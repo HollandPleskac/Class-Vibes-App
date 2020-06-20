@@ -53,6 +53,7 @@ class _TeacherDashState extends State<TeacherDash> {
                 (docSnap) => docSnap.data['selected class'],
               );
       teacherSelectedClassId = classIdentification;
+      print('TEACHER SELECTED CLASS : ' + teacherSelectedClassId.toString());
     } catch (e) {
       teacherSelectedClassId = null;
     }
@@ -65,7 +66,7 @@ class _TeacherDashState extends State<TeacherDash> {
           .document(selectedClassId)
           .get()
           .then(
-            (docSnap) => docSnap.data['ClassName'],
+            (docSnap) => docSnap.data['class-name'],
           );
 
       teacherSelectedClassNameDisplay = className;
@@ -114,7 +115,7 @@ class _TeacherDashState extends State<TeacherDash> {
             setState(() {
               print('uid ' + teacherUid);
               print('class id ' + teacherSelectedClassId);
-              print('class name display' + teacherSelectedClassNameDisplay);
+              print('class name display' + teacherSelectedClassNameDisplay.toString());
               // print(
               //   _firestore
               //       .collection('classes')
