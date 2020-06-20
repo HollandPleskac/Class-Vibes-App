@@ -285,15 +285,15 @@ class _StudentDashState extends State<StudentDash> {
                         ),
                         Icon(
                           Icons.school,
-                          color: kPrimaryColor,
+                          color: kOffColor,
                         ),
                         SizedBox(
                           width: 30,
                         ),
-                        Text(
-                          'No Classes',
-                          style: kSubTextStyle,
-                        ),
+                        // Text(
+                        //   'No Classes',
+                        //   style: kSubTextStyle,
+                        // ),
                         Spacer(),
                         Container(
                           margin: const EdgeInsets.only(top: 2),
@@ -334,7 +334,7 @@ class _StudentDashState extends State<StudentDash> {
                             ),
                             Icon(
                               Icons.school,
-                              color: kPrimaryColor,
+                              color: kOffColor,
                             ),
                             SizedBox(
                               width: 30,
@@ -345,7 +345,7 @@ class _StudentDashState extends State<StudentDash> {
                                 underline: SizedBox(),
                                 icon: Container(
                                   margin: const EdgeInsets.only(top: 2),
-                                  child: const Icon(Icons.arrow_drop_down),
+                                  child: const Icon(Icons.arrow_drop_down,color: Colors.black,),
                                 ),
                                 value: studentSelectedClassName,
                                 items: dropdownEvents,
@@ -556,7 +556,7 @@ class _StudentDashState extends State<StudentDash> {
                                   //     height: 80,
                                   //   ),
                                   // ),
-                                  child: Text(':smiley:'),
+                                  child: Center(child: Text('😄',style: TextStyle(fontSize: 60),)),
                                 ),
                                 onTap: () {
                                   _fire.updateStudentMood(
@@ -582,13 +582,14 @@ class _StudentDashState extends State<StudentDash> {
                                   decoration: BoxDecoration(
                                       color: Colors.transparent,
                                       shape: BoxShape.circle),
-                                  child: Center(
-                                    child: Image.asset(
-                                      'assets/images/thinking face.png',
-                                      width: 80,
-                                      height: 80,
-                                    ),
-                                  ),
+                                  // child: Center(
+                                  //   child: Image.asset(
+                                  //     'assets/images/thinking face.png',
+                                  //     width: 80,
+                                  //     height: 80,
+                                  //   ),
+                                  // ),
+                                  child: Center(child: Text('😕',style: TextStyle(fontSize: 60),)),
                                 ),
                                 onTap: () {
                                   _fire.updateStudentMood(
@@ -614,13 +615,14 @@ class _StudentDashState extends State<StudentDash> {
                                   decoration: BoxDecoration(
                                       color: Colors.transparent,
                                       shape: BoxShape.circle),
-                                  child: Center(
-                                    child: Image.asset(
-                                      'assets/images/sad face.png',
-                                      width: 80,
-                                      height: 80,
-                                    ),
-                                  ),
+                                  // child: Center(
+                                  //   child: Image.asset(
+                                  //     'assets/images/sad face.png',
+                                  //     width: 80,
+                                  //     height: 80,
+                                  //   ),
+                                  // ),
+                                  child: Center(child: Text('😡',style: TextStyle(fontSize: 60),)),
                                 ),
                                 onTap: () {
                                   _fire.updateStudentMood(

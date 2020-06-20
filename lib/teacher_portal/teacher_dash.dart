@@ -194,21 +194,21 @@ class _TeacherDashState extends State<TeacherDash> {
                                   style: kHeadingTextStyle.copyWith(
                                       color: Colors.white, fontSize: 32),
                                 ),
-                                SizedBox(
-                                  height: 15,
-                                ),
-                                Text(
-                                  teacherSelectedClassNameDisplay == null ||
-                                          teacherSelectedClassNameDisplay ==
-                                              '' ||
-                                          teacherSelectedClassNameDisplay ==
-                                              'No Classes'
-                                      ? 'No Selected Class'
-                                      : teacherSelectedClassNameDisplay,
-                                  //'Spring 2020',
-                                  style: kSubTextStyle.copyWith(
-                                      color: Colors.white, fontSize: 18),
-                                ),
+                                // SizedBox(
+                                //   height: 15,
+                                // ),
+                                // Text(
+                                //   teacherSelectedClassNameDisplay == null ||
+                                //           teacherSelectedClassNameDisplay ==
+                                //               '' ||
+                                //           teacherSelectedClassNameDisplay ==
+                                //               'No Classes'
+                                //       ? 'No Selected Class'
+                                //       : teacherSelectedClassNameDisplay,
+                                //   //'Spring 2020',
+                                //   style: kSubTextStyle.copyWith(
+                                //       color: Colors.white, fontSize: 18),
+                                // ),
                               ],
                             ),
                           ),
@@ -220,8 +220,8 @@ class _TeacherDashState extends State<TeacherDash> {
                           child: Align(
                             alignment: Alignment.bottomCenter,
                             child: SvgPicture.asset(
-                              'assets/images/undraw_donut_love_kau1.svg',
-                              width: MediaQuery.of(context).size.height * 0.23,
+                              'assets/images/undraw_teaching_f1cm.svg',
+                              width: MediaQuery.of(context).size.height * 0.205,
                               fit: BoxFit.fitWidth,
                             ),
                           ),
@@ -272,10 +272,10 @@ class _TeacherDashState extends State<TeacherDash> {
                         SizedBox(
                           width: 30,
                         ),
-                        Text(
-                          'No Classes',
-                          style: kSubTextStyle,
-                        ),
+                        // Text(
+                        //   'No Classes',
+                        //   style: kSubTextStyle,
+                        // ),
                         Spacer(),
                         Container(
                           margin: const EdgeInsets.only(top: 2),
