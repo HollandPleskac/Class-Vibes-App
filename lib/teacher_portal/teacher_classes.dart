@@ -60,6 +60,7 @@ class _TeacherClassesScreenState extends State<TeacherClassesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromRGBO(247, 247, 247, 1),
       key: _scaffoldKey,
       drawer: _appDrawer.teacherDrawer(context),
       body: Column(
@@ -316,7 +317,7 @@ class Course extends StatelessWidget {
         child: Container(
           child: Card(
             elevation: 2,
-            color: Color.fromRGBO(232, 232, 232, 1),
+            color: Color.fromRGBO(255, 255, 255, 1),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
