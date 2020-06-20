@@ -307,7 +307,19 @@ class Course extends StatelessWidget {
                 Expanded(
                   flex: 1,
                   child: Container(
-                    color: kPrimaryColor.withOpacity(0.8),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topRight,
+                        end: Alignment.bottomLeft,
+                        colors: [
+                          Color(0xFF3383CD),
+                          Color(0xFF11249F),
+                        ],
+                      ),
+                      image: DecorationImage(
+                        image: AssetImage('assets/images/virus.png'),
+                      ),
+                    ),
                   ),
                 ),
                 Expanded(
