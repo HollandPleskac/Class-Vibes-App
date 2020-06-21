@@ -173,7 +173,6 @@ class _TeacherClassesScreenState extends State<TeacherClassesScreen> {
                     classNameController: _classNameController,
                     teacherName: teacherName,
                     errorMessage: _errorMessage,
-                    
                   ),
                 ),
               ),
@@ -484,15 +483,14 @@ class _AddClassFormState extends State<AddClassForm> {
               child: AddClassTextEntry(
                 hintText: 'Class Name',
                 icon: Icon(Icons.email),
-           
                 controller: widget.classNameController,
               ),
             ),
-            Center(child: Text(widget.errorMessage)),
+            Center(child: Text(widget.errorMessage,style: kErrorTextstyle,)),
             Align(
               alignment: Alignment.bottomRight,
               child: Padding(
-                padding: const EdgeInsets.only(left:10,right:10,bottom:10),
+                padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
                 child: FlatButton(
                   color: Colors.white,
                   child: Text('Create',
@@ -501,14 +499,20 @@ class _AddClassFormState extends State<AddClassForm> {
                         fontSize: 16,
                         color: kPrimaryColor,
                       )),
-                  onPressed: () {
-                 
-                      _fire.createClass(
-                        teacherUid: widget.teacherUid,
-                        className: widget.classNameController.text.toString(),
-                        teacherName: widget.teacherName,
-                      );
+                  onPressed: () async {
+                    String createClassErrorMess = await _fire.createClass(
+                      teacherUid: widget.teacherUid,
+                      className: widget.classNameController.text.toString(),
+                      teacherName: widget.teacherName,
+                    );
+                    // createClassErrorMess return type of null means nothing failed
+                    if (createClassErrorMess != null) {
+                      setState(() {
+                        widget.errorMessage = createClassErrorMess;
+                      });
+                    } else {
                       Navigator.pop(context);
+                    }
                     
                   },
                 ),
@@ -526,12 +530,10 @@ class AddClassTextEntry extends StatelessWidget {
   final Icon icon;
   final TextEditingController controller;
 
-
   AddClassTextEntry({
     @required this.hintText,
     @required this.icon,
     @required this.controller,
-    
   });
   @override
   Widget build(BuildContext context) {
@@ -553,7 +555,6 @@ class AddClassTextEntry extends StatelessWidget {
           hintText: hintText,
           icon: icon,
         ),
-   
       ),
     );
   }
