@@ -238,6 +238,7 @@ class Fire {
       'ClassName': className,
       'class id': _randomString,
       'Code': _classCode.toString(),
+      'teacher':teacherName,
     });
 
     _firestore

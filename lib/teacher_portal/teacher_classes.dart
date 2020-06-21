@@ -443,7 +443,7 @@ class AddClassBottomSheet extends StatelessWidget {
 }
 
 class AddClassForm extends StatefulWidget {
-  final Key formKey;
+  final GlobalKey<FormState> formKey;
   final TextEditingController classNameController;
 
   final String teacherUid;
@@ -474,7 +474,7 @@ class _AddClassFormState extends State<AddClassForm> {
               child: AddClassTextEntry(
                 hintText: 'Class Name',
                 icon: Icon(Icons.email),
-                validator: 'class name cannot be blank',
+           
                 controller: widget.classNameController,
               ),
             ),
@@ -491,15 +491,14 @@ class _AddClassFormState extends State<AddClassForm> {
                         color: kPrimaryColor,
                       )),
                   onPressed: () {
-                    setState(() {
-                      
-                    });
-                    _fire.createClass(
-                      teacherUid: widget.teacherUid,
-                      className: widget.classNameController.text.toString(),
-                      teacherName: widget.teacherName,
-                    );
-                    Navigator.pop(context);
+                 
+                      _fire.createClass(
+                        teacherUid: widget.teacherUid,
+                        className: widget.classNameController.text.toString(),
+                        teacherName: widget.teacherName,
+                      );
+                      Navigator.pop(context);
+                    
                   },
                 ),
               ),
@@ -515,13 +514,13 @@ class AddClassTextEntry extends StatelessWidget {
   final String hintText;
   final Icon icon;
   final TextEditingController controller;
-  final String validator;
+
 
   AddClassTextEntry({
     @required this.hintText,
     @required this.icon,
     @required this.controller,
-    @required this.validator,
+  
   });
   @override
   Widget build(BuildContext context) {
@@ -543,9 +542,7 @@ class AddClassTextEntry extends StatelessWidget {
           hintText: hintText,
           icon: icon,
         ),
-        validator: (String value) {
-          return validator;
-        },
+   
       ),
     );
   }

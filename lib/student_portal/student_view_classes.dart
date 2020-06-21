@@ -20,6 +20,7 @@ class _StudentClassesViewState extends State<StudentClassesView> {
 
   String studentUid;
   String studentName;
+  String errorMessage;
 
   Future getStudentUid() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
