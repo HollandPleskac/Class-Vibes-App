@@ -218,33 +218,41 @@ class Fire {
   //   );
   // }
 
-  void createClass({String teacherUid, String className, String teacherName}) {
+  Future<String> createClass(
+      {String teacherUid, String className, String teacherName}) async {
+    if (className == null || className == '') {
+      return 'please fill out all fields';
+    }
     var _randomString = randomAlphaNumeric(30);
     int _classCode = int.parse(randomNumeric(5)).toInt();
+    try {
+      _firestore.collection('Classes').document(_randomString).setData({
+        'class-name': className,
+        'class id': _randomString,
+        'Code': _classCode.toString(),
+        'teacher': teacherName,
+      });
 
-    _firestore.collection('Classes').document(_randomString).setData({
-      'class-name': className,
-      'class id': _randomString,
-      'Code': _classCode.toString(),
-      'teacher': teacherName,
-    });
+      _firestore
+          .collection('UserData')
+          .document(teacherUid)
+          .collection('Classes')
+          .document(_randomString)
+          .setData({
+        'ClassName': className,
+        'class id': _randomString,
+        'Code': _classCode.toString(),
+        'teacher': teacherName,
+      });
 
-    _firestore
-        .collection('UserData')
-        .document(teacherUid)
-        .collection('Classes')
-        .document(_randomString)
-        .setData({
-      'ClassName': className,
-      'class id': _randomString,
-      'Code': _classCode.toString(),
-      'teacher':teacherName,
-    });
-
-    _firestore
-        .collection('UserData')
-        .document(teacherUid)
-        .setData({'selected class': _randomString});
+      _firestore
+          .collection('UserData')
+          .document(teacherUid)
+          .setData({'selected class': _randomString});
+      return null;
+    } catch (e) {
+      return 'fail';
+    }
   }
 
   // Future<String> inviteStudent({
@@ -399,7 +407,6 @@ class Fire {
 
   Future<String> joinClass(
       {String studentUid, int classCode, String studentName}) async {
- 
     try {
       //get id of class that student is joining
       String classId = await _firestore

@@ -25,6 +25,7 @@ class _TeacherClassesScreenState extends State<TeacherClassesScreen> {
 
   String teacherUid;
   String teacherName = '';
+  String _errorMessage = '';
 
   Future getTeacherUid() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -171,6 +172,8 @@ class _TeacherClassesScreenState extends State<TeacherClassesScreen> {
                     teacherUid: teacherUid,
                     classNameController: _classNameController,
                     teacherName: teacherName,
+                    errorMessage: _errorMessage,
+                    
                   ),
                 ),
               ),
@@ -360,11 +363,13 @@ class AddClass extends StatelessWidget {
 
   final TextEditingController classNameController;
   final String teacherName;
+  String errorMessage;
 
   AddClass({
     this.teacherUid,
     this.classNameController,
     this.teacherName,
+    this.errorMessage,
   });
   @override
   Widget build(BuildContext context) {
@@ -383,6 +388,7 @@ class AddClass extends StatelessWidget {
                 teacherUid: teacherUid,
                 classNameController: classNameController,
                 teacherName: teacherName,
+                errorMessage: errorMessage,
               ),
             ),
           ),
@@ -397,12 +403,14 @@ class AddClassBottomSheet extends StatelessWidget {
   final TextEditingController classNameController;
   final TextEditingController classIdController;
   final String teacherName;
+  String errorMessage;
 
   AddClassBottomSheet({
     this.teacherUid,
     this.classNameController,
     this.classIdController,
     this.teacherName,
+    this.errorMessage,
   });
   @override
   Widget build(BuildContext context) {
@@ -433,6 +441,7 @@ class AddClassBottomSheet extends StatelessWidget {
                 classNameController: classNameController,
                 teacherUid: teacherUid,
                 teacherName: teacherName,
+                errorMessage: errorMessage,
               ),
             )
           ],
@@ -448,12 +457,13 @@ class AddClassForm extends StatefulWidget {
 
   final String teacherUid;
   final String teacherName;
-
+  String errorMessage;
   AddClassForm({
     this.formKey,
     this.classNameController,
     this.teacherUid,
     this.teacherName,
+    this.errorMessage,
   });
 
   @override
@@ -478,10 +488,11 @@ class _AddClassFormState extends State<AddClassForm> {
                 controller: widget.classNameController,
               ),
             ),
+            Center(child: Text(widget.errorMessage)),
             Align(
               alignment: Alignment.bottomRight,
               child: Padding(
-                padding: const EdgeInsets.all(10),
+                padding: const EdgeInsets.only(left:10,right:10,bottom:10),
                 child: FlatButton(
                   color: Colors.white,
                   child: Text('Create',
@@ -520,7 +531,7 @@ class AddClassTextEntry extends StatelessWidget {
     @required this.hintText,
     @required this.icon,
     @required this.controller,
-  
+    
   });
   @override
   Widget build(BuildContext context) {
