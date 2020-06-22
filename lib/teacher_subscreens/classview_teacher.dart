@@ -55,6 +55,7 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
             icon: Icon(Icons.delete),
             onPressed: () {
               _fire.deleteClass(teacherUid, classId);
+              Navigator.pop(context);
             },
           ),
           SizedBox(
