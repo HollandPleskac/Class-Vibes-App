@@ -17,7 +17,7 @@ class ClassViewTeacher extends StatefulWidget {
 
 class _ClassViewTeacherState extends State<ClassViewTeacher> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  String sortedChoice = 'green';
+  String sortedChoice = 'all';
   bool isSelectedAll = true;
 
   @override
