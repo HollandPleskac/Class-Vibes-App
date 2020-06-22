@@ -24,7 +24,7 @@ class _TeacherClassesScreenState extends State<TeacherClassesScreen> {
   final TextEditingController _classNameController = TextEditingController();
 
   String teacherUid;
-  String teacherName = '';
+  String _teacherName = '';
   String _errorMessage = '';
 
   Future getTeacherUid() async {
@@ -41,8 +41,8 @@ class _TeacherClassesScreenState extends State<TeacherClassesScreen> {
         await _firestore.collection('UserData').document(uid).get().then(
               (docSnap) => docSnap.data['username'],
             );
-    teacherName = nameOfTeacher;
-    print(teacherName);
+    _teacherName = nameOfTeacher;
+    print(_teacherName);
   }
 
   @override
@@ -171,7 +171,7 @@ class _TeacherClassesScreenState extends State<TeacherClassesScreen> {
                   child: AddClass(
                     teacherUid: teacherUid,
                     classNameController: _classNameController,
-                    teacherName: teacherName,
+                    teacherName: _teacherName,
                     errorMessage: _errorMessage,
                   ),
                 ),
@@ -212,7 +212,7 @@ class _TeacherClassesScreenState extends State<TeacherClassesScreen> {
                               color: Colors.teal[200],
                               text: document['ClassName'],
                               classId: document.documentID,
-                              teacherName: teacherName,
+                              teacherName: _teacherName,
                               classCode: int.parse(document['Code']).toInt(),
                               teacherUid: teacherUid,
                             );
