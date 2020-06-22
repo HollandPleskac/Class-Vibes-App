@@ -115,7 +115,8 @@ class _TeacherDashState extends State<TeacherDash> {
             setState(() {
               print('uid ' + teacherUid);
               print('class id ' + teacherSelectedClassId);
-              print('class name display' + teacherSelectedClassNameDisplay.toString());
+              print('class name display' +
+                  teacherSelectedClassNameDisplay.toString());
               // print(
               //   _firestore
               //       .collection('classes')
@@ -216,7 +217,8 @@ class _TeacherDashState extends State<TeacherDash> {
                         ),
                         Padding(
                           padding: EdgeInsets.only(
-                            bottom: MediaQuery.of(context).size.height * 0.07,right:20,
+                            bottom: MediaQuery.of(context).size.height * 0.07,
+                            right: 20,
                           ),
                           child: Align(
                             alignment: Alignment.bottomCenter,
@@ -461,10 +463,14 @@ class PieChart2State extends State {
                               print(pieTouchResponse.touchedSectionIndex);
                               setState(() {
                                 //getting variables for green,yellow, and red students
+
                                 var greenStudents = snapshot.data.documents
                                     .where((documentSnapshot) =>
                                         documentSnapshot.data['mood'] ==
                                         'green')
+                                    // .where((documentSnapshot) =>
+                                    //     documentSnapshot
+                                    //         .data['date' == 'March 15, 2015'])
                                     .length
                                     .toDouble();
                                 var yellowStudents = snapshot.data.documents
@@ -577,6 +583,9 @@ class PieChart2State extends State {
                               greenStudents: snapshot.data.documents
                                   .where((documentSnapshot) =>
                                       documentSnapshot.data['mood'] == 'green')
+                                  // .where((documentSnapshot) =>
+                                  //     documentSnapshot.data['date'] ==
+                                  //     'March 13, 2015')
                                   .length
                                   .toDouble(),
                               yellowStudents: snapshot.data.documents
