@@ -214,6 +214,7 @@ class _TeacherClassesScreenState extends State<TeacherClassesScreen> {
                               classId: document.documentID,
                               teacherName: teacherName,
                               classCode: int.parse(document['Code']).toInt(),
+                              teacherUid: teacherUid,
                             );
                           }).toList(),
                         ),
@@ -304,6 +305,7 @@ class Course extends StatelessWidget {
   final String classId;
   final String teacherName;
   final int classCode;
+  final String teacherUid;
 
   const Course({
     Key key,
@@ -312,6 +314,7 @@ class Course extends StatelessWidget {
     this.classId,
     this.teacherName,
     this.classCode,
+    this.teacherUid,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -352,6 +355,7 @@ class Course extends StatelessWidget {
             'class id': classId,
             'teacher name': teacherName,
             'Code': classCode,
+            'teacher uid':teacherUid,
           });
         });
   }

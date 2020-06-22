@@ -494,4 +494,10 @@ class Fire {
       {'title': title, 'content': content, 'date': date},
     );
   }
+
+  void deleteClass(String teacherUid, String classId) {
+    _firestore.collection("UserData").document(teacherUid).collection("Classes").document(classId).delete();
+
+    _firestore.collection("Classes").document(classId).delete();
+  }
 }

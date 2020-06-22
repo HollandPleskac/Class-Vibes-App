@@ -27,6 +27,7 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
     final String classId = routeArguments['class id'];
     final String teacherName = routeArguments['teacher name'];
     final int classCode = routeArguments['class code'];
+    final String teacherUid = routeArguments['teacher uid'];
 
     //meeting controllers
     final TextEditingController titleController = TextEditingController();
@@ -52,7 +53,9 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
           // ),
           IconButton(
             icon: Icon(Icons.delete),
-            onPressed: () {},
+            onPressed: () {
+              _fire.deleteClass(teacherUid, classId);
+            },
           ),
           SizedBox(
             width: 10,
