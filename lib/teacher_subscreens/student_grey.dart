@@ -8,8 +8,8 @@ class StudentGrey extends StatefulWidget {
 class _StudentGreyState extends State<StudentGrey> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      
+    return Scaffold(
+      body:Center(child: Text('GREY STUDENTS'),)
     );
   }
 }

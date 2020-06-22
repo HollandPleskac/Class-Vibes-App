@@ -489,6 +489,7 @@ class PieChart2State extends State {
                                         100)
                                     .length
                                     .toDouble();
+                                    
                                 var greenStudents = snapshot.data.documents
                                     .where((documentSnapshot) =>
                                         documentSnapshot.data['mood'] ==
@@ -826,7 +827,7 @@ class PieChart2State extends State {
       double redStudents,
       double greyStudents,
       double totalStudents}) {
-    return List.generate(3, (i) {
+    return List.generate(4, (i) {
       final isTouched = i == touchedIndex;
       //final double fontSize = isTouched ? 20 : 16;
       final double fontSize = 16;
@@ -878,7 +879,7 @@ class PieChart2State extends State {
           );
         case 3:
           return PieChartSectionData(
-            color: const Color(0xfff8b250),
+            color: Colors.grey,
             value: greyStudents,
             title: greyStudents != 0
                 ? (greyStudents / totalStudents * 100).toStringAsFixed(0) + '%'
