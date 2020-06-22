@@ -7,7 +7,7 @@ class Testing extends StatefulWidget {
 }
 
 class _TestingState extends State<Testing> {
-  var date = 'June 22, 2020';
+  var date = 'June 15, 2020';
   var date2 = DateFormat.yMMMMd('en_US')
       .format(
         DateTime.now(),
@@ -23,7 +23,7 @@ class _TestingState extends State<Testing> {
             onPressed: () {
               print(DateFormat.yMMMMd('en_US')
                   .parse(date2)
-                  .difference(DateFormat.yMMMMd('en_US').parse(date))
+                  .difference(DateFormat.yMMMMd('en_US').parse(date)).inDays
                   .toString());
             },
           ),
