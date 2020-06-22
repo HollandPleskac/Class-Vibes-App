@@ -141,7 +141,8 @@ class _TeacherDashState extends State<TeacherDash> {
   @override
   Widget build(BuildContext context) {
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-    final String _currentDateFormatted = DateFormat.yMMMMd().format(currentDateUnformatted);
+    final String _currentDateFormatted =
+        DateFormat.yMMMMd().format(currentDateUnformatted);
     return Scaffold(
       body: Column(
         children: [
@@ -422,14 +423,18 @@ class PieChartSample2 extends StatefulWidget {
   });
 
   @override
-  State<StatefulWidget> createState() => PieChart2State(selectedClassId);
+  State<StatefulWidget> createState() => PieChart2State(selectedClassId,currentDate);
 }
 
 // This class needs info
 class PieChart2State extends State {
   int touchedIndex;
   String selectedClassId;
-  PieChart2State(this.selectedClassId);
+  String currentDate;
+  PieChart2State(
+    this.selectedClassId,
+    this.currentDate,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -474,11 +479,7 @@ class PieChart2State extends State {
                                 var greyStudents = snapshot.data.documents
                                     .where((documentSnapshot) =>
                                         DateFormat.yMMMMd('en_US')
-                                            .parse(
-                                              DateFormat.yMMMMd('en_US').format(
-                                                DateTime.now(),
-                                              ),
-                                            )
+                                            .parse(currentDate)
                                             .difference(
                                               DateFormat.yMMMMd('en_US').parse(
                                                 documentSnapshot.data['date'],
@@ -494,11 +495,7 @@ class PieChart2State extends State {
                                         'green')
                                     .where((documentSnapshot) =>
                                         DateFormat.yMMMMd('en_US')
-                                            .parse(
-                                              DateFormat.yMMMMd('en_US').format(
-                                                DateTime.now(),
-                                              ),
-                                            )
+                                            .parse(currentDate)
                                             .difference(
                                               DateFormat.yMMMMd('en_US').parse(
                                                 documentSnapshot.data['date'],
@@ -514,11 +511,7 @@ class PieChart2State extends State {
                                         'yellow')
                                     .where((documentSnapshot) =>
                                         DateFormat.yMMMMd('en_US')
-                                            .parse(
-                                              DateFormat.yMMMMd('en_US').format(
-                                                DateTime.now(),
-                                              ),
-                                            )
+                                            .parse(currentDate)
                                             .difference(
                                               DateFormat.yMMMMd('en_US').parse(
                                                 documentSnapshot.data['date'],
@@ -533,11 +526,7 @@ class PieChart2State extends State {
                                         documentSnapshot.data['mood'] == 'red')
                                     .where((documentSnapshot) =>
                                         DateFormat.yMMMMd('en_US')
-                                            .parse(
-                                              DateFormat.yMMMMd('en_US').format(
-                                                DateTime.now(),
-                                              ),
-                                            )
+                                            .parse(currentDate)
                                             .difference(
                                               DateFormat.yMMMMd('en_US').parse(
                                                 documentSnapshot.data['date'],
@@ -648,11 +637,7 @@ class PieChart2State extends State {
                                       documentSnapshot.data['mood'] == 'green')
                                   .where((documentSnapshot) =>
                                       DateFormat.yMMMMd('en_US')
-                                          .parse(
-                                            DateFormat.yMMMMd('en_US').format(
-                                              DateTime.now(),
-                                            ),
-                                          )
+                                            .parse(currentDate)
                                           .difference(
                                             DateFormat.yMMMMd('en_US').parse(
                                               documentSnapshot.data['date'],
@@ -667,11 +652,7 @@ class PieChart2State extends State {
                                       documentSnapshot.data['mood'] == 'yellow')
                                   .where((documentSnapshot) =>
                                       DateFormat.yMMMMd('en_US')
-                                          .parse(
-                                            DateFormat.yMMMMd('en_US').format(
-                                              DateTime.now(),
-                                            ),
-                                          )
+                                            .parse(currentDate)
                                           .difference(
                                             DateFormat.yMMMMd('en_US').parse(
                                               documentSnapshot.data['date'],
@@ -686,11 +667,7 @@ class PieChart2State extends State {
                                       documentSnapshot.data['mood'] == 'red')
                                   .where((documentSnapshot) =>
                                       DateFormat.yMMMMd('en_US')
-                                          .parse(
-                                            DateFormat.yMMMMd('en_US').format(
-                                              DateTime.now(),
-                                            ),
-                                          )
+                                            .parse(currentDate)
                                           .difference(
                                             DateFormat.yMMMMd('en_US').parse(
                                               documentSnapshot.data['date'],
@@ -703,11 +680,7 @@ class PieChart2State extends State {
                               greyStudents: snapshot.data.documents
                                   .where((documentSnapshot) =>
                                       DateFormat.yMMMMd('en_US')
-                                          .parse(
-                                            DateFormat.yMMMMd('en_US').format(
-                                              DateTime.now(),
-                                            ),
-                                          )
+                                            .parse(currentDate)
                                           .difference(
                                             DateFormat.yMMMMd('en_US').parse(
                                               documentSnapshot.data['date'],
@@ -723,12 +696,7 @@ class PieChart2State extends State {
                                           'green')
                                       .where((documentSnapshot) =>
                                           DateFormat.yMMMMd('en_US')
-                                              .parse(
-                                                DateFormat.yMMMMd('en_US')
-                                                    .format(
-                                                  DateTime.now(),
-                                                ),
-                                              )
+                                            .parse(currentDate)
                                               .difference(
                                                 DateFormat.yMMMMd('en_US')
                                                     .parse(
@@ -745,12 +713,7 @@ class PieChart2State extends State {
                                           'yellow')
                                       .where((documentSnapshot) =>
                                           DateFormat.yMMMMd('en_US')
-                                              .parse(
-                                                DateFormat.yMMMMd('en_US')
-                                                    .format(
-                                                  DateTime.now(),
-                                                ),
-                                              )
+                                            .parse(currentDate)
                                               .difference(
                                                 DateFormat.yMMMMd('en_US')
                                                     .parse(
@@ -767,12 +730,7 @@ class PieChart2State extends State {
                                           'red')
                                       .where((documentSnapshot) =>
                                           DateFormat.yMMMMd('en_US')
-                                              .parse(
-                                                DateFormat.yMMMMd('en_US')
-                                                    .format(
-                                                  DateTime.now(),
-                                                ),
-                                              )
+                                            .parse(currentDate)
                                               .difference(
                                                 DateFormat.yMMMMd('en_US')
                                                     .parse(
@@ -786,12 +744,7 @@ class PieChart2State extends State {
                                   snapshot.data.documents
                                       .where((documentSnapshot) =>
                                           DateFormat.yMMMMd('en_US')
-                                              .parse(
-                                                DateFormat.yMMMMd('en_US')
-                                                    .format(
-                                                  DateTime.now(),
-                                                ),
-                                              )
+                                            .parse(currentDate)
                                               .difference(
                                                 DateFormat.yMMMMd('en_US')
                                                     .parse(
