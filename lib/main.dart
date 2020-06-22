@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import './splash.dart';
 import './student_portal/student_dash.dart';
 import './teacher_portal/teacher_dash.dart';
+import './testing.dart';
 import './teacher_subscreens/classview_teacher.dart';
 
 import './auth_screens/login_screen.dart';
@@ -21,7 +22,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: LoginScreen(),
+      home: Testing(),
       routes: ({
         ClassViewTeacher.routeName: (context) => ClassViewTeacher(),
         ClassViewStudent.routeName: (context) => ClassViewStudent(),
