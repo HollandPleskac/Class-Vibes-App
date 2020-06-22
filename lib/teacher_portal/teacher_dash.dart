@@ -13,6 +13,7 @@ import '../teacher_subscreens/student_red.dart';
 import '../teacher_subscreens/student_green.dart';
 import '../teacher_subscreens/student_yellow.dart';
 import '../logic/fire.dart';
+import '../teacher_subscreens/student_grey.dart';
 
 final _appDrawer = AppDrawer();
 final _fire = Fire();
@@ -577,7 +578,7 @@ class PieChart2State extends State {
                                         '%' ==
                                     '100%') {
                                   print('100 percent grey');
-                                  touchedIndex = 0;
+                                  touchedIndex = 3;
                                 }
 
                                 //end of error fixing
@@ -614,7 +615,7 @@ class PieChart2State extends State {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => StudentRed(),
+                                      builder: (context) => StudentGrey(),
                                     ),
                                   );
                                 }
@@ -681,20 +682,20 @@ class PieChart2State extends State {
                                   .length
                                   .toDouble(),
                               greyStudents: snapshot.data.documents
-                                    .where((documentSnapshot) =>
-                                        DateFormat.yMMMMd('en_US')
-                                            .parse(
-                                              DateTime.now().toString(),
-                                            )
-                                            .difference(
-                                              DateFormat.yMMMMd('en_US').parse(
-                                                documentSnapshot.data['date'],
-                                              ),
-                                            )
-                                            .inDays >
-                                        100)
-                                    .length
-                                    .toDouble(),
+                                  .where((documentSnapshot) =>
+                                      DateFormat.yMMMMd('en_US')
+                                          .parse(
+                                            DateTime.now().toString(),
+                                          )
+                                          .difference(
+                                            DateFormat.yMMMMd('en_US').parse(
+                                              documentSnapshot.data['date'],
+                                            ),
+                                          )
+                                          .inDays >
+                                      100)
+                                  .length
+                                  .toDouble(),
                               totalStudents: (snapshot.data.documents
                                       .where((documentSnapshot) =>
                                           documentSnapshot.data['mood'] ==
@@ -751,21 +752,23 @@ class PieChart2State extends State {
                                               .inDays <
                                           100)
                                       .length
-                                      .toDouble() + snapshot.data.documents
-                                    .where((documentSnapshot) =>
-                                        DateFormat.yMMMMd('en_US')
-                                            .parse(
-                                              DateTime.now().toString(),
-                                            )
-                                            .difference(
-                                              DateFormat.yMMMMd('en_US').parse(
-                                                documentSnapshot.data['date'],
-                                              ),
-                                            )
-                                            .inDays >
-                                        100)
-                                    .length
-                                    .toDouble()),
+                                      .toDouble() +
+                                  snapshot.data.documents
+                                      .where((documentSnapshot) =>
+                                          DateFormat.yMMMMd('en_US')
+                                              .parse(
+                                                DateTime.now().toString(),
+                                              )
+                                              .difference(
+                                                DateFormat.yMMMMd('en_US')
+                                                    .parse(
+                                                  documentSnapshot.data['date'],
+                                                ),
+                                              )
+                                              .inDays >
+                                          100)
+                                      .length
+                                      .toDouble()),
                             ),
                           ),
                         );
@@ -782,80 +785,6 @@ class PieChart2State extends State {
                   }
                 },
               ),
-
-              //OLD STREAMBUILDER WHICH CALCULATES BASED ON A QUERY THAT CRASHES
-              // child: StreamBuilder(
-              //     stream: Firestore.instance
-              //         .collection('classes')
-              //         .document(selectedClassId)
-              //         .snapshots(),
-              //     builder: (context, snapshot) {
-              //       if (!snapshot.hasData) {
-              //         return CircularProgressIndicator();
-              //       }
-
-              //       return PieChart(
-              //         PieChartData(
-              //           pieTouchData:
-              //               PieTouchData(touchCallback: (pieTouchResponse) {
-              //             setState(() {
-              //               if (pieTouchResponse.touchInput is FlLongPressEnd ||
-              //                   pieTouchResponse.touchInput is FlPanEnd) {
-              //                 touchedIndex = -1;
-              //               } else {
-              //                 touchedIndex =
-              //                     pieTouchResponse.touchedSectionIndex;
-              //                 if (touchedIndex == 0) {
-              //                   print('touched students doing great');
-              //                   Navigator.push(
-              //                     context,
-              //                     MaterialPageRoute(
-              //                       builder: (context) => StudentGreen(),
-              //                     ),
-              //                   );
-              //                 } else if (touchedIndex == 1) {
-              //                   print('touched help students');
-              //                   Navigator.push(
-              //                     context,
-              //                     MaterialPageRoute(
-              //                       builder: (context) => StudentYellow(),
-              //                     ),
-              //                   );
-              //                 } else if (touchedIndex == 2) {
-              //                   print('touched frustrated students');
-              //                   Navigator.push(
-              //                     context,
-              //                     MaterialPageRoute(
-              //                       builder: (context) => StudentRed(),
-              //                     ),
-              //                   );
-              //                 }
-              //               }
-              //             });
-              //           }),
-              //           borderData: FlBorderData(
-              //             show: false,
-              //           ),
-              //           startDegreeOffset: 255,
-              //           sectionsSpace: 0,
-              //           centerSpaceRadius: 40,
-              //           sections: showingSections(
-              //             // greenStudents: double.parse(snapshot.data['green students']),
-              //             // yellowStudents: double.parse(snapshot.data['yellow students']),
-              //             // redStudents: double.parse(snapshot.data['red students']),
-              //             greenStudents:
-              //                 snapshot.data['green students'].toDouble(),
-              //             yellowStudents:
-              //                 snapshot.data['yellow students'].toDouble(),
-              //             redStudents: snapshot.data['red students'].toDouble(),
-              //             totalStudents: (snapshot.data['green students'] +
-              //                     snapshot.data['yellow students'] +
-              //                     snapshot.data['red students'])
-              //                 .toDouble(),
-              //           ),
-              //         ),
-              //       );
-              //     }),
             ),
           ),
           Column(
@@ -908,7 +837,8 @@ class PieChart2State extends State {
   List<PieChartSectionData> showingSections(
       {double greenStudents,
       double yellowStudents,
-      double redStudents,double greyStudents,
+      double redStudents,
+      double greyStudents,
       double totalStudents}) {
     return List.generate(3, (i) {
       final isTouched = i == touchedIndex;
@@ -960,13 +890,12 @@ class PieChart2State extends State {
                 fontWeight: FontWeight.bold,
                 color: const Color(0xffffffff)),
           );
-          case 3:
+        case 3:
           return PieChartSectionData(
             color: const Color(0xfff8b250),
             value: greyStudents,
             title: greyStudents != 0
-                ? (greyStudents / totalStudents * 100).toStringAsFixed(0) +
-                    '%'
+                ? (greyStudents / totalStudents * 100).toStringAsFixed(0) + '%'
                 : '',
             radius: radius,
             titleStyle: TextStyle(
