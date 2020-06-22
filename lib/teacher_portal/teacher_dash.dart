@@ -71,7 +71,7 @@ class _TeacherDashState extends State<TeacherDash> {
 
       teacherSelectedClassNameDisplay = className;
     } catch (e) {
-      teacherSelectedClassNameDisplay = 'No Classes';
+      teacherSelectedClassNameDisplay = 'No Selected Class';
     }
   }
 
@@ -372,8 +372,8 @@ class _TeacherDashState extends State<TeacherDash> {
                 ),
                 teacherSelectedClassNameDisplay == null ||
                         teacherSelectedClassNameDisplay == '' ||
-                        teacherSelectedClassNameDisplay == 'No Classes'
-                    ? PieChartSample1()
+                        teacherSelectedClassNameDisplay == 'No SelectedClass'
+                    ? Text('No Selected Class')
                     : PieChartSample2(
                         selectedClassId: teacherSelectedClassId,
                       ),
