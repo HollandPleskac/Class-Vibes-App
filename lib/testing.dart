@@ -7,7 +7,7 @@ class Testing extends StatefulWidget {
 }
 
 class _TestingState extends State<Testing> {
-  var date = 'June 15, 2020';
+  var date = 'June 29, 2020';
   var date2 = DateFormat.yMMMMd('en_US')
       .format(
         DateTime.now(),

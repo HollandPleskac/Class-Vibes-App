@@ -4,6 +4,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 
 import '../constant.dart';
 import '../app_drawer.dart';
@@ -463,45 +464,64 @@ class PieChart2State extends State {
                               print(pieTouchResponse.touchedSectionIndex);
                               setState(() {
                                 //getting variables for green,yellow, and red students
+                                //mood is green if the mood is green and date is not after expiration date
 
                                 var greenStudents = snapshot.data.documents
                                     .where((documentSnapshot) =>
                                         documentSnapshot.data['mood'] ==
                                         'green')
-                                    // .where((documentSnapshot) =>
-                                    //     documentSnapshot
-                                    //         .data['date' == 'March 15, 2015'])
+                                    .where((documentSnapshot) =>
+                                        DateFormat.yMMMMd('en_US')
+                                            .parse(
+                                              DateTime.now().toString(),
+                                            )
+                                            .difference(
+                                              DateFormat.yMMMMd('en_US').parse(
+                                                documentSnapshot.data['date'],
+                                              ),
+                                            )
+                                            .inDays <
+                                        100)
                                     .length
                                     .toDouble();
                                 var yellowStudents = snapshot.data.documents
                                     .where((documentSnapshot) =>
                                         documentSnapshot.data['mood'] ==
                                         'yellow')
+                                    .where((documentSnapshot) =>
+                                        DateFormat.yMMMMd('en_US')
+                                            .parse(
+                                              DateTime.now().toString(),
+                                            )
+                                            .difference(
+                                              DateFormat.yMMMMd('en_US').parse(
+                                                documentSnapshot.data['date'],
+                                              ),
+                                            )
+                                            .inDays <
+                                        100)
                                     .length
                                     .toDouble();
                                 var redStudents = snapshot.data.documents
                                     .where((documentSnapshot) =>
                                         documentSnapshot.data['mood'] == 'red')
+                                    .where((documentSnapshot) =>
+                                        DateFormat.yMMMMd('en_US')
+                                            .parse(
+                                              DateTime.now().toString(),
+                                            )
+                                            .difference(
+                                              DateFormat.yMMMMd('en_US').parse(
+                                                documentSnapshot.data['date'],
+                                              ),
+                                            )
+                                            .inDays <
+                                        100)
                                     .length
                                     .toDouble();
-                                var totalStudents = (snapshot.data.documents
-                                        .where((documentSnapshot) =>
-                                            documentSnapshot.data['mood'] ==
-                                            'green')
-                                        .length
-                                        .toDouble() +
-                                    snapshot.data.documents
-                                        .where((documentSnapshot) =>
-                                            documentSnapshot.data['mood'] ==
-                                            'yellow')
-                                        .length
-                                        .toDouble() +
-                                    snapshot.data.documents
-                                        .where((documentSnapshot) =>
-                                            documentSnapshot.data['mood'] ==
-                                            'red')
-                                        .length
-                                        .toDouble());
+                                var totalStudents = greenStudents +
+                                    redStudents +
+                                    yellowStudents.toDouble();
 
                                 // if (
                                 //   pieTouchResponse.touchInput
