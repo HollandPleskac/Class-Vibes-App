@@ -463,9 +463,23 @@ class PieChart2State extends State {
                                 PieTouchData(touchCallback: (pieTouchResponse) {
                               print(pieTouchResponse.touchedSectionIndex);
                               setState(() {
-                                //getting variables for green,yellow, and red students
+                                //getting variables for green, yellow, gray, and red students
                                 //mood is green if the mood is green and date is not after expiration date
-
+                                var greyStudents = snapshot.data.documents
+                                    .where((documentSnapshot) =>
+                                        DateFormat.yMMMMd('en_US')
+                                            .parse(
+                                              DateTime.now().toString(),
+                                            )
+                                            .difference(
+                                              DateFormat.yMMMMd('en_US').parse(
+                                                documentSnapshot.data['date'],
+                                              ),
+                                            )
+                                            .inDays >
+                                        100)
+                                    .length
+                                    .toDouble();
                                 var greenStudents = snapshot.data.documents
                                     .where((documentSnapshot) =>
                                         documentSnapshot.data['mood'] ==
@@ -521,7 +535,8 @@ class PieChart2State extends State {
                                     .toDouble();
                                 var totalStudents = greenStudents +
                                     redStudents +
-                                    yellowStudents.toDouble();
+                                    yellowStudents +
+                                    greyStudents.toDouble();
 
                                 // if (
                                 //   pieTouchResponse.touchInput
@@ -557,6 +572,12 @@ class PieChart2State extends State {
                                     '100%') {
                                   print('100 percent red');
                                   touchedIndex = 2;
+                                } else if ((greyStudents / totalStudents * 100)
+                                            .toStringAsFixed(0) +
+                                        '%' ==
+                                    '100%') {
+                                  print('100 percent grey');
+                                  touchedIndex = 0;
                                 }
 
                                 //end of error fixing
@@ -588,6 +609,14 @@ class PieChart2State extends State {
                                       builder: (context) => StudentRed(),
                                     ),
                                   );
+                                } else if (touchedIndex == 3) {
+                                  print('touched grey students');
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => StudentRed(),
+                                    ),
+                                  );
                                 }
                                 //}
                               });
@@ -603,39 +632,140 @@ class PieChart2State extends State {
                               greenStudents: snapshot.data.documents
                                   .where((documentSnapshot) =>
                                       documentSnapshot.data['mood'] == 'green')
-                                  // .where((documentSnapshot) =>
-                                  //     documentSnapshot.data['date'] ==
-                                  //     'March 13, 2015')
+                                  .where((documentSnapshot) =>
+                                      DateFormat.yMMMMd('en_US')
+                                          .parse(
+                                            DateTime.now().toString(),
+                                          )
+                                          .difference(
+                                            DateFormat.yMMMMd('en_US').parse(
+                                              documentSnapshot.data['date'],
+                                            ),
+                                          )
+                                          .inDays <
+                                      100)
                                   .length
                                   .toDouble(),
                               yellowStudents: snapshot.data.documents
                                   .where((documentSnapshot) =>
                                       documentSnapshot.data['mood'] == 'yellow')
+                                  .where((documentSnapshot) =>
+                                      DateFormat.yMMMMd('en_US')
+                                          .parse(
+                                            DateTime.now().toString(),
+                                          )
+                                          .difference(
+                                            DateFormat.yMMMMd('en_US').parse(
+                                              documentSnapshot.data['date'],
+                                            ),
+                                          )
+                                          .inDays <
+                                      100)
                                   .length
                                   .toDouble(),
                               redStudents: snapshot.data.documents
                                   .where((documentSnapshot) =>
                                       documentSnapshot.data['mood'] == 'red')
+                                  .where((documentSnapshot) =>
+                                      DateFormat.yMMMMd('en_US')
+                                          .parse(
+                                            DateTime.now().toString(),
+                                          )
+                                          .difference(
+                                            DateFormat.yMMMMd('en_US').parse(
+                                              documentSnapshot.data['date'],
+                                            ),
+                                          )
+                                          .inDays <
+                                      100)
                                   .length
                                   .toDouble(),
+                              greyStudents: snapshot.data.documents
+                                    .where((documentSnapshot) =>
+                                        DateFormat.yMMMMd('en_US')
+                                            .parse(
+                                              DateTime.now().toString(),
+                                            )
+                                            .difference(
+                                              DateFormat.yMMMMd('en_US').parse(
+                                                documentSnapshot.data['date'],
+                                              ),
+                                            )
+                                            .inDays >
+                                        100)
+                                    .length
+                                    .toDouble(),
                               totalStudents: (snapshot.data.documents
                                       .where((documentSnapshot) =>
                                           documentSnapshot.data['mood'] ==
                                           'green')
+                                      .where((documentSnapshot) =>
+                                          DateFormat.yMMMMd('en_US')
+                                              .parse(
+                                                DateTime.now().toString(),
+                                              )
+                                              .difference(
+                                                DateFormat.yMMMMd('en_US')
+                                                    .parse(
+                                                  documentSnapshot.data['date'],
+                                                ),
+                                              )
+                                              .inDays <
+                                          100)
                                       .length
                                       .toDouble() +
                                   snapshot.data.documents
                                       .where((documentSnapshot) =>
                                           documentSnapshot.data['mood'] ==
                                           'yellow')
+                                      .where((documentSnapshot) =>
+                                          DateFormat.yMMMMd('en_US')
+                                              .parse(
+                                                DateTime.now().toString(),
+                                              )
+                                              .difference(
+                                                DateFormat.yMMMMd('en_US')
+                                                    .parse(
+                                                  documentSnapshot.data['date'],
+                                                ),
+                                              )
+                                              .inDays <
+                                          100)
                                       .length
                                       .toDouble() +
                                   snapshot.data.documents
                                       .where((documentSnapshot) =>
                                           documentSnapshot.data['mood'] ==
                                           'red')
+                                      .where((documentSnapshot) =>
+                                          DateFormat.yMMMMd('en_US')
+                                              .parse(
+                                                DateTime.now().toString(),
+                                              )
+                                              .difference(
+                                                DateFormat.yMMMMd('en_US')
+                                                    .parse(
+                                                  documentSnapshot.data['date'],
+                                                ),
+                                              )
+                                              .inDays <
+                                          100)
                                       .length
-                                      .toDouble()),
+                                      .toDouble() + snapshot.data.documents
+                                    .where((documentSnapshot) =>
+                                        DateFormat.yMMMMd('en_US')
+                                            .parse(
+                                              DateTime.now().toString(),
+                                            )
+                                            .difference(
+                                              DateFormat.yMMMMd('en_US').parse(
+                                                documentSnapshot.data['date'],
+                                              ),
+                                            )
+                                            .inDays >
+                                        100)
+                                    .length
+                                    .toDouble()),
                             ),
                           ),
                         );
@@ -755,6 +885,14 @@ class PieChart2State extends State {
                 isSquare: true,
               ),
               SizedBox(
+                height: 4,
+              ),
+              Indicator(
+                color: Colors.grey,
+                text: 'Expired',
+                isSquare: true,
+              ),
+              SizedBox(
                 height: 18,
               ),
             ],
@@ -770,7 +908,7 @@ class PieChart2State extends State {
   List<PieChartSectionData> showingSections(
       {double greenStudents,
       double yellowStudents,
-      double redStudents,
+      double redStudents,double greyStudents,
       double totalStudents}) {
     return List.generate(3, (i) {
       final isTouched = i == touchedIndex;
@@ -822,6 +960,21 @@ class PieChart2State extends State {
                 fontWeight: FontWeight.bold,
                 color: const Color(0xffffffff)),
           );
+          case 3:
+          return PieChartSectionData(
+            color: const Color(0xfff8b250),
+            value: greyStudents,
+            title: greyStudents != 0
+                ? (greyStudents / totalStudents * 100).toStringAsFixed(0) +
+                    '%'
+                : '',
+            radius: radius,
+            titleStyle: TextStyle(
+                fontSize: fontSize,
+                fontWeight: FontWeight.bold,
+                color: const Color(0xffffffff)),
+          );
+
         default:
           return null;
       }
