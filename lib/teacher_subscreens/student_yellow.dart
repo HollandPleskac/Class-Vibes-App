@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:polygon_clipper/polygon_clipper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:jiffy/jiffy.dart';
 
 import '../constant.dart';
 import '../logic/fire.dart';
@@ -89,7 +90,7 @@ class _StudentYellowState extends State<StudentYellow> {
                         (DocumentSnapshot document) {
                           return YellowStudent(
                             studentName: document['student name'],
-                            moodSelectionDate: document['date'],
+                            moodSelectionDate: Jiffy(document['date'].toDate()).yMMMMd,
                             contentController: contentController,
                             titleController: titleController,
                             dateController: dateController,
