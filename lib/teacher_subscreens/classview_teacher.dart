@@ -270,6 +270,24 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
                             //         )
                             //         .inDays,
                             //     isGreaterThan: 100)
+                            // .where((documentSnapshot) =>
+                            //             DateFormat.yMMMMd('en_US')
+                            //                 .parse(_currentDateFormatted)
+                            //                 .difference(
+                            //                   DateFormat.yMMMMd('en_US').parse(
+                            //                     documentSnapshot.data['date'],
+                            //                   ),
+                            //                 )
+                            //                 .inDays >
+                            //             100)
+                            .where(
+                              'date',
+                              isLessThan: DateFormat.yMMMMd('en_US')
+                                  .parse(_currentDateFormatted)
+                                  .subtract(
+                                    Duration(days: 100),
+                                  ),
+                            )
                             .snapshots()
                         : _firestore
                             .collection('Classes')

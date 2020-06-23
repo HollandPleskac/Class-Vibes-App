@@ -25,6 +25,7 @@ class _TestingState extends State<Testing> {
     String date3 = DateFormat.yMMMMd().format(
       currentD,
     );
+    DateTime date3ConvertedToDateTime = DateFormat.yMMMMd('en_US').parse(date3);
     return Scaffold(
       body: Center(
         child: Container(
@@ -55,6 +56,11 @@ class _TestingState extends State<Testing> {
                     DateFormat.yMMMMd('en_US').parse(date3),
                   )
                   .inDays);
+              print(
+                'SUBTRACTION ' +
+            //  DateTime.parse(date3ConvertedToDateTime.subtract(Duration(days: 100)).toString()).toString()
+            DateTime.parse(date3ConvertedToDateTime.subtract(Duration(days: 100)).toString()).toString()
+              );
             },
           ),
         ),
