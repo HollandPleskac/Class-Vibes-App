@@ -270,25 +270,6 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
                             .collection('Classes')
                             .document(classId)
                             .collection('Students')
-                            // .where(
-                            //     DateFormat.yMMMMd('en_US')
-                            //         .parse('date')
-                            //         .difference(
-                            //           DateFormat.yMMMMd('en_US')
-                            //               .parse(_currentDateFormatted),
-                            //         )
-                            //         .inDays,
-                            //     isGreaterThan: 100)
-                            // .where((documentSnapshot) =>
-                            //             DateFormat.yMMMMd('en_US')
-                            //                 .parse(_currentDateFormatted)
-                            //                 .difference(
-                            //                   DateFormat.yMMMMd('en_US').parse(
-                            //                     documentSnapshot.data['date'],
-                            //                   ),
-                            //                 )
-                            //                 .inDays >
-                            //             100)
                             .where(
                               'date2',
                               // Jiffy(DateTime.parse(date3ConvertedToDateTime.subtract(Duration(days: 100)).toString()).toString()).yMMMMd);
@@ -331,60 +312,41 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
                                 return Student(
                                   // if the mood == green and student did not exeed expiration date --> show student as green
                                   color: document['mood'] == "green" &&
-                                          DateFormat.yMMMMd('en_US')
-                                                  .parse(_currentDateFormatted)
+                                          DateTime.now()
                                                   .difference(
-                                                    DateFormat.yMMMMd('en_US')
-                                                        .parse(
-                                                      document['date'],
-                                                    ),
+                                                    DateTime.parse(
+                                                        document['date2']
+                                                            .toDate()
+                                                            .toString()),
                                                   )
                                                   .inDays <
                                               5
                                       ? kGreenColor
                                       : document['mood'] == "yellow" &&
-                                              DateFormat.yMMMMd('en_US')
-                                                      .parse(
-                                                          _currentDateFormatted)
+                                              DateTime.now()
                                                       .difference(
-                                                        DateFormat.yMMMMd(
-                                                                'en_US')
-                                                            .parse(
-                                                          document['date'],
-                                                        ),
+                                                        DateTime.parse(
+                                                            document['date2']
+                                                                .toDate()
+                                                                .toString()),
                                                       )
                                                       .inDays <
                                                   5
                                           ? kYellowColor
                                           : document['mood'] == "red" &&
-                                                  DateFormat.yMMMMd('en_US')
-                                                          .parse(
-                                                              _currentDateFormatted)
+                                                  DateTime.now()
                                                           .difference(
-                                                            DateFormat.yMMMMd(
-                                                                    'en_US')
-                                                                .parse(
-                                                              document['date'],
-                                                            ),
+                                                            DateTime.parse(
+                                                                document[
+                                                                        'date2']
+                                                                    .toDate()
+                                                                    .toString()),
                                                           )
                                                           .inDays <
                                                       5
                                               ? kRedColor
-                                              // if student exceeds expiration date - they are shown as grey
-                                              : DateFormat.yMMMMd('en_US')
-                                                          .parse(
-                                                              _currentDateFormatted)
-                                                          .difference(
-                                                            DateFormat.yMMMMd(
-                                                                    'en_US')
-                                                                .parse(
-                                                              document['date'],
-                                                            ),
-                                                          )
-                                                          .inDays >
-                                                      5
-                                                  ? Colors.grey
-                                                  : Colors.orange,
+                                              // if student doesn't fit into expiration date then they are displayed as grey
+                                              : Colors.grey,
                                   studentName: document['student name'],
                                   moodSelectionDate: document['date'],
                                   contentController: contentController,
