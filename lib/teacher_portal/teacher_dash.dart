@@ -482,7 +482,7 @@ class PieChart2State extends State {
                                         DateTime.now()
                                             .difference(
                                               DateTime.parse(documentSnapshot
-                                                  .data['date2']
+                                                  .data['date']
                                                   .toDate()
                                                   .toString()),
                                             )
@@ -507,7 +507,7 @@ class PieChart2State extends State {
                                         DateTime.now()
                                             .difference(
                                               DateTime.parse(documentSnapshot
-                                                  .data['date2']
+                                                  .data['date']
                                                   .toDate()
                                                   .toString()),
                                             )
@@ -523,7 +523,7 @@ class PieChart2State extends State {
                                         DateTime.now()
                                             .difference(
                                               DateTime.parse(documentSnapshot
-                                                  .data['date2']
+                                                  .data['date']
                                                   .toDate()
                                                   .toString()),
                                             )
@@ -538,7 +538,7 @@ class PieChart2State extends State {
                                         DateTime.now()
                                             .difference(
                                               DateTime.parse(documentSnapshot
-                                                  .data['date2']
+                                                  .data['date']
                                                   .toDate()
                                                   .toString()),
                                             )
@@ -649,7 +649,7 @@ class PieChart2State extends State {
                                       DateTime.now()
                                           .difference(
                                             DateTime.parse(documentSnapshot
-                                                .data['date2']
+                                                .data['date']
                                                 .toDate()
                                                 .toString()),
                                           )
@@ -664,7 +664,7 @@ class PieChart2State extends State {
                                       DateTime.now()
                                           .difference(
                                             DateTime.parse(documentSnapshot
-                                                .data['date2']
+                                                .data['date']
                                                 .toDate()
                                                 .toString()),
                                           )
@@ -679,7 +679,7 @@ class PieChart2State extends State {
                                       DateTime.now()
                                           .difference(
                                             DateTime.parse(documentSnapshot
-                                                .data['date2']
+                                                .data['date']
                                                 .toDate()
                                                 .toString()),
                                           )
@@ -692,7 +692,7 @@ class PieChart2State extends State {
                                       DateTime.now()
                                           .difference(
                                             DateTime.parse(documentSnapshot
-                                                .data['date2']
+                                                .data['date']
                                                 .toDate()
                                                 .toString()),
                                           )
@@ -708,7 +708,7 @@ class PieChart2State extends State {
                                           DateTime.now()
                                               .difference(
                                                 DateTime.parse(documentSnapshot
-                                                    .data['date2']
+                                                    .data['date']
                                                     .toDate()
                                                     .toString()),
                                               )
@@ -724,7 +724,7 @@ class PieChart2State extends State {
                                           DateTime.now()
                                               .difference(
                                                 DateTime.parse(documentSnapshot
-                                                    .data['date2']
+                                                    .data['date']
                                                     .toDate()
                                                     .toString()),
                                               )
@@ -740,7 +740,7 @@ class PieChart2State extends State {
                                           DateTime.now()
                                               .difference(
                                                 DateTime.parse(documentSnapshot
-                                                    .data['date2']
+                                                    .data['date']
                                                     .toDate()
                                                     .toString()),
                                               )
@@ -753,7 +753,7 @@ class PieChart2State extends State {
                                           DateTime.now()
                                               .difference(
                                                 DateTime.parse(documentSnapshot
-                                                    .data['date2']
+                                                    .data['date']
                                                     .toDate()
                                                     .toString()),
                                               )

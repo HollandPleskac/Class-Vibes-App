@@ -257,7 +257,7 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
                         .collection('Students')
                         .where('mood', isEqualTo: sortedChoice)
                         .where(
-                          "date2",
+                          "date",
                           isGreaterThan: DateFormat.yMMMMd('en_US')
                               .parse(_currentDateFormatted)
                               .subtract(
@@ -271,7 +271,7 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
                             .document(classId)
                             .collection('Students')
                             .where(
-                              'date2',
+                              'date',
                               // Jiffy(DateTime.parse(date3ConvertedToDateTime.subtract(Duration(days: 100)).toString()).toString()).yMMMMd);
                               isLessThan: DateFormat.yMMMMd('en_US')
                                   .parse(_currentDateFormatted)
@@ -315,7 +315,7 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
                                           DateTime.now()
                                                   .difference(
                                                     DateTime.parse(
-                                                        document['date2']
+                                                        document['date']
                                                             .toDate()
                                                             .toString()),
                                                   )
@@ -326,7 +326,7 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
                                               DateTime.now()
                                                       .difference(
                                                         DateTime.parse(
-                                                            document['date2']
+                                                            document['date']
                                                                 .toDate()
                                                                 .toString()),
                                                       )
@@ -338,7 +338,7 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
                                                           .difference(
                                                             DateTime.parse(
                                                                 document[
-                                                                        'date2']
+                                                                        'date']
                                                                     .toDate()
                                                                     .toString()),
                                                           )
@@ -349,7 +349,7 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
                                               : Colors.grey,
                                   studentName: document['student name'],
                                   moodSelectionDate: Jiffy(DateTime.parse(
-                                          document['date2']
+                                          document['date']
                                               .toDate()
                                               .toString()))
                                       .yMMMMd,
