@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:polygon_clipper/polygon_clipper.dart';
 import 'package:intl/intl.dart';
+import 'package:jiffy/jiffy.dart';
 
 import '../constant.dart';
 import '../logic/fire.dart';
@@ -255,6 +256,14 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
                         .document(classId)
                         .collection('Students')
                         .where('mood', isEqualTo: sortedChoice)
+                        .where(
+                          "date2",
+                          isGreaterThan: DateFormat.yMMMMd('en_US')
+                              .parse(_currentDateFormatted)
+                              .subtract(
+                                Duration(days: 5),
+                              ),
+                        )
                         .snapshots()
                     : isSelectedAll == false && isSelectedGrey == true
                         ? _firestore
@@ -281,11 +290,12 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
                             //                 .inDays >
                             //             100)
                             .where(
-                              'date',
+                              'date2',
+                              // Jiffy(DateTime.parse(date3ConvertedToDateTime.subtract(Duration(days: 100)).toString()).toString()).yMMMMd);
                               isLessThan: DateFormat.yMMMMd('en_US')
                                   .parse(_currentDateFormatted)
                                   .subtract(
-                                    Duration(days: 100),
+                                    Duration(days: 5),
                                   ),
                             )
                             .snapshots()
@@ -330,7 +340,7 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
                                                     ),
                                                   )
                                                   .inDays <
-                                              100
+                                              5
                                       ? kGreenColor
                                       : document['mood'] == "yellow" &&
                                               DateFormat.yMMMMd('en_US')
@@ -344,7 +354,7 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
                                                         ),
                                                       )
                                                       .inDays <
-                                                  100
+                                                  5
                                           ? kYellowColor
                                           : document['mood'] == "red" &&
                                                   DateFormat.yMMMMd('en_US')
@@ -358,7 +368,7 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
                                                             ),
                                                           )
                                                           .inDays <
-                                                      100
+                                                      5
                                               ? kRedColor
                                               // if student exceeds expiration date - they are shown as grey
                                               : DateFormat.yMMMMd('en_US')
@@ -372,7 +382,7 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
                                                             ),
                                                           )
                                                           .inDays >
-                                                      100
+                                                      5
                                                   ? Colors.grey
                                                   : Colors.orange,
                                   studentName: document['student name'],

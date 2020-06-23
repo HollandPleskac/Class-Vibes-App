@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:jiffy/jiffy.dart';
 
 class Testing extends StatefulWidget {
   @override
@@ -58,9 +59,12 @@ class _TestingState extends State<Testing> {
                   .inDays);
               print(
                 'SUBTRACTION ' +
-            //  DateTime.parse(date3ConvertedToDateTime.subtract(Duration(days: 100)).toString()).toString()
-            DateTime.parse(date3ConvertedToDateTime.subtract(Duration(days: 100)).toString()).toString()
+                    //  DateTime.parse(date3ConvertedToDateTime.subtract(Duration(days: 100)).toString()).toString()
+                    Jiffy(DateTime.parse(date3ConvertedToDateTime
+                            .subtract(Duration(days: 100)).toString()))
+                        .yMMMMd,
               );
+              // Jiffy("2019-10-18").yMMMMd);
             },
           ),
         ),
