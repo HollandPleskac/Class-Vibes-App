@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:polygon_clipper/polygon_clipper.dart';
+import 'package:intl/intl.dart';
 
 import '../constant.dart';
 import '../logic/fire.dart';
@@ -19,6 +20,15 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   String sortedChoice = 'all';
   bool isSelectedAll = true;
+  bool isSelectedGrey = false;
+  DateTime currentDateUnformatted = DateTime.now();
+
+  @override
+  void initState() {
+    print(currentDateUnformatted);
+    print(DateFormat.yMMMMd().format(currentDateUnformatted));
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +39,9 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
     final int classCode = routeArguments['class code'];
     final String teacherUid = routeArguments['teacher uid'];
 
+    //dates
+    final String _currentDateFormatted =
+        DateFormat.yMMMMd().format(currentDateUnformatted);
     //meeting controllers
     final TextEditingController titleController = TextEditingController();
     final TextEditingController contentController = TextEditingController();
@@ -123,12 +136,13 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
                       setState(() {
                         sortedChoice = 'all';
                         isSelectedAll = true;
+                        isSelectedGrey = false;
                       });
                     },
                     child: Container(
                       margin: EdgeInsets.only(left: 4, right: 4),
                       height: 40,
-                      width: 80,
+                      width: 75,
                       color:
                           sortedChoice == 'all' ? Colors.purple : kPrimaryColor,
                       child: Center(
@@ -143,12 +157,13 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
                       setState(() {
                         sortedChoice = 'green';
                         isSelectedAll = false;
+                        isSelectedGrey = false;
                       });
                     },
                     child: Container(
                       margin: EdgeInsets.only(left: 4, right: 4),
                       height: 40,
-                      width: 80,
+                      width: 75,
                       color:
                           sortedChoice == 'green' ? kGreenColor : kPrimaryColor,
                       child: Center(
@@ -163,12 +178,13 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
                       setState(() {
                         sortedChoice = 'yellow';
                         isSelectedAll = false;
+                        isSelectedGrey = false;
                       });
                     },
                     child: Container(
                       margin: EdgeInsets.only(left: 4, right: 4),
                       height: 40,
-                      width: 80,
+                      width: 75,
                       color: sortedChoice == 'yellow'
                           ? Color(0xfff8b250)
                           : kPrimaryColor,
@@ -184,16 +200,38 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
                       setState(() {
                         sortedChoice = 'red';
                         isSelectedAll = false;
+                        isSelectedGrey = false;
                       });
                     },
                     child: Container(
                       margin: EdgeInsets.only(left: 4, right: 4),
                       height: 40,
-                      width: 80,
+                      width: 75,
                       color: sortedChoice == 'red' ? kRedColor : kPrimaryColor,
                       child: Center(
                           child: Text(
                         'red',
+                        style: kSubTextStyle.copyWith(color: Colors.white),
+                      )),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      setState(() {
+                        sortedChoice = 'grey';
+                        isSelectedAll = false;
+                        isSelectedGrey = true;
+                      });
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(left: 4, right: 4),
+                      height: 40,
+                      width: 75,
+                      color:
+                          sortedChoice == 'grey' ? kGreyColor : kPrimaryColor,
+                      child: Center(
+                          child: Text(
+                        'grey',
                         style: kSubTextStyle.copyWith(color: Colors.white),
                       )),
                     ),
@@ -211,18 +249,33 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
               height: 380,
               child: StreamBuilder(
                 //takes off the where query if the teacher wishes to see all students
-                stream: isSelectedAll == false
+                stream: isSelectedAll == false && isSelectedGrey == false
                     ? _firestore
                         .collection('Classes')
                         .document(classId)
                         .collection('Students')
                         .where('mood', isEqualTo: sortedChoice)
                         .snapshots()
-                    : _firestore
-                        .collection('Classes')
-                        .document(classId)
-                        .collection('Students')
-                        .snapshots(),
+                    : isSelectedAll == false && isSelectedGrey == true
+                        ? _firestore
+                            .collection('Classes')
+                            .document(classId)
+                            .collection('Students')
+                            // .where(
+                            //     DateFormat.yMMMMd('en_US')
+                            //         .parse('date')
+                            //         .difference(
+                            //           DateFormat.yMMMMd('en_US')
+                            //               .parse(_currentDateFormatted),
+                            //         )
+                            //         .inDays,
+                            //     isGreaterThan: 100)
+                            .snapshots()
+                        : _firestore
+                            .collection('Classes')
+                            .document(classId)
+                            .collection('Students')
+                            .snapshots(),
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.hasError) {
@@ -248,15 +301,62 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
                             children: snapshot.data.documents.map(
                               (DocumentSnapshot document) {
                                 return Student(
-                                  color: document['mood'] == "green"
+                                  // if the mood == green and student did not exeed expiration date --> show student as green
+                                  color: document['mood'] == "green" &&
+                                          DateFormat.yMMMMd('en_US')
+                                                  .parse(_currentDateFormatted)
+                                                  .difference(
+                                                    DateFormat.yMMMMd('en_US')
+                                                        .parse(
+                                                      document['date'],
+                                                    ),
+                                                  )
+                                                  .inDays <
+                                              100
                                       ? kGreenColor
-                                      : document['mood'] == "yellow"
+                                      : document['mood'] == "yellow" &&
+                                              DateFormat.yMMMMd('en_US')
+                                                      .parse(
+                                                          _currentDateFormatted)
+                                                      .difference(
+                                                        DateFormat.yMMMMd(
+                                                                'en_US')
+                                                            .parse(
+                                                          document['date'],
+                                                        ),
+                                                      )
+                                                      .inDays <
+                                                  100
                                           ? kYellowColor
-                                          : document['mood'] == "red"
+                                          : document['mood'] == "red" &&
+                                                  DateFormat.yMMMMd('en_US')
+                                                          .parse(
+                                                              _currentDateFormatted)
+                                                          .difference(
+                                                            DateFormat.yMMMMd(
+                                                                    'en_US')
+                                                                .parse(
+                                                              document['date'],
+                                                            ),
+                                                          )
+                                                          .inDays <
+                                                      100
                                               ? kRedColor
-                                              : document['mood'] == "black"
-                                                  ? Colors.black
-                                                  : Colors.grey,
+                                              // if student exceeds expiration date - they are shown as grey
+                                              : DateFormat.yMMMMd('en_US')
+                                                          .parse(
+                                                              _currentDateFormatted)
+                                                          .difference(
+                                                            DateFormat.yMMMMd(
+                                                                    'en_US')
+                                                                .parse(
+                                                              document['date'],
+                                                            ),
+                                                          )
+                                                          .inDays >
+                                                      100
+                                                  ? Colors.grey
+                                                  : Colors.orange,
                                   studentName: document['student name'],
                                   moodSelectionDate: document['date'],
                                   contentController: contentController,
@@ -316,7 +416,7 @@ class _PushAnnouncementState extends State<PushAnnouncement> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(bottom:20),
+      padding: EdgeInsets.only(bottom: 20),
       width: MediaQuery.of(context).size.width * 0.85,
       //
       child: Card(

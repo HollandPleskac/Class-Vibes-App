@@ -19,7 +19,7 @@ class _TestingState extends State<Testing> {
       DateTime.now(),
     ),
   );
-  
+
   @override
   Widget build(BuildContext context) {
     String date3 = DateFormat.yMMMMd().format(
@@ -31,7 +31,7 @@ class _TestingState extends State<Testing> {
           child: RaisedButton(
             child: Text('Click me'),
             onPressed: () {
-              print('FOUR : '+date4.toString());
+              print('FOUR : ' + date4.toString());
               print('THREE : ' + date3.toString());
               print('TWO : ' + date2.toString());
               print('ONE : ' + date.toString());
@@ -41,7 +41,7 @@ class _TestingState extends State<Testing> {
               //       DateTime.now(),
               //     ),
               //   ),
-               // );
+              // );
               print(
                 DateFormat.yMMMMd('en_US')
                     .parse(date3)
@@ -49,6 +49,12 @@ class _TestingState extends State<Testing> {
                     .inDays
                     .toString(),
               );
+              print(DateFormat.yMMMMd('en_US')
+                  .parse('July 22, 2004')
+                  .difference(
+                    DateFormat.yMMMMd('en_US').parse(date3),
+                  )
+                  .inDays);
             },
           ),
         ),
