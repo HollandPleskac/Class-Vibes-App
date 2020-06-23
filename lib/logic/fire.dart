@@ -146,9 +146,7 @@ class Fire {
         .document(classId)
         .updateData({
       'mood': newMood,
-      'date': DateFormat.yMMMMd('en_US').format(
-        DateTime.now(),
-      ),
+      'date': DateTime.now(),
     });
 
     _firestore
@@ -158,9 +156,7 @@ class Fire {
         .document(studentUid)
         .updateData({
       'mood': newMood,
-      'date': DateFormat.yMMMMd('en_US').format(
-        DateTime.now(),
-      )
+      'date': DateTime.now(),
     });
   }
 
@@ -429,9 +425,7 @@ class Fire {
           .collection('Students')
           .document(studentUid)
           .setData({
-        'date': DateFormat.yMMMMd('en_US').format(
-          DateTime.now(),
-        ),
+        'date': DateTime.now(),
         'mood': 'green',
         'student name': studentName,
       });
@@ -463,9 +457,7 @@ class Fire {
         .collection('Announcements')
         .document()
         .setData({
-      'date': DateFormat.yMMMMd('en_US').format(
-        DateTime.now(),
-      ),
+      'date': DateTime.now(),
       'title': title,
       'content': content,
     });
@@ -496,7 +488,12 @@ class Fire {
   }
 
   void deleteClass(String teacherUid, String classId) {
-    _firestore.collection("UserData").document(teacherUid).collection("Classes").document(classId).delete();
+    _firestore
+        .collection("UserData")
+        .document(teacherUid)
+        .collection("Classes")
+        .document(classId)
+        .delete();
 
     _firestore.collection("Classes").document(classId).delete();
   }
