@@ -348,7 +348,11 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
                                               // if student doesn't fit into expiration date then they are displayed as grey
                                               : Colors.grey,
                                   studentName: document['student name'],
-                                  moodSelectionDate: document['date'],
+                                  moodSelectionDate: Jiffy(DateTime.parse(
+                                          document['date2']
+                                              .toDate()
+                                              .toString()))
+                                      .yMMMMd,
                                   contentController: contentController,
                                   dateController: dateController,
                                   studentUid: document.documentID,

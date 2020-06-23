@@ -423,7 +423,8 @@ class PieChartSample2 extends StatefulWidget {
   });
 
   @override
-  State<StatefulWidget> createState() => PieChart2State(selectedClassId,currentDate);
+  State<StatefulWidget> createState() =>
+      PieChart2State(selectedClassId, currentDate);
 }
 
 // This class needs info
@@ -478,32 +479,40 @@ class PieChart2State extends State {
                                 //mood is green if the mood is green and date is not after expiration date
                                 var greyStudents = snapshot.data.documents
                                     .where((documentSnapshot) =>
-                                        DateFormat.yMMMMd('en_US')
-                                            .parse(currentDate)
+                                        DateTime.now()
                                             .difference(
-                                              DateFormat.yMMMMd('en_US').parse(
-                                                documentSnapshot.data['date'],
-                                              ),
+                                              DateTime.parse(documentSnapshot
+                                                  .data['date2']
+                                                  .toDate()
+                                                  .toString()),
                                             )
                                             .inDays >
-                                        100)
+                                        5)
                                     .length
                                     .toDouble();
-                                    
+                                // DateTime.now()
+                                //               .difference(
+                                //                 DateTime.parse(
+                                //                     document['date2']
+                                //                         .toDate()
+                                //                         .toString()),
+                                //               )
+                                //               .inDays <
+                                //           5
                                 var greenStudents = snapshot.data.documents
                                     .where((documentSnapshot) =>
                                         documentSnapshot.data['mood'] ==
                                         'green')
                                     .where((documentSnapshot) =>
-                                        DateFormat.yMMMMd('en_US')
-                                            .parse(currentDate)
+                                        DateTime.now()
                                             .difference(
-                                              DateFormat.yMMMMd('en_US').parse(
-                                                documentSnapshot.data['date'],
-                                              ),
+                                              DateTime.parse(documentSnapshot
+                                                  .data['date2']
+                                                  .toDate()
+                                                  .toString()),
                                             )
                                             .inDays <
-                                        100)
+                                        5)
                                     .length
                                     .toDouble();
                                 var yellowStudents = snapshot.data.documents
@@ -511,30 +520,30 @@ class PieChart2State extends State {
                                         documentSnapshot.data['mood'] ==
                                         'yellow')
                                     .where((documentSnapshot) =>
-                                        DateFormat.yMMMMd('en_US')
-                                            .parse(currentDate)
+                                        DateTime.now()
                                             .difference(
-                                              DateFormat.yMMMMd('en_US').parse(
-                                                documentSnapshot.data['date'],
-                                              ),
+                                              DateTime.parse(documentSnapshot
+                                                  .data['date2']
+                                                  .toDate()
+                                                  .toString()),
                                             )
                                             .inDays <
-                                        100)
+                                        5)
                                     .length
                                     .toDouble();
                                 var redStudents = snapshot.data.documents
                                     .where((documentSnapshot) =>
                                         documentSnapshot.data['mood'] == 'red')
                                     .where((documentSnapshot) =>
-                                        DateFormat.yMMMMd('en_US')
-                                            .parse(currentDate)
+                                        DateTime.now()
                                             .difference(
-                                              DateFormat.yMMMMd('en_US').parse(
-                                                documentSnapshot.data['date'],
-                                              ),
+                                              DateTime.parse(documentSnapshot
+                                                  .data['date2']
+                                                  .toDate()
+                                                  .toString()),
                                             )
                                             .inDays <
-                                        100)
+                                        5)
                                     .length
                                     .toDouble();
                                 var totalStudents = greenStudents +
@@ -637,58 +646,58 @@ class PieChart2State extends State {
                                   .where((documentSnapshot) =>
                                       documentSnapshot.data['mood'] == 'green')
                                   .where((documentSnapshot) =>
-                                      DateFormat.yMMMMd('en_US')
-                                            .parse(currentDate)
+                                      DateTime.now()
                                           .difference(
-                                            DateFormat.yMMMMd('en_US').parse(
-                                              documentSnapshot.data['date'],
-                                            ),
+                                            DateTime.parse(documentSnapshot
+                                                .data['date2']
+                                                .toDate()
+                                                .toString()),
                                           )
                                           .inDays <
-                                      100)
+                                      5)
                                   .length
                                   .toDouble(),
                               yellowStudents: snapshot.data.documents
                                   .where((documentSnapshot) =>
                                       documentSnapshot.data['mood'] == 'yellow')
                                   .where((documentSnapshot) =>
-                                      DateFormat.yMMMMd('en_US')
-                                            .parse(currentDate)
+                                      DateTime.now()
                                           .difference(
-                                            DateFormat.yMMMMd('en_US').parse(
-                                              documentSnapshot.data['date'],
-                                            ),
+                                            DateTime.parse(documentSnapshot
+                                                .data['date2']
+                                                .toDate()
+                                                .toString()),
                                           )
                                           .inDays <
-                                      100)
+                                      5)
                                   .length
                                   .toDouble(),
                               redStudents: snapshot.data.documents
                                   .where((documentSnapshot) =>
                                       documentSnapshot.data['mood'] == 'red')
                                   .where((documentSnapshot) =>
-                                      DateFormat.yMMMMd('en_US')
-                                            .parse(currentDate)
+                                      DateTime.now()
                                           .difference(
-                                            DateFormat.yMMMMd('en_US').parse(
-                                              documentSnapshot.data['date'],
-                                            ),
+                                            DateTime.parse(documentSnapshot
+                                                .data['date2']
+                                                .toDate()
+                                                .toString()),
                                           )
                                           .inDays <
-                                      100)
+                                      5)
                                   .length
                                   .toDouble(),
                               greyStudents: snapshot.data.documents
                                   .where((documentSnapshot) =>
-                                      DateFormat.yMMMMd('en_US')
-                                            .parse(currentDate)
+                                      DateTime.now()
                                           .difference(
-                                            DateFormat.yMMMMd('en_US').parse(
-                                              documentSnapshot.data['date'],
-                                            ),
+                                            DateTime.parse(documentSnapshot
+                                                .data['date2']
+                                                .toDate()
+                                                .toString()),
                                           )
                                           .inDays >
-                                      100)
+                                      5)
                                   .length
                                   .toDouble(),
                               totalStudents: (snapshot.data.documents
@@ -696,16 +705,15 @@ class PieChart2State extends State {
                                           documentSnapshot.data['mood'] ==
                                           'green')
                                       .where((documentSnapshot) =>
-                                          DateFormat.yMMMMd('en_US')
-                                            .parse(currentDate)
+                                          DateTime.now()
                                               .difference(
-                                                DateFormat.yMMMMd('en_US')
-                                                    .parse(
-                                                  documentSnapshot.data['date'],
-                                                ),
+                                                DateTime.parse(documentSnapshot
+                                                    .data['date2']
+                                                    .toDate()
+                                                    .toString()),
                                               )
                                               .inDays <
-                                          100)
+                                          5)
                                       .length
                                       .toDouble() +
                                   snapshot.data.documents
@@ -713,16 +721,15 @@ class PieChart2State extends State {
                                           documentSnapshot.data['mood'] ==
                                           'yellow')
                                       .where((documentSnapshot) =>
-                                          DateFormat.yMMMMd('en_US')
-                                            .parse(currentDate)
+                                          DateTime.now()
                                               .difference(
-                                                DateFormat.yMMMMd('en_US')
-                                                    .parse(
-                                                  documentSnapshot.data['date'],
-                                                ),
+                                                DateTime.parse(documentSnapshot
+                                                    .data['date2']
+                                                    .toDate()
+                                                    .toString()),
                                               )
                                               .inDays <
-                                          100)
+                                          5)
                                       .length
                                       .toDouble() +
                                   snapshot.data.documents
@@ -730,30 +737,28 @@ class PieChart2State extends State {
                                           documentSnapshot.data['mood'] ==
                                           'red')
                                       .where((documentSnapshot) =>
-                                          DateFormat.yMMMMd('en_US')
-                                            .parse(currentDate)
+                                          DateTime.now()
                                               .difference(
-                                                DateFormat.yMMMMd('en_US')
-                                                    .parse(
-                                                  documentSnapshot.data['date'],
-                                                ),
+                                                DateTime.parse(documentSnapshot
+                                                    .data['date2']
+                                                    .toDate()
+                                                    .toString()),
                                               )
                                               .inDays <
-                                          100)
+                                          5)
                                       .length
                                       .toDouble() +
                                   snapshot.data.documents
                                       .where((documentSnapshot) =>
-                                          DateFormat.yMMMMd('en_US')
-                                            .parse(currentDate)
+                                          DateTime.now()
                                               .difference(
-                                                DateFormat.yMMMMd('en_US')
-                                                    .parse(
-                                                  documentSnapshot.data['date'],
-                                                ),
+                                                DateTime.parse(documentSnapshot
+                                                    .data['date2']
+                                                    .toDate()
+                                                    .toString()),
                                               )
                                               .inDays >
-                                          100)
+                                          5)
                                       .length
                                       .toDouble()),
                             ),
