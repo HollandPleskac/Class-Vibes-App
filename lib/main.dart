@@ -22,7 +22,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Testing(),
+      home: LoginScreen(),
       routes: ({
         ClassViewTeacher.routeName: (context) => ClassViewTeacher(),
         ClassViewStudent.routeName: (context) => ClassViewStudent(),
