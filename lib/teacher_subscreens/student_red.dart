@@ -90,11 +90,13 @@ class _StudentRedState extends State<StudentRed> {
                         (DocumentSnapshot document) {
                           return FrustratedStudent(
                             studentName: document['student name'],
-                            moodSelectionDate: Jiffy(document['date'].toDate()).yMMMMd,
+                            moodSelectionDate:
+                                Jiffy(document['date'].toDate()).yMMMMd,
                             contentController: contentController,
                             titleController: titleController,
                             dateController: dateController,
                             studentUid: document.documentID,
+                            studentChatId: document['chat id'],
                           );
                         },
                       ).toList(),
@@ -116,6 +118,7 @@ class FrustratedStudent extends StatelessWidget {
   final TextEditingController contentController;
   final TextEditingController dateController;
   final String studentUid;
+  final String studentChatId;
 
   const FrustratedStudent({
     @required this.studentName,
@@ -124,6 +127,7 @@ class FrustratedStudent extends StatelessWidget {
     @required this.contentController,
     @required this.dateController,
     @required this.studentUid,
+    @required this.studentChatId,
   });
 
   @override
@@ -197,7 +201,12 @@ class FrustratedStudent extends StatelessWidget {
                             dateController,
                             studentUid,
                           ),
-                          studentChat(context),
+                          studentChat(
+                            context: context,
+                            studentChatId: studentChatId,
+                            studentUid: studentUid,
+                            studentName: studentName,
+                          ),
                         ],
                       ),
                     ),
@@ -292,7 +301,6 @@ Widget studentMeeting(
                   ),
                   TextField(
                     controller: dateController,
-                    
                   ),
                   FlatButton(
                     child: Text('setup'),
@@ -311,18 +319,17 @@ Widget studentMeeting(
             );
           },
         );
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //     builder: (context) => TeacherMessages(),
-        //   ),
-        // );
       },
     ),
   );
 }
 
-Widget studentChat(BuildContext context) {
+Widget studentChat({
+  BuildContext context,
+  String studentChatId,
+  String studentName,
+  String studentUid,
+}) {
   return Padding(
     padding: const EdgeInsets.only(right: 15),
     child: IconButton(
@@ -332,12 +339,11 @@ Widget studentChat(BuildContext context) {
         size: 30,
       ),
       onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => TeacherMessages(),
-          ),
-        );
+        Navigator.pushNamed(context, TeacherMessages.routeName, arguments: {
+          'chat id': studentChatId,
+          'student name': studentName,
+          'student uid': studentUid,
+        });
       },
     ),
   );

@@ -95,6 +95,7 @@ class _StudentYellowState extends State<StudentYellow> {
                             titleController: titleController,
                             dateController: dateController,
                             studentUid: document.documentID,
+                            studentChatId: document['chat id'],
                           );
                         },
                       ).toList(),
@@ -116,6 +117,7 @@ class YellowStudent extends StatelessWidget {
   final TextEditingController contentController;
   final TextEditingController dateController;
   final String studentUid;
+  final String studentChatId;
 
   const YellowStudent({
     @required this.studentName,
@@ -124,6 +126,7 @@ class YellowStudent extends StatelessWidget {
     @required this.contentController,
     @required this.dateController,
     @required this.studentUid,
+    @required this.studentChatId,
   });
 
   @override
