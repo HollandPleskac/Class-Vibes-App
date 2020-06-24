@@ -111,7 +111,7 @@ class _StudentMessagesState extends State<StudentMessages> {
                           bottomRight: Radius.circular(0),
                           topLeft: Radius.circular(15),
                           topRight: Radius.circular(15)),
-                          color: kPrimaryColor.withOpacity(0.5),
+                      color: kPrimaryColor.withOpacity(0.5),
                       //color: Colors.redAccent.shade400.withOpacity(0.3),
                     ),
                     width: 100,
@@ -285,6 +285,91 @@ class _StudentMessagesState extends State<StudentMessages> {
               ),
             )
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class SentChat extends StatelessWidget {
+  final String title;
+  final String content;
+
+  SentChat({
+    this.title,
+    this.content,
+  });
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 100, bottom: 30),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(15),
+              bottomRight: Radius.circular(0),
+              topLeft: Radius.circular(15),
+              topRight: Radius.circular(15)),
+          color: kPrimaryColor.withOpacity(0.5),
+          //color: Colors.redAccent.shade400.withOpacity(0.3),
+        ),
+        width: 100,
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                "TITLE",
+                style:
+                    TextStyle(color: Colors.white, fontWeight: FontWeight.w800),
+              ),
+              Text(
+                "The quick, brown fox jumps over a lazy dog. DJs flock by when MTV ax quiz prog. Junk MTV quiz graced by fox whelps",
+                style: TextStyle(color: Colors.white),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class RecievedChat extends StatelessWidget {
+  final String title;
+  final String content;
+
+  RecievedChat({this.title, this.content});
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 100, bottom: 30),
+      child: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(0),
+                bottomRight: Radius.circular(15),
+                topLeft: Radius.circular(15),
+                topRight: Radius.circular(15)),
+            color: Colors.grey.shade200),
+        width: 100,
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                "TITLE",
+                style: TextStyle(
+                    color: Colors.grey[800], fontWeight: FontWeight.w800),
+              ),
+              Text(
+                "The quick, brown fox jumps over a lazy dog. DJs flock by when MTV ax quiz prog. Junk MTV quiz graced by fox whelps",
+                style: TextStyle(color: Colors.grey[800]),
+              )
+            ],
+          ),
         ),
       ),
     );
