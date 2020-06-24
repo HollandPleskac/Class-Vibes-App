@@ -121,7 +121,6 @@ class _StudentMessagesState extends State<StudentMessages> {
                       .snapshots(),
                   builder: (BuildContext context,
                       AsyncSnapshot<QuerySnapshot> snapshot) {
-                 
                     if (snapshot.hasError)
                       return Text('Error: ${snapshot.error}');
 
@@ -204,17 +203,14 @@ class _StudentMessagesState extends State<StudentMessages> {
                                     ),
                                     onPressed: () async {
                                       await _firestore
-                                          .collection('Classes')
-                                          .document(
-                                              'nwkptKrupotVavqfgk6msHEr83ygsm')
-                                          .collection('Students')
-                                          .document('HmXq850f5Wz42i1CgdCw')
                                           .collection('Chats')
+                                          .document(chatId)
+                                          .collection('Chat')
                                           .document()
                                           .setData({
                                         'date': DateTime.now(),
                                         'content': _controller.text,
-                                        'title': 'student user name',
+                                        'title': studentName,
                                         'sent type': 'student'
                                       });
                                       _controller.clear();

@@ -90,7 +90,8 @@ class _StudentYellowState extends State<StudentYellow> {
                         (DocumentSnapshot document) {
                           return YellowStudent(
                             studentName: document['student name'],
-                            moodSelectionDate: Jiffy(document['date'].toDate()).yMMMMd,
+                            moodSelectionDate:
+                                Jiffy(document['date'].toDate()).yMMMMd,
                             contentController: contentController,
                             titleController: titleController,
                             dateController: dateController,
@@ -200,7 +201,12 @@ class YellowStudent extends StatelessWidget {
                             dateController,
                             studentUid,
                           ),
-                          studentChat(context),
+                          studentChat(
+                            context: context,
+                            studentName: studentName,
+                            studentUid: studentUid,
+                            studentChatId: studentChatId,
+                          ),
                         ],
                       ),
                     ),
@@ -295,7 +301,6 @@ Widget studentMeeting(
                   ),
                   TextField(
                     controller: dateController,
-                    
                   ),
                   FlatButton(
                     child: Text('setup'),
@@ -314,18 +319,17 @@ Widget studentMeeting(
             );
           },
         );
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //     builder: (context) => TeacherMessages(),
-        //   ),
-        // );
       },
     ),
   );
 }
 
-Widget studentChat(BuildContext context) {
+Widget studentChat({
+  BuildContext context,
+  String studentChatId,
+  String studentName,
+  String studentUid,
+}) {
   return Padding(
     padding: const EdgeInsets.only(right: 20),
     child: IconButton(
@@ -335,12 +339,11 @@ Widget studentChat(BuildContext context) {
         size: 30,
       ),
       onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => TeacherMessages(),
-          ),
-        );
+        Navigator.pushNamed(context, TeacherMessages.routeName, arguments: {
+          'chat id': studentChatId,
+          'student name': studentName,
+          'student uid': studentUid,
+        });
       },
     ),
   );

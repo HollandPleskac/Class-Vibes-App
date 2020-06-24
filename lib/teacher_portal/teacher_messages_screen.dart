@@ -63,9 +63,9 @@ class _TeacherMessagesState extends State<TeacherMessages> {
   @override
   Widget build(BuildContext context) {
     final routeArguments = ModalRoute.of(context).settings.arguments as Map;
-    final String chatId = routeArguments['class id'];
-    final String studentName = routeArguments['student name'];
-    final String studentUid = routeArguments['student uid'];
+    final String chatId = routeArguments['chat id'];
+    final String teacherName = routeArguments['teacher name'];
+    final String teacherUid = routeArguments['teacher uid'];
     return Scaffold(
       extendBodyBehindAppBar: false,
       backgroundColor: Colors.white,
@@ -121,7 +121,6 @@ class _TeacherMessagesState extends State<TeacherMessages> {
                       .snapshots(),
                   builder: (BuildContext context,
                       AsyncSnapshot<QuerySnapshot> snapshot) {
-                 
                     if (snapshot.hasError)
                       return Text('Error: ${snapshot.error}');
 
@@ -204,18 +203,15 @@ class _TeacherMessagesState extends State<TeacherMessages> {
                                     ),
                                     onPressed: () async {
                                       await _firestore
-                                          .collection('Classes')
-                                          .document(
-                                              'nwkptKrupotVavqfgk6msHEr83ygsm')
-                                          .collection('Students')
-                                          .document('HmXq850f5Wz42i1CgdCw')
                                           .collection('Chats')
+                                          .document(chatId)
+                                          .collection('Chat')
                                           .document()
                                           .setData({
                                         'date': DateTime.now(),
                                         'content': _controller.text,
-                                        'title': 'student user name',
-                                        'sent type': 'student'
+                                        'title': teacherName,
+                                        'sent type': 'teacher'
                                       });
                                       _controller.clear();
                                     }),
