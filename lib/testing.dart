@@ -19,12 +19,12 @@ class _TestingState extends State<Testing> {
         centerTitle: true,
         title: Text("Chat"),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            flex: 1,
-            child: Center(
-              child: Padding(
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            children: [
+              Container(
+                height: 500,
                 padding: EdgeInsets.only(top: 25),
                 child: StreamBuilder(
                   stream: _firestore
@@ -33,7 +33,7 @@ class _TestingState extends State<Testing> {
                       .collection('Students')
                       .document('HmXq850f5Wz42i1CgdCw')
                       .collection('Chats')
-                      .orderBy("date", descending: false)
+                      .orderBy("date", descending: true)
                       .snapshots(),
                   builder: (BuildContext context,
                       AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -48,6 +48,7 @@ class _TestingState extends State<Testing> {
                       default:
                         return Center(
                           child: ListView(
+                            reverse: true,
                             children: snapshot.data.documents.map(
                               (DocumentSnapshot document) {
                                 return Text(document['content']);
@@ -59,35 +60,37 @@ class _TestingState extends State<Testing> {
                   },
                 ),
               ),
-            ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width*0.7,
+                    child: TextField(
+                      controller: _controller,
+                    ),
+                  ),
+                  RaisedButton(
+                    child: Text('submit'),
+                    onPressed: () async {
+                      await _firestore
+                          .collection('Classes')
+                          .document('nwkptKrupotVavqfgk6msHEr83ygsm')
+                          .collection('Students')
+                          .document('HmXq850f5Wz42i1CgdCw')
+                          .collection('Chats')
+                          .document()
+                          .setData({
+                        'date': DateTime.now(),
+                        'content': _controller.text,
+                      });
+                      _controller.clear();
+                    },
+                  )
+                ],
+              ),
+            ],
           ),
-          Expanded(
-            flex: 1,
-            child: Column(
-              children: [
-                TextField(
-                  controller: _controller,
-                ),
-                RaisedButton(
-                  child: Text('submit'),
-                  onPressed: () async {
-                    await _firestore
-                        .collection('Classes')
-                        .document('nwkptKrupotVavqfgk6msHEr83ygsm')
-                        .collection('Students')
-                        .document('HmXq850f5Wz42i1CgdCw')
-                        .collection('Chats')
-                        .document()
-                        .setData({
-                      'date': DateTime.now(),
-                      'content': _controller.text,
-                    });
-                  },
-                )
-              ],
-            ),
-          )
-        ],
+        ),
       ),
     );
   }
