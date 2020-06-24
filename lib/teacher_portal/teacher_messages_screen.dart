@@ -204,6 +204,7 @@ class _TeacherMessagesState extends State<TeacherMessages> {
                                     ),
                                     onPressed: () async {
                                       print('pressed the button');
+                                      print('chat id : '+chatId);
                                       await _firestore
                                           .collection('Chats')
                                           .document(chatId)

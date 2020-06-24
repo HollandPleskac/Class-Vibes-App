@@ -215,6 +215,7 @@ class _TeacherClassesScreenState extends State<TeacherClassesScreen> {
                               teacherName: _teacherName,
                               classCode: int.parse(document['Code']).toInt(),
                               teacherUid: teacherUid,
+                              
                             );
                           }).toList(),
                         ),

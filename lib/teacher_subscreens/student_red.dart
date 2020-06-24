@@ -61,6 +61,7 @@ class _StudentRedState extends State<StudentRed> {
         setState(() {
           print('uid ' + teacherUid);
           print('class id ' + teacherSelectedClassId);
+          print('name '+teacherName);
         });
       });
       });
