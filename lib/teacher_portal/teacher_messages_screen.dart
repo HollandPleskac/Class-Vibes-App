@@ -65,7 +65,6 @@ class _TeacherMessagesState extends State<TeacherMessages> {
     final routeArguments = ModalRoute.of(context).settings.arguments as Map;
     final String chatId = routeArguments['chat id'];
     final String teacherName = routeArguments['teacher name'];
-    final String teacherUid = routeArguments['teacher uid'];
     return Scaffold(
       extendBodyBehindAppBar: false,
       backgroundColor: Colors.white,

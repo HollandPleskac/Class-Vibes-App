@@ -22,6 +22,7 @@ class _StudentGreenState extends State<StudentGreen> {
   final TextEditingController dateController = TextEditingController();
   String teacherUid = '';
   String teacherSelectedClassId = '';
+  String teacherName = '';
 
   Future getTeacherUid() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -30,6 +31,15 @@ class _StudentGreenState extends State<StudentGreen> {
 
     teacherUid = userUid;
     print(teacherUid);
+  }
+
+  Future getTeacherName(uid) async {
+    String nameOfTeacher = await _firestore
+        .collection("UserData")
+        .document(uid)
+        .get()
+        .then((docSnap) => docSnap.data['username']);
+    teacherName = nameOfTeacher;
   }
 
   Future getTeacherClassId(String uid) async {
@@ -46,9 +56,12 @@ class _StudentGreenState extends State<StudentGreen> {
       print("got uid");
       getTeacherClassId(teacherUid).then((_) {
         print("got class id");
-        setState(() {
-          print('uid ' + teacherUid);
-          print('class id ' + teacherSelectedClassId);
+        getTeacherName(teacherUid).then((_) {
+          print("got class id");
+          setState(() {
+            print('uid ' + teacherUid);
+            print('class id ' + teacherSelectedClassId);
+          });
         });
       });
     });
@@ -97,6 +110,7 @@ class _StudentGreenState extends State<StudentGreen> {
                             dateController: dateController,
                             studentUid: document.documentID,
                             studentChatId: document['chat id'],
+                            teacherName: teacherName,
                           );
                         },
                       ).toList(),
@@ -148,6 +162,7 @@ class GreenStudent extends StatelessWidget {
   final TextEditingController dateController;
   final String studentUid;
   final String studentChatId;
+  final String teacherName;
 
   const GreenStudent({
     @required this.studentName,
@@ -157,6 +172,7 @@ class GreenStudent extends StatelessWidget {
     @required this.dateController,
     @required this.studentUid,
     @required this.studentChatId,
+    @required this.teacherName,
   });
 
   @override
@@ -231,10 +247,10 @@ class GreenStudent extends StatelessWidget {
                             studentUid,
                           ),
                           studentChat(
-                              context: context,
-                              studentChatId: studentChatId,
-                              studentName: studentName,
-                              studentUid: studentUid),
+                            context: context,
+                            studentChatId: studentChatId,
+                            teacherName: teacherName,
+                          ),
                         ],
                       ),
                     ),
@@ -347,7 +363,6 @@ Widget studentMeeting(
             );
           },
         );
-
       },
     ),
   );
@@ -356,8 +371,7 @@ Widget studentMeeting(
 Widget studentChat({
   BuildContext context,
   String studentChatId,
-  String studentName,
-  String studentUid,
+  String teacherName,
 }) {
   return Padding(
     padding: const EdgeInsets.only(right: 20),
@@ -370,8 +384,7 @@ Widget studentChat({
       onPressed: () {
         Navigator.pushNamed(context, TeacherMessages.routeName, arguments: {
           'chat id': studentChatId,
-          'student name': studentName,
-          'student uid': studentUid,
+          'teacher name': teacherName,
         });
       },
     ),

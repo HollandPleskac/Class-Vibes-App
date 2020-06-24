@@ -354,7 +354,8 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
                                   dateController: dateController,
                                   studentUid: document.documentID,
                                   titleController: titleController,
-                                  studentChatId: document['chat id'],
+                                  studentChatId: document['chat'],
+                                  teacherName: teacherName,
                                 );
                               },
                             ).toList(),
@@ -521,6 +522,7 @@ class Student extends StatelessWidget {
   final TextEditingController dateController;
   final String studentUid;
   final String studentChatId;
+  final String teacherName;
 
   Student({
     this.color,
@@ -531,6 +533,7 @@ class Student extends StatelessWidget {
     this.contentController,
     this.studentUid,
     this.studentChatId,
+    this.teacherName,
   });
   @override
   Widget build(BuildContext context) {
@@ -608,8 +611,7 @@ class Student extends StatelessWidget {
                           StudentChat(
                             color: color,
                             studentChatId: studentChatId,
-                            studentName: studentName,
-                            studentUid:studentName,
+                            teacherName: teacherName,
                           ),
                         ],
                       ),
@@ -713,14 +715,12 @@ Widget studentMeeting(
 class StudentChat extends StatelessWidget {
   final Color color;
   final String studentChatId;
-  final String studentName;
-  final String studentUid;
+  final String teacherName;
 
   StudentChat({
     this.color,
-    this.studentUid,
     this.studentChatId,
-    this.studentName,
+    this.teacherName,
   });
   @override
   Widget build(BuildContext context) {
@@ -735,8 +735,8 @@ class StudentChat extends StatelessWidget {
         onPressed: () {
           Navigator.pushNamed(context, TeacherMessages.routeName, arguments: {
             'chat id': studentChatId,
-            'student name': studentName,
-            'student uid': studentUid,
+            'teacher name': teacherName,
+   
           });
         },
       ),

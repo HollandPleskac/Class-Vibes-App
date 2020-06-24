@@ -22,6 +22,7 @@ class _StudentYellowState extends State<StudentYellow> {
   final TextEditingController dateController = TextEditingController();
   String teacherUid = '';
   String teacherSelectedClassId = '';
+  String teacherName = '';
 
   Future getTeacherUid() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -30,6 +31,15 @@ class _StudentYellowState extends State<StudentYellow> {
 
     teacherUid = userUid;
     print(teacherUid);
+  }
+
+  Future getTeacherName(uid) async {
+    String nameOfTeacher = await _firestore
+        .collection("UserData")
+        .document(uid)
+        .get()
+        .then((docSnap) => docSnap.data['username']);
+        teacherName = nameOfTeacher;
   }
 
   Future getTeacherClassId(String uid) async {
@@ -46,10 +56,13 @@ class _StudentYellowState extends State<StudentYellow> {
       print("got uid");
       getTeacherClassId(teacherUid).then((_) {
         print("got class id");
+        getTeacherName(teacherUid).then((_) {
+        print("got class id");
         setState(() {
           print('uid ' + teacherUid);
           print('class id ' + teacherSelectedClassId);
         });
+      });
       });
     });
 
@@ -97,6 +110,7 @@ class _StudentYellowState extends State<StudentYellow> {
                             dateController: dateController,
                             studentUid: document.documentID,
                             studentChatId: document['chat id'],
+                            teacherName: teacherName,
                           );
                         },
                       ).toList(),
@@ -119,6 +133,7 @@ class YellowStudent extends StatelessWidget {
   final TextEditingController dateController;
   final String studentUid;
   final String studentChatId;
+  final String teacherName;
 
   const YellowStudent({
     @required this.studentName,
@@ -128,6 +143,7 @@ class YellowStudent extends StatelessWidget {
     @required this.dateController,
     @required this.studentUid,
     @required this.studentChatId,
+    @required this.teacherName,
   });
 
   @override
@@ -203,8 +219,7 @@ class YellowStudent extends StatelessWidget {
                           ),
                           studentChat(
                             context: context,
-                            studentName: studentName,
-                            studentUid: studentUid,
+                            teacherName: teacherName,
                             studentChatId: studentChatId,
                           ),
                         ],
@@ -327,8 +342,7 @@ Widget studentMeeting(
 Widget studentChat({
   BuildContext context,
   String studentChatId,
-  String studentName,
-  String studentUid,
+  String teacherName,
 }) {
   return Padding(
     padding: const EdgeInsets.only(right: 20),
@@ -341,8 +355,7 @@ Widget studentChat({
       onPressed: () {
         Navigator.pushNamed(context, TeacherMessages.routeName, arguments: {
           'chat id': studentChatId,
-          'student name': studentName,
-          'student uid': studentUid,
+          'teacher name': teacherName,
         });
       },
     ),
