@@ -59,8 +59,13 @@ class _StudentMessagesState extends State<StudentMessages> {
           );
         });
   }
+
   @override
   Widget build(BuildContext context) {
+    final routeArguments = ModalRoute.of(context).settings.arguments as Map;
+    final String chatId = routeArguments['class id'];
+    final String studentName = routeArguments['student name'];
+    final String studentUid = routeArguments['student uid'];
     return Scaffold(
       extendBodyBehindAppBar: false,
       backgroundColor: Colors.white,
@@ -109,15 +114,14 @@ class _StudentMessagesState extends State<StudentMessages> {
                 height: MediaQuery.of(context).size.height * 0.8,
                 child: StreamBuilder(
                   stream: _firestore
-                      .collection("Classes")
-                      .document("nwkptKrupotVavqfgk6msHEr83ygsm")
-                      .collection('Students')
-                      .document('HmXq850f5Wz42i1CgdCw')
-                      .collection('Chats')
+                      .collection("Chats")
+                      .document(chatId)
+                      .collection('Chat')
                       .orderBy("date", descending: true)
                       .snapshots(),
                   builder: (BuildContext context,
                       AsyncSnapshot<QuerySnapshot> snapshot) {
+                 
                     if (snapshot.hasError)
                       return Text('Error: ${snapshot.error}');
 
@@ -210,8 +214,8 @@ class _StudentMessagesState extends State<StudentMessages> {
                                           .setData({
                                         'date': DateTime.now(),
                                         'content': _controller.text,
-                                        'title':'name of student',
-                                        'sent type':'student'
+                                        'title': 'student user name',
+                                        'sent type': 'student'
                                       });
                                       _controller.clear();
                                     }),

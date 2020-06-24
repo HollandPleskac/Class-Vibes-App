@@ -37,6 +37,8 @@ class _StudentDashState extends State<StudentDash> {
   String studentSelectedClassId = '';
   String studentSelectedClassName = 'loading';
   String studentMood = '';
+  String studentName = '';
+  String studentChatId = '';
 
   Future getStudentUid() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -45,6 +47,21 @@ class _StudentDashState extends State<StudentDash> {
 
     studentUid = userUid;
     print(studentUid);
+  }
+
+  Future getStudentNameAndStudentChatId(uid) async {
+    String nameOfStudent = await _firestore
+        .collection("UserData")
+        .document(uid)
+        .get()
+        .then((docSnap) => docSnap.data['username']);
+    String chatIdOfStudent = await _firestore
+        .collection("UserData")
+        .document(uid)
+        .get()
+        .then((docSnap) => docSnap.data['chat id']);
+    studentName = nameOfStudent;
+    studentChatId = chatIdOfStudent;
   }
 
   Future getStudentClassId(String uid) async {
@@ -74,23 +91,6 @@ class _StudentDashState extends State<StudentDash> {
       studentSelectedClassNameDisplay = 'No Classes';
     }
   }
-
-  // Future getStudentStatus(uid, classId) async {
-  //   try {
-  //     String status = await _firestore
-  //         .collection('classes')
-  //         .document(classId)
-  //         .collection('students')
-  //         .document(uid)
-  //         .get()
-  //         .then(
-  //           (docSnap) => docSnap.data['mood'],
-  //         );
-  //     studentMood = status;
-  //   } catch (e) {
-  //     studentMood = '';
-  //   }
-  // }
 
   Future setStudentNewSelectedClassID(String newSelectedClassName) async {
     String newSelectedClassId = await _firestore
@@ -130,12 +130,18 @@ class _StudentDashState extends State<StudentDash> {
           (_) {
             print('got class name');
 
-            setState(() {
-              print('uid ' + studentUid);
-              print('class id ' + studentSelectedClassId);
-              print('class name display' + studentSelectedClassNameDisplay);
-              print('mood/status ' + studentMood);
-            });
+            getStudentNameAndStudentChatId(studentUid).then(
+              (_) {
+                print('got class name');
+
+                setState(() {
+                  print('uid ' + studentUid);
+                  print('class id ' + studentSelectedClassId);
+                  print('class name display' + studentSelectedClassNameDisplay);
+                  print('mood/status ' + studentMood);
+                });
+              },
+            );
           },
         );
       });
@@ -345,7 +351,10 @@ class _StudentDashState extends State<StudentDash> {
                                 underline: SizedBox(),
                                 icon: Container(
                                   margin: const EdgeInsets.only(top: 2),
-                                  child: const Icon(Icons.arrow_drop_down,color: Colors.black,),
+                                  child: const Icon(
+                                    Icons.arrow_drop_down,
+                                    color: Colors.black,
+                                  ),
                                 ),
                                 value: studentSelectedClassName,
                                 items: dropdownEvents,
@@ -423,12 +432,12 @@ class _StudentDashState extends State<StudentDash> {
                         ),
                       ),
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => StudentMessages(),
-                          ),
-                        );
+                        Navigator.pushNamed(context, StudentMessages.routeName,
+                            arguments: {
+                              'chat id': studentChatId,
+                              'student name': studentName,
+                              'student uid': studentUid,
+                            });
                       },
                     ),
                   ],
@@ -556,7 +565,11 @@ class _StudentDashState extends State<StudentDash> {
                                   //     height: 80,
                                   //   ),
                                   // ),
-                                  child: Center(child: Text('😄',style: TextStyle(fontSize: 60),)),
+                                  child: Center(
+                                      child: Text(
+                                    '😄',
+                                    style: TextStyle(fontSize: 60),
+                                  )),
                                 ),
                                 onTap: () {
                                   _fire.updateStudentMood(
@@ -589,7 +602,11 @@ class _StudentDashState extends State<StudentDash> {
                                   //     height: 80,
                                   //   ),
                                   // ),
-                                  child: Center(child: Text('😕',style: TextStyle(fontSize: 60),)),
+                                  child: Center(
+                                      child: Text(
+                                    '😕',
+                                    style: TextStyle(fontSize: 60),
+                                  )),
                                 ),
                                 onTap: () {
                                   _fire.updateStudentMood(
@@ -622,7 +639,11 @@ class _StudentDashState extends State<StudentDash> {
                                   //     height: 80,
                                   //   ),
                                   // ),
-                                  child: Center(child: Text('😡',style: TextStyle(fontSize: 60),)),
+                                  child: Center(
+                                      child: Text(
+                                    '😡',
+                                    style: TextStyle(fontSize: 60),
+                                  )),
                                 ),
                                 onTap: () {
                                   _fire.updateStudentMood(

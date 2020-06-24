@@ -11,6 +11,7 @@ import './auth_screens/signup_as_student_screen.dart';
 import './auth_screens/signup_as_teacher_screen.dart';
 import './student_subscreens/classview_student.dart';
 import './student_portal/student_messages_screen.dart';
+import './teacher_portal/teacher_messages_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -23,10 +24,12 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: StudentMessages(),
+      home: LoginScreen(),
       routes: ({
         ClassViewTeacher.routeName: (context) => ClassViewTeacher(),
         ClassViewStudent.routeName: (context) => ClassViewStudent(),
+        StudentMessages.routeName: (context) => StudentMessages(),
+        TeacherMessages.routeName: (context) => TeacherMessages(),
       }),
     );
   }
