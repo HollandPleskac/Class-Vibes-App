@@ -120,8 +120,10 @@ class _TeacherMessagesState extends State<TeacherMessages> {
                       .snapshots(),
                   builder: (BuildContext context,
                       AsyncSnapshot<QuerySnapshot> snapshot) {
-                    if (snapshot.hasError)
-                      return Text('Error: ${snapshot.error}');
+                    if (!snapshot.hasData)
+                      return Center(
+                        child: Text('No Chat History'),
+                      );
 
                     switch (snapshot.connectionState) {
                       case ConnectionState.waiting:
@@ -201,6 +203,7 @@ class _TeacherMessagesState extends State<TeacherMessages> {
                                       color: Colors.black,
                                     ),
                                     onPressed: () async {
+                                      print('pressed the button');
                                       await _firestore
                                           .collection('Chats')
                                           .document(chatId)
