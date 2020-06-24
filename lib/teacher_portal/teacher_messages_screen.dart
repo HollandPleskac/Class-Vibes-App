@@ -4,6 +4,7 @@ import 'package:cyber_dojo_app/constant.dart';
 import 'package:flutter/material.dart';
 
 class TeacherMessages extends StatefulWidget {
+  static const routeName = 'teacher-chat';
   @override
   _TeacherMessagesState createState() => _TeacherMessagesState();
 }

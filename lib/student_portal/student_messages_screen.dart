@@ -7,6 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 final Firestore _firestore = Firestore.instance;
 
 class StudentMessages extends StatefulWidget {
+  static const routeName = 'student-chat';
   @override
   _StudentMessagesState createState() => _StudentMessagesState();
 }
