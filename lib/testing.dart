@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+//Testing the chat feature
 
-final Firestore _firestore = Firestore.instance;
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 
 class Testing extends StatefulWidget {
   @override
@@ -11,21 +11,8 @@ class Testing extends StatefulWidget {
 class _TestingState extends State<Testing> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        child: Center(
-          child: RaisedButton(
-            child: Text('Click Me'),
-            onPressed: () {
-              print(DateTime.now());
-              _firestore
-                  .collection("Classes")
-                  .document('testingg')
-                  .setData({'date': DateTime.now()});
-            },
-          ),
-        ),
-      ),
+    return Container(
+      
     );
   }
 }
