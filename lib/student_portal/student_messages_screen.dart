@@ -74,7 +74,7 @@ class _StudentMessagesState extends State<StudentMessages> {
             }),
         centerTitle: true,
         title: Text(
-          'Teacher Chat',
+          'Teacher Chat (as student)',
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
         ),
         actions: <Widget>[
@@ -102,75 +102,51 @@ class _StudentMessagesState extends State<StudentMessages> {
           children: <Widget>[
             ListView(
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(left: 100),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(15),
-                          bottomRight: Radius.circular(0),
-                          topLeft: Radius.circular(15),
-                          topRight: Radius.circular(15)),
-                      color: kPrimaryColor.withOpacity(0.5),
-                      //color: Colors.redAccent.shade400.withOpacity(0.3),
-                    ),
-                    width: 100,
-                    child: Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            "TITLE",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w800),
-                          ),
-                          Text(
-                            "The quick, brown fox jumps over a lazy dog. DJs flock by when MTV ax quiz prog. Junk MTV quiz graced by fox whelps",
-                            style: TextStyle(color: Colors.white),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
+                // Padding(
+                //   padding: const EdgeInsets.only(left: 100),
+                //   child: Container(
+                //     decoration: BoxDecoration(
+                //       borderRadius: BorderRadius.only(
+                //           bottomLeft: Radius.circular(15),
+                //           bottomRight: Radius.circular(0),
+                //           topLeft: Radius.circular(15),
+                //           topRight: Radius.circular(15)),
+                //       color: kPrimaryColor.withOpacity(0.5),
+                //       //color: Colors.redAccent.shade400.withOpacity(0.3),
+                //     ),
+                //     width: 100,
+                //     child: Padding(
+                //       padding: const EdgeInsets.all(15.0),
+                //       child: Column(
+                //         crossAxisAlignment: CrossAxisAlignment.start,
+                //         children: <Widget>[
+                //           Text(
+                //             "TITLE",
+                //             style: TextStyle(
+                //                 color: Colors.white,
+                //                 fontWeight: FontWeight.w800),
+                //           ),
+                //           Text(
+                //             "The quick, brown fox jumps over a lazy dog. DJs flock by when MTV ax quiz prog. Junk MTV quiz graced by fox whelps",
+                //             style: TextStyle(color: Colors.white),
+                //           )
+                //         ],
+                //       ),
+                //     ),
+                //   ),
+                // ),
+                // SizedBox(
+                //   height: 30,
+                // ),
+                SentChat(
+                  title: "TITLE",
+                  content:
+                      "The quick, brown fox jumps over a lazy dog. DJs flock by when MTV ax quiz prog. Junk MTV quiz graced by fox whelps",
                 ),
-                SizedBox(
-                  height: 30,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 100),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(0),
-                            bottomRight: Radius.circular(15),
-                            topLeft: Radius.circular(15),
-                            topRight: Radius.circular(15)),
-                        color: Colors.grey.shade200),
-                    width: 100,
-                    child: Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            "TITLE",
-                            style: TextStyle(
-                                color: Colors.grey[800],
-                                fontWeight: FontWeight.w800),
-                          ),
-                          Text(
-                            "The quick, brown fox jumps over a lazy dog. DJs flock by when MTV ax quiz prog. Junk MTV quiz graced by fox whelps",
-                            style: TextStyle(color: Colors.grey[800]),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 30,
+                RecievedChat(
+                  title: "TITLE",
+                  content:
+                      "The quick, brown fox jumps over a lazy dog. DJs flock by when MTV ax quiz prog. Junk MTV quiz graced by fox whelps",
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 100),
@@ -320,12 +296,12 @@ class SentChat extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                "TITLE",
+                title,
                 style:
                     TextStyle(color: Colors.white, fontWeight: FontWeight.w800),
               ),
               Text(
-                "The quick, brown fox jumps over a lazy dog. DJs flock by when MTV ax quiz prog. Junk MTV quiz graced by fox whelps",
+                content,
                 style: TextStyle(color: Colors.white),
               )
             ],
