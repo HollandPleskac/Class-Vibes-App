@@ -221,7 +221,7 @@ class FrustratedStudent extends StatelessWidget {
                           studentChat(
                             context: context,
                             studentChatId: studentChatId,
-                            teacherName: studentName,
+                            teacherName: teacherName,
                           ),
                         ],
                       ),

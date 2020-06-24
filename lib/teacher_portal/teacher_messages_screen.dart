@@ -136,10 +136,15 @@ class _TeacherMessagesState extends State<TeacherMessages> {
                             reverse: true,
                             children: snapshot.data.documents.map(
                               (DocumentSnapshot document) {
-                                return SentChat(
-                                  title: document['title'],
-                                  content: document['content'],
-                                );
+                                return document['sent type'] == 'teacher'
+                                    ? SentChat(
+                                        title: document['title'],
+                                        content: document['content'],
+                                      )
+                                    : RecievedChat(
+                                        title: document['title'],
+                                        content: document['content'],
+                                      );
                               },
                             ).toList(),
                           ),
@@ -204,7 +209,7 @@ class _TeacherMessagesState extends State<TeacherMessages> {
                                     ),
                                     onPressed: () async {
                                       print('pressed the button');
-                                      print('chat id : '+chatId);
+                                      print('chat id : ' + chatId);
                                       await _firestore
                                           .collection('Chats')
                                           .document(chatId)
@@ -326,12 +331,12 @@ class RecievedChat extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                "TITLE",
+                title,
                 style: TextStyle(
                     color: Colors.grey[800], fontWeight: FontWeight.w800),
               ),
               Text(
-                "The quick, brown fox jumps over a lazy dog. DJs flock by when MTV ax quiz prog. Junk MTV quiz graced by fox whelps",
+                content,
                 style: TextStyle(color: Colors.grey[800]),
               )
             ],
