@@ -21,6 +21,7 @@ class Fire {
   // }
 
   void createStudentAccount({String userUid, String email, String userName}) {
+    int _chatID = int.parse(randomNumeric(10)).toInt();
     _firestore.collection('user data').document(userUid).setData({
       'email': email,
       'display-name': userName,
@@ -29,6 +30,7 @@ class Fire {
       'Account Type': 'Student',
       //idk what use name is - on website it is email
       'username': email,
+      'chat id': _chatID,
     });
   }
 
