@@ -337,8 +337,7 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
                                                   DateTime.now()
                                                           .difference(
                                                             DateTime.parse(
-                                                                document[
-                                                                        'date']
+                                                                document['date']
                                                                     .toDate()
                                                                     .toString()),
                                                           )
@@ -349,14 +348,13 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
                                               : Colors.grey,
                                   studentName: document['student name'],
                                   moodSelectionDate: Jiffy(DateTime.parse(
-                                          document['date']
-                                              .toDate()
-                                              .toString()))
+                                          document['date'].toDate().toString()))
                                       .yMMMMd,
                                   contentController: contentController,
                                   dateController: dateController,
                                   studentUid: document.documentID,
                                   titleController: titleController,
+                                  studentChatId: document['chat id'],
                                 );
                               },
                             ).toList(),
@@ -522,6 +520,7 @@ class Student extends StatelessWidget {
   final TextEditingController contentController;
   final TextEditingController dateController;
   final String studentUid;
+  final String studentChatId;
 
   Student({
     this.color,
@@ -531,6 +530,7 @@ class Student extends StatelessWidget {
     this.dateController,
     this.contentController,
     this.studentUid,
+    this.studentChatId,
   });
   @override
   Widget build(BuildContext context) {
@@ -607,6 +607,9 @@ class Student extends StatelessWidget {
                           ),
                           StudentChat(
                             color: color,
+                            studentChatId: studentChatId,
+                            studentName: studentName,
+                            studentUid:studentName,
                           ),
                         ],
                       ),
@@ -702,12 +705,6 @@ Widget studentMeeting(
             );
           },
         );
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //     builder: (context) => TeacherMessages(),
-        //   ),
-        // );
       },
     ),
   );
@@ -715,9 +712,15 @@ Widget studentMeeting(
 
 class StudentChat extends StatelessWidget {
   final Color color;
+  final String studentChatId;
+  final String studentName;
+  final String studentUid;
 
   StudentChat({
     this.color,
+    this.studentUid,
+    this.studentChatId,
+    this.studentName,
   });
   @override
   Widget build(BuildContext context) {
@@ -730,12 +733,11 @@ class StudentChat extends StatelessWidget {
           size: 30,
         ),
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => TeacherMessages(),
-            ),
-          );
+          Navigator.pushNamed(context, TeacherMessages.routeName, arguments: {
+            'chat id': studentChatId,
+            'student name': studentName,
+            'student uid': studentUid,
+          });
         },
       ),
     );
