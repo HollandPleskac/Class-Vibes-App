@@ -354,7 +354,7 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
                                   dateController: dateController,
                                   studentUid: document.documentID,
                                   titleController: titleController,
-                                  studentChatId: document['chat'],
+                                  studentChatId: document['chat id'],
                                   teacherName: teacherName,
                                 );
                               },
@@ -733,6 +733,8 @@ class StudentChat extends StatelessWidget {
           size: 30,
         ),
         onPressed: () {
+          // print('Chat id : '+studentChatId);
+          // print('Teacher Name : '+teacherName);
           Navigator.pushNamed(context, TeacherMessages.routeName, arguments: {
             'chat id': studentChatId,
             'teacher name': teacherName,

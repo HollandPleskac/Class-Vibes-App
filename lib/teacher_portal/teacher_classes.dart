@@ -51,7 +51,10 @@ class _TeacherClassesScreenState extends State<TeacherClassesScreen> {
       print("got uid");
       getTeacherName(teacherUid).then((_) {
         print("got name");
-        setState(() {});
+        setState(() {
+          print('teacher name + '+_teacherName);
+          print('uid + '+teacherUid);
+        });
       });
     });
 
@@ -215,7 +218,7 @@ class _TeacherClassesScreenState extends State<TeacherClassesScreen> {
                               teacherName: _teacherName,
                               classCode: int.parse(document['Code']).toInt(),
                               teacherUid: teacherUid,
-                              
+
                             );
                           }).toList(),
                         ),
@@ -355,7 +358,7 @@ class Course extends StatelessWidget {
             'class name': text,
             'class id': classId,
             'teacher name': teacherName,
-            'Code': classCode,
+            'class code': classCode,
             'teacher uid':teacherUid,
           });
         });
