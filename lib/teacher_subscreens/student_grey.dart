@@ -115,7 +115,7 @@ class _StudentGreyState extends State<StudentGrey> {
                     child: ListView(
                       children: snapshot.data.documents.map(
                         (DocumentSnapshot document) {
-                          return GreenStudent(
+                          return GreyStudent(
                             studentName: document['student name'],
                             moodSelectionDate:
                                 Jiffy(document['date'].toDate()).yMMMMd,
@@ -123,7 +123,7 @@ class _StudentGreyState extends State<StudentGrey> {
                             titleController: titleController,
                             dateController: dateController,
                             studentUid: document.documentID,
-                            studentClassId: document['selected class'],
+                            selectedClassId: teacherSelectedClassId,
                             teacherName: teacherName,
                           );
                         },
@@ -168,24 +168,24 @@ class _StudentGreyState extends State<StudentGrey> {
   }
 }
 
-class GreenStudent extends StatelessWidget {
+class GreyStudent extends StatelessWidget {
   final String studentName;
   final String moodSelectionDate;
   final TextEditingController titleController;
   final TextEditingController contentController;
   final TextEditingController dateController;
   final String studentUid;
-  final String studentClassId;
+  final String selectedClassId;
   final String teacherName;
 
-  const GreenStudent({
+  const GreyStudent({
     @required this.studentName,
     @required this.moodSelectionDate,
     @required this.titleController,
     @required this.contentController,
     @required this.dateController,
     @required this.studentUid,
-    @required this.studentClassId,
+    @required this.selectedClassId,
     @required this.teacherName,
   });
 
@@ -262,7 +262,7 @@ class GreenStudent extends StatelessWidget {
                           ),
                           studentChat(
                             context: context,
-                            studentClassId: studentClassId,
+                            selectedClassId: selectedClassId,
                             teacherName: teacherName,
                             studentUid: studentUid
                           ),
@@ -385,7 +385,7 @@ Widget studentMeeting(
 
 Widget studentChat({
   BuildContext context,
-  String studentClassId,
+  String selectedClassId,
   String teacherName,
   String studentUid,
 }) {
@@ -399,7 +399,7 @@ Widget studentChat({
       ),
       onPressed: () {
         Navigator.pushNamed(context, TeacherMessages.routeName, arguments: {
-          'class id': studentClassId,
+          'class id': selectedClassId,
           'teacher name': teacherName,
           'student uid': studentUid,
           

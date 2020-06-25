@@ -356,7 +356,7 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
                                   titleController: titleController,
                                 
                                   teacherName: teacherName,
-                                  studentClassId: document['selected class'],
+                                  selectedClassId: classId,
                                 );
                               },
                             ).toList(),
@@ -524,7 +524,7 @@ class Student extends StatelessWidget {
   final String studentUid;
 
   final String teacherName;
-  final String studentClassId;
+  final String selectedClassId;
 
   Student({
     this.color,
@@ -536,7 +536,7 @@ class Student extends StatelessWidget {
     this.studentUid,
 
     this.teacherName,
-    this.studentClassId,
+    this.selectedClassId,
   });
   @override
   Widget build(BuildContext context) {
@@ -613,7 +613,7 @@ class Student extends StatelessWidget {
                           ),
                           StudentChat(
                             color: color,
-                            studentClassId: studentClassId,
+                            selectedClassId: selectedClassId,
                             studentUid: studentUid,
                             teacherName: teacherName,
                           ),
@@ -718,13 +718,13 @@ Widget studentMeeting(
 
 class StudentChat extends StatelessWidget {
   final Color color;
-  final String studentClassId;
+  final String selectedClassId;
   final String teacherName;
   final String studentUid;
 
   StudentChat({
     this.color,
-    this.studentClassId,
+    this.selectedClassId,
     this.teacherName,
     this.studentUid,
   });
@@ -742,7 +742,7 @@ class StudentChat extends StatelessWidget {
           // print('Chat id : '+studentChatId);
           // print('Teacher Name : '+teacherName);
           Navigator.pushNamed(context, TeacherMessages.routeName, arguments: {
-            'class id': studentClassId,
+            'class id': selectedClassId,
             'teacher name': teacherName,
             'teacher uid': studentUid,
    

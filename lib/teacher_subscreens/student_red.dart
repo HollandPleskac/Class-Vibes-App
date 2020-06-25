@@ -110,7 +110,7 @@ class _StudentRedState extends State<StudentRed> {
                             titleController: titleController,
                             dateController: dateController,
                             studentUid: document.documentID,
-                            studentClassId: document['selected class'],
+                            selectedClassId: teacherSelectedClassId,
                             teacherName: teacherName,
                           );
                         },
@@ -133,7 +133,7 @@ class FrustratedStudent extends StatelessWidget {
   final TextEditingController contentController;
   final TextEditingController dateController;
   final String studentUid;
-  final String studentClassId;
+  final String selectedClassId;
   final String teacherName;
 
   const FrustratedStudent({
@@ -143,7 +143,7 @@ class FrustratedStudent extends StatelessWidget {
     @required this.contentController,
     @required this.dateController,
     @required this.studentUid,
-    @required this.studentClassId,
+    @required this.selectedClassId,
     @required this.teacherName,
   });
 
@@ -220,7 +220,7 @@ class FrustratedStudent extends StatelessWidget {
                           ),
                           studentChat(
                             context: context,
-                            studentClassId: studentClassId,
+                            selectedClassId: selectedClassId,
                             teacherName: teacherName,
                             studentUid: studentUid,
                           ),
@@ -343,7 +343,7 @@ Widget studentMeeting(
 
 Widget studentChat({
   BuildContext context,
-  String studentClassId,
+  String selectedClassId,
   String studentUid,
   String teacherName,
 
@@ -358,7 +358,7 @@ Widget studentChat({
       ),
       onPressed: () {
         Navigator.pushNamed(context, TeacherMessages.routeName, arguments: {
-          'class id': studentClassId,
+          'class id': selectedClassId,
           'teacher name': teacherName,
           'student uid': studentUid,
 

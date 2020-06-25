@@ -213,6 +213,8 @@ class _TeacherMessagesState extends State<TeacherMessages> {
                                     ),
                                     onPressed: () async {
                                       print('pressed the button');
+                                      print('class id ' + classId.toString());
+                                      print('student uid '+studentUid.toString());
                                       
                                       await _firestore
                                           .collection('Classes')

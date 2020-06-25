@@ -109,7 +109,7 @@ class _StudentGreenState extends State<StudentGreen> {
                             titleController: titleController,
                             dateController: dateController,
                             studentUid: document.documentID,
-                            studentClassId: document['selected class'],
+                            selectedClassId: teacherSelectedClassId,
                             teacherName: teacherName,
                           );
                         },
@@ -161,7 +161,7 @@ class GreenStudent extends StatelessWidget {
   final TextEditingController contentController;
   final TextEditingController dateController;
   final String studentUid;
-  final String studentClassId;
+  final String selectedClassId;
   final String teacherName;
 
   const GreenStudent({
@@ -171,7 +171,7 @@ class GreenStudent extends StatelessWidget {
     @required this.contentController,
     @required this.dateController,
     @required this.studentUid,
-    @required this.studentClassId,
+    @required this.selectedClassId,
     @required this.teacherName,
   });
 
@@ -249,7 +249,7 @@ class GreenStudent extends StatelessWidget {
                           studentChat(
                             context: context,
                             teacherName: teacherName,
-                            studentClassId: studentClassId,
+                            selectedClassId: selectedClassId,
                             studentUid: studentUid,
                           ),
                         ],
@@ -372,7 +372,7 @@ Widget studentMeeting(
 Widget studentChat({
   BuildContext context,
   String teacherName,
-  String studentClassId,
+  String selectedClassId,
   String studentUid,
 }) {
   return Padding(
@@ -385,7 +385,7 @@ Widget studentChat({
       ),
       onPressed: () {
         Navigator.pushNamed(context, TeacherMessages.routeName, arguments: {
-          'class id': studentClassId,
+          'class id': selectedClassId,
           'teacher name': teacherName,
           'student uid': studentUid,
         });
