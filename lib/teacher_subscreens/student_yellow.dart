@@ -109,7 +109,7 @@ class _StudentYellowState extends State<StudentYellow> {
                             titleController: titleController,
                             dateController: dateController,
                             studentUid: document.documentID,
-                            studentChatId: document['chat id'],
+                            studentClassId: document['selected class'],
                             teacherName: teacherName,
                           );
                         },
@@ -132,7 +132,7 @@ class YellowStudent extends StatelessWidget {
   final TextEditingController contentController;
   final TextEditingController dateController;
   final String studentUid;
-  final String studentChatId;
+  final String studentClassId;
   final String teacherName;
 
   const YellowStudent({
@@ -142,7 +142,7 @@ class YellowStudent extends StatelessWidget {
     @required this.contentController,
     @required this.dateController,
     @required this.studentUid,
-    @required this.studentChatId,
+    @required this.studentClassId,
     @required this.teacherName,
   });
 
@@ -220,7 +220,8 @@ class YellowStudent extends StatelessWidget {
                           studentChat(
                             context: context,
                             teacherName: teacherName,
-                            studentChatId: studentChatId,
+                            studentClassId: studentClassId,
+                            studentUid: studentUid,
                           ),
                         ],
                       ),
@@ -341,7 +342,8 @@ Widget studentMeeting(
 
 Widget studentChat({
   BuildContext context,
-  String studentChatId,
+  String studentClassId,
+  String studentUid,
   String teacherName,
 }) {
   return Padding(
@@ -354,8 +356,9 @@ Widget studentChat({
       ),
       onPressed: () {
         Navigator.pushNamed(context, TeacherMessages.routeName, arguments: {
-          'chat id': studentChatId,
+          'class id': studentClassId,
           'teacher name': teacherName,
+          'student uid': studentUid,
         });
       },
     ),
