@@ -110,7 +110,7 @@ class _StudentRedState extends State<StudentRed> {
                             titleController: titleController,
                             dateController: dateController,
                             studentUid: document.documentID,
-                            studentChatId: document['chat id'],
+                            studentClassId: document['selected class'],
                             teacherName: teacherName,
                           );
                         },
@@ -133,7 +133,7 @@ class FrustratedStudent extends StatelessWidget {
   final TextEditingController contentController;
   final TextEditingController dateController;
   final String studentUid;
-  final String studentChatId;
+  final String studentClassId;
   final String teacherName;
 
   const FrustratedStudent({
@@ -143,7 +143,7 @@ class FrustratedStudent extends StatelessWidget {
     @required this.contentController,
     @required this.dateController,
     @required this.studentUid,
-    @required this.studentChatId,
+    @required this.studentClassId,
     @required this.teacherName,
   });
 
@@ -220,8 +220,9 @@ class FrustratedStudent extends StatelessWidget {
                           ),
                           studentChat(
                             context: context,
-                            studentChatId: studentChatId,
+                            studentClassId: studentClassId,
                             teacherName: teacherName,
+                            studentUid: studentUid,
                           ),
                         ],
                       ),
@@ -342,7 +343,8 @@ Widget studentMeeting(
 
 Widget studentChat({
   BuildContext context,
-  String studentChatId,
+  String studentClassId,
+  String studentUid,
   String teacherName,
 
 }) {
@@ -356,8 +358,9 @@ Widget studentChat({
       ),
       onPressed: () {
         Navigator.pushNamed(context, TeacherMessages.routeName, arguments: {
-          'chat id': studentChatId,
+          'class id': studentClassId,
           'teacher name': teacherName,
+          'student uid': studentUid,
 
         });
       },
