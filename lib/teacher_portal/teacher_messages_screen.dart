@@ -120,7 +120,7 @@ class _TeacherMessagesState extends State<TeacherMessages> {
                       .snapshots(),
                   builder: (BuildContext context,
                       AsyncSnapshot<QuerySnapshot> snapshot) {
-                    if (!snapshot.hasData)
+                    if (!snapshot.hasData || snapshot.data == null)
                       return Center(
                         child: Text('No Chat History'),
                       );
