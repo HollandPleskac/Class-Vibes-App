@@ -82,7 +82,7 @@ class _TeacherMessagesState extends State<TeacherMessages> {
             }),
         centerTitle: true,
         title: Text(
-          'Teacher Chat (as student)',
+          'Student Chat (as teacher)',
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
         ),
         actions: <Widget>[
@@ -120,6 +120,7 @@ class _TeacherMessagesState extends State<TeacherMessages> {
                       .snapshots(),
                   builder: (BuildContext context,
                       AsyncSnapshot<QuerySnapshot> snapshot) {
+                        //FIX THIS
                     if (!snapshot.hasData || snapshot.data == null)
                       return Center(
                         child: Text('No Chat History'),
