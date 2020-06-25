@@ -63,8 +63,9 @@ class _TeacherMessagesState extends State<TeacherMessages> {
   @override
   Widget build(BuildContext context) {
     final routeArguments = ModalRoute.of(context).settings.arguments as Map;
-    final String chatId = routeArguments['chat id'];
+    final String classId = routeArguments['class id'];
     final String teacherName = routeArguments['teacher name'];
+    final String studentUid = routeArguments['student uid'];
     return Scaffold(
       extendBodyBehindAppBar: false,
       backgroundColor: Colors.white,
@@ -113,14 +114,16 @@ class _TeacherMessagesState extends State<TeacherMessages> {
                 height: MediaQuery.of(context).size.height * 0.8,
                 child: StreamBuilder(
                   stream: _firestore
+                      .collection("Classes")
+                      .document(classId)
+                      .collection('Students')
+                      .document(studentUid)
                       .collection("Chats")
-                      .document(chatId)
-                      .collection('Chat')
                       .orderBy("date", descending: true)
                       .snapshots(),
                   builder: (BuildContext context,
                       AsyncSnapshot<QuerySnapshot> snapshot) {
-                        //FIX THIS
+                    //FIX THIS
                     if (!snapshot.hasData || snapshot.data == null)
                       return Center(
                         child: Text('No Chat History'),
@@ -210,11 +213,13 @@ class _TeacherMessagesState extends State<TeacherMessages> {
                                     ),
                                     onPressed: () async {
                                       print('pressed the button');
-                                      print('chat id : ' + chatId);
+                                      
                                       await _firestore
-                                          .collection('Chats')
-                                          .document(chatId)
-                                          .collection('Chat')
+                                          .collection('Classes')
+                                          .document(classId)
+                                          .collection('Students')
+                                          .document(studentUid)
+                                          .collection("Chats")
                                           .document()
                                           .setData({
                                         'date': DateTime.now(),
