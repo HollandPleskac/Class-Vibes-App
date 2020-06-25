@@ -68,7 +68,7 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
           IconButton(
             icon: Icon(Icons.delete),
             onPressed: () {
-              _fire.deleteClass(teacherUid, classId);
+              print('class id + '+classId);
               Navigator.pop(context);
             },
           ),
@@ -357,6 +357,7 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
                                 
                                   teacherName: teacherName,
                                   selectedClassId: classId,
+
                                 );
                               },
                             ).toList(),
@@ -744,7 +745,7 @@ class StudentChat extends StatelessWidget {
           Navigator.pushNamed(context, TeacherMessages.routeName, arguments: {
             'class id': selectedClassId,
             'teacher name': teacherName,
-            'teacher uid': studentUid,
+            'student uid': studentUid,
    
           });
         },
