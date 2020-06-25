@@ -354,8 +354,9 @@ class _ClassViewTeacherState extends State<ClassViewTeacher> {
                                   dateController: dateController,
                                   studentUid: document.documentID,
                                   titleController: titleController,
-                                  studentChatId: document['chat id'],
+                                
                                   teacherName: teacherName,
+                                  studentClassId: document['selected class'],
                                 );
                               },
                             ).toList(),
@@ -521,8 +522,9 @@ class Student extends StatelessWidget {
   final TextEditingController contentController;
   final TextEditingController dateController;
   final String studentUid;
-  final String studentChatId;
+
   final String teacherName;
+  final String studentClassId;
 
   Student({
     this.color,
@@ -532,8 +534,9 @@ class Student extends StatelessWidget {
     this.dateController,
     this.contentController,
     this.studentUid,
-    this.studentChatId,
+
     this.teacherName,
+    this.studentClassId,
   });
   @override
   Widget build(BuildContext context) {
@@ -610,7 +613,8 @@ class Student extends StatelessWidget {
                           ),
                           StudentChat(
                             color: color,
-                            studentChatId: studentChatId,
+                            studentClassId: studentClassId,
+                            studentUid: studentUid,
                             teacherName: teacherName,
                           ),
                         ],
@@ -714,13 +718,15 @@ Widget studentMeeting(
 
 class StudentChat extends StatelessWidget {
   final Color color;
-  final String studentChatId;
+  final String studentClassId;
   final String teacherName;
+  final String studentUid;
 
   StudentChat({
     this.color,
-    this.studentChatId,
+    this.studentClassId,
     this.teacherName,
+    this.studentUid,
   });
   @override
   Widget build(BuildContext context) {
@@ -736,8 +742,9 @@ class StudentChat extends StatelessWidget {
           // print('Chat id : '+studentChatId);
           // print('Teacher Name : '+teacherName);
           Navigator.pushNamed(context, TeacherMessages.routeName, arguments: {
-            'chat id': studentChatId,
+            'class id': studentClassId,
             'teacher name': teacherName,
+            'teacher uid': studentUid,
    
           });
         },

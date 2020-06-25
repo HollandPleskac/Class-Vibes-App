@@ -109,7 +109,7 @@ class _StudentGreenState extends State<StudentGreen> {
                             titleController: titleController,
                             dateController: dateController,
                             studentUid: document.documentID,
-                            studentChatId: document['chat id'],
+                            studentClassId: document['selected class'],
                             teacherName: teacherName,
                           );
                         },
@@ -161,7 +161,7 @@ class GreenStudent extends StatelessWidget {
   final TextEditingController contentController;
   final TextEditingController dateController;
   final String studentUid;
-  final String studentChatId;
+  final String studentClassId;
   final String teacherName;
 
   const GreenStudent({
@@ -171,7 +171,7 @@ class GreenStudent extends StatelessWidget {
     @required this.contentController,
     @required this.dateController,
     @required this.studentUid,
-    @required this.studentChatId,
+    @required this.studentClassId,
     @required this.teacherName,
   });
 
@@ -248,8 +248,9 @@ class GreenStudent extends StatelessWidget {
                           ),
                           studentChat(
                             context: context,
-                            studentChatId: studentChatId,
                             teacherName: teacherName,
+                            studentClassId: studentClassId,
+                            studentUid: studentUid,
                           ),
                         ],
                       ),
@@ -370,8 +371,9 @@ Widget studentMeeting(
 
 Widget studentChat({
   BuildContext context,
-  String studentChatId,
   String teacherName,
+  String studentClassId,
+  String studentUid,
 }) {
   return Padding(
     padding: const EdgeInsets.only(right: 20),
@@ -383,8 +385,9 @@ Widget studentChat({
       ),
       onPressed: () {
         Navigator.pushNamed(context, TeacherMessages.routeName, arguments: {
-          'chat id': studentChatId,
+          'class id': studentClassId,
           'teacher name': teacherName,
+          'student uid': studentUid,
         });
       },
     ),
